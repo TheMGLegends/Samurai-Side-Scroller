@@ -1,0 +1,30 @@
+Characters:
+
+1. Player = https://assetstore.unity.com/packages/2d/characters/martial-hero-170422
+2. Enemy Variants 1, 2, 3, 4 = https://assetstore.unity.com/packages/2d/characters/monsters-creatures-fantasy-167949
+
+
+Tilemaps:
+
+1. Outside = https://assetstore.unity.com/packages/2d/environments/pixel-art-platformer-village-props-166114
+2. Outside = https://assetstore.unity.com/packages/2d/environments/asset-fttgr-free-pixel-art-platformer-222174
+3. Outside = https://assetstore.unity.com/packages/2d/textures-materials/nature/magic-cliffs-pixel-art-environment-60458#content
+4. Dungeon = https://assetstore.unity.com/packages/2d/environments/stomper-platform-assets-195244#content
+
+
+UI:
+
+1. Simple = https://assetstore.unity.com/packages/2d/gui/icons/simple-ui-elements-53276#content
+2. Pixelart = https://assetstore.unity.com/packages/2d/gui/icons/2d-simple-ui-pack-218050
+3. Icons (Controller) = https://assetstore.unity.com/packages/2d/gui/icons/ux-flat-icons-free-202525
+
+
+Backgrounds:
+
+1. Dark Forest = https://assetstore.unity.com/packages/2d/textures-materials/nature/free-pixel-art-forest-133112
+2. Savanna = https://assetstore.unity.com/packages/2d/textures-materials/nature/free-pixel-art-hill-133118
+3. Dark Forest V2 = https://assetstore.unity.com/packages/2d/environments/pixel-art-woods-tileset-and-background-280066
+4. Green Forest = https://assetstore.unity.com/packages/2d/environments/2d-pixel-art-platformer-biome-american-forest-255694
+5. Dusk Mountain = https://assetstore.unity.com/packages/2d/textures-materials/tiles/parallax-dusk-mountain-background-53403
+6. Underwater = https://assetstore.unity.com/packages/2d/textures-materials/water/underwater-fantasy-87457
+
