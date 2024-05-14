@@ -17,6 +17,7 @@ UI:
 1. Simple = https://assetstore.unity.com/packages/2d/gui/icons/simple-ui-elements-53276#content
 2. Pixelart = https://assetstore.unity.com/packages/2d/gui/icons/2d-simple-ui-pack-218050
 3. Icons (Controller) = https://assetstore.unity.com/packages/2d/gui/icons/ux-flat-icons-free-202525
+4. Pixelart V2 = https://gowldev.itch.io/ui-buttons-scrolling-bars-pixel-art
 
 
 Backgrounds:
