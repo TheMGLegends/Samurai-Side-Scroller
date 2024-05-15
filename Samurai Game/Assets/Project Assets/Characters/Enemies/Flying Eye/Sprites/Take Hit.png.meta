@@ -5,7 +5,7 @@ AssetOrigin:
   productId: 167949
   packageName: Monsters_Creatures_Fantasy
   packageVersion: 1.0
-  assetPath: Assets/Monsters Creatures Fantasy/Sprites/Flying eye/Take Hit.png
+  assetPath: Assets/Project Assets/Characters/Enemies/Flying Eye/Sprites/Take Hit.png
   uploadId: 365724
 TextureImporter:
   internalIDToNameTable:
@@ -67,7 +67,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 24
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -90,8 +90,8 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
+    textureFormat: 4
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
