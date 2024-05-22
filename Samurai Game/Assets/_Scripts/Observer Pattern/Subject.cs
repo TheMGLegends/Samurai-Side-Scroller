@@ -2,19 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Defines the types of events that can be observed
-/// </summary>
-public enum EventType
-{
-    None = 0,
-
-    // INFO: Example Events
-    DamageTaken,
-    HealthHealed,
-    CharacterDied
-}
-
-/// <summary>
 /// The Subject class is the base class for all classes that will be observed
 /// </summary>
 public abstract class Subject : MonoBehaviour
