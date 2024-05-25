@@ -26,9 +26,9 @@ public abstract class Subject : MonoBehaviour
     /// </summary>
     /// <param name="eventType">The type of event that has occured</param>
     /// <param name="gameObject">The game object that this event affects</param>
-    public void NotifyObservers(EventType eventType, GameObject gameObject)
-    {
+    public void NotifyObservers(EventType eventType, EventData eventData)
+    {   
         foreach (IObserver observer in observers)
-            observer.OnNotify(eventType, gameObject);
+            observer.OnNotify(eventType, eventData);
     }
 }

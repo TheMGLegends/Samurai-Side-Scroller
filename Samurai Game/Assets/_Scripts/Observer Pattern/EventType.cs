@@ -3,10 +3,14 @@
 /// </summary>
 public enum EventType
 {
-    None = 0,
-
     // INFO: Example Events
+    /*
     DamageTaken,
     HealthHealed,
     CharacterDied
+    */
+
+    None = 0,
+
+    PlayerAnimationStateChange
 }
