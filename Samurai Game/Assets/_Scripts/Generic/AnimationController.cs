@@ -6,8 +6,7 @@ using UnityEngine;
 /// <summary>
 /// Base class for all types of animation controllers
 /// </summary>
-public abstract class BaseAnimationController<T> : MonoBehaviour, IObserver
-    where T : System.Enum
+public class AnimationController : MonoBehaviour, IObserver
 {
     [Header("Subjects:")]
     [SerializeField] private List<Subject> subjects = new();
@@ -15,6 +14,7 @@ public abstract class BaseAnimationController<T> : MonoBehaviour, IObserver
     private Animator animator;
     private string currentState;
 
+    #region UnityMethods
     protected void Awake()
     {
         animator = GetComponent<Animator>();
@@ -23,17 +23,23 @@ public abstract class BaseAnimationController<T> : MonoBehaviour, IObserver
         foreach (Subject subject in subjects)
             subject.AddObserver(this);
     }
+    #endregion UnityMethods
 
-    public void ChangeAnimationState(string newState, float animationSpeed = 1.0f)
+    #region AnimationMethods
+    public void ChangeAnimationState(string newState)
     {
         // INFO: Prevents the same animation from being played again from the start
         if (currentState == newState)
             return;
 
         animator.Play(newState);
-        animator.speed = animationSpeed;
         currentState = newState;
     }
+    #endregion AnimationMethods
 
-    public abstract void OnNotify(EventType eventType, EventData eventData);
+    public void OnNotify(EventType eventType, EventData eventData)
+    {
+        if (eventType == EventType.AnimationStateChange)
+            ChangeAnimationState(eventData.animationState);
+    }
 }

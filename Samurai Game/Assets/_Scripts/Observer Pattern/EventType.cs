@@ -12,5 +12,5 @@ public enum EventType
 
     None = 0,
 
-    PlayerAnimationStateChange
+    AnimationStateChange
 }

@@ -28,7 +28,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             ""id"": ""3b6efd4f-1ae8-4803-b9cb-3a9a97a58b69"",
             ""actions"": [
                 {
-                    ""name"": ""Move"",
+                    ""name"": ""Movement"",
                     ""type"": ""Value"",
                     ""id"": ""d8f36ef6-b54e-4d34-9b6e-c9de2b845368"",
                     ""expectedControlType"": ""Vector2"",
@@ -37,7 +37,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""SpeedSwitch"",
+                    ""name"": ""MovementSwitch"",
                     ""type"": ""Button"",
                     ""id"": ""4f35eb8b-436f-439c-9cf0-60baa118a2f7"",
                     ""expectedControlType"": ""Button"",
@@ -54,7 +54,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""Movement"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -65,7 +65,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Move"",
+                    ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -76,7 +76,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Move"",
+                    ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -87,7 +87,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Move"",
+                    ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -98,7 +98,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Move"",
+                    ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -109,7 +109,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""SpeedSwitch"",
+                    ""action"": ""MovementSwitch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -697,8 +697,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
-        m_Player_SpeedSwitch = m_Player.FindAction("SpeedSwitch", throwIfNotFound: true);
+        m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
+        m_Player_MovementSwitch = m_Player.FindAction("MovementSwitch", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -772,14 +772,14 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
-    private readonly InputAction m_Player_Move;
-    private readonly InputAction m_Player_SpeedSwitch;
+    private readonly InputAction m_Player_Movement;
+    private readonly InputAction m_Player_MovementSwitch;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
         public PlayerActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_Player_Move;
-        public InputAction @SpeedSwitch => m_Wrapper.m_Player_SpeedSwitch;
+        public InputAction @Movement => m_Wrapper.m_Player_Movement;
+        public InputAction @MovementSwitch => m_Wrapper.m_Player_MovementSwitch;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -789,22 +789,22 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
-            @Move.started += instance.OnMove;
-            @Move.performed += instance.OnMove;
-            @Move.canceled += instance.OnMove;
-            @SpeedSwitch.started += instance.OnSpeedSwitch;
-            @SpeedSwitch.performed += instance.OnSpeedSwitch;
-            @SpeedSwitch.canceled += instance.OnSpeedSwitch;
+            @Movement.started += instance.OnMovement;
+            @Movement.performed += instance.OnMovement;
+            @Movement.canceled += instance.OnMovement;
+            @MovementSwitch.started += instance.OnMovementSwitch;
+            @MovementSwitch.performed += instance.OnMovementSwitch;
+            @MovementSwitch.canceled += instance.OnMovementSwitch;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
         {
-            @Move.started -= instance.OnMove;
-            @Move.performed -= instance.OnMove;
-            @Move.canceled -= instance.OnMove;
-            @SpeedSwitch.started -= instance.OnSpeedSwitch;
-            @SpeedSwitch.performed -= instance.OnSpeedSwitch;
-            @SpeedSwitch.canceled -= instance.OnSpeedSwitch;
+            @Movement.started -= instance.OnMovement;
+            @Movement.performed -= instance.OnMovement;
+            @Movement.canceled -= instance.OnMovement;
+            @MovementSwitch.started -= instance.OnMovementSwitch;
+            @MovementSwitch.performed -= instance.OnMovementSwitch;
+            @MovementSwitch.canceled -= instance.OnMovementSwitch;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -987,8 +987,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     }
     public interface IPlayerActions
     {
-        void OnMove(InputAction.CallbackContext context);
-        void OnSpeedSwitch(InputAction.CallbackContext context);
+        void OnMovement(InputAction.CallbackContext context);
+        void OnMovementSwitch(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
