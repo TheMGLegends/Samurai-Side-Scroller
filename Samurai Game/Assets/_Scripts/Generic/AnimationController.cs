@@ -40,6 +40,8 @@ public class AnimationController : MonoBehaviour, IObserver
     public void OnNotify(EventType eventType, EventData eventData)
     {
         if (eventType == EventType.AnimationStateChange)
-            ChangeAnimationState(eventData.animationState);
+        {
+            ChangeAnimationState(eventData.AnimationState);
+        }
     }
 }

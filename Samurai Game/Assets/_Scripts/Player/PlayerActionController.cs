@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -26,10 +27,16 @@ public class PlayerActionController : Subject
     [SerializeField] private float boxcastLength;
     [SerializeField] private LayerMask groundLayerMask;
 
+    [Space(10)]
+
+    [Header("Attack Settings:")]
+    [SerializeField] private float attackDamage;
+
     private PlayerInputActions playerInputActions;
     private InputAction movementDirectionAction;
     private InputAction switchMoveSpeedAction;
     private InputAction jumpAction;
+    private InputAction attackAction;
 
     private Rigidbody2D rb2D;
     private float movementDirection;
@@ -37,6 +44,11 @@ public class PlayerActionController : Subject
 
     private bool isJumping;
     private bool hasJumped;
+
+    private bool isAttacking;
+    private bool switchAttack;
+    private float attackDuration;
+    private Animator animator;
 
     #region UnityMethods
     private void OnDrawGizmos()
@@ -61,19 +73,29 @@ public class PlayerActionController : Subject
 
         jumpAction = playerInputActions.Player.Jump;
         jumpAction.Enable();
+
+        attackAction = playerInputActions.Player.Attack;
+        attackAction.Enable();
+        attackAction.performed += OnAttack;
     }
 
     private void OnDisable()
     {
         movementDirectionAction.Disable();
+
         switchMoveSpeedAction.Disable();
+
         jumpAction.Disable();
+
+        attackAction.Disable();
+        attackAction.performed -= OnAttack;
     }
 
     private void Awake()
     {
         playerInputActions = new PlayerInputActions();
         rb2D = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -144,22 +166,25 @@ public class PlayerActionController : Subject
     #region MovementMethods
     private void Move()
     {
-        rb2D.velocity = new Vector2(movementDirection * currentSpeed * Time.fixedDeltaTime, rb2D.velocity.y);
-
-        if (IsGrounded() && !isJumping)
+        if (!isAttacking)
         {
-            // INFO: Resets the gravity scale to the default value ready for the jump
-            rb2D.gravityScale = jumpingGravityScale;
+            rb2D.velocity = new Vector2(movementDirection * currentSpeed * Time.fixedDeltaTime, rb2D.velocity.y);
 
-            if (movementDirection == 0)
+            if (IsGrounded() && !isJumping)
             {
-                // INFO: Notifies observers that the player is idle
-                NotifyObservers(EventType.AnimationStateChange, new EventData(PlayerAnimationStates.Idle.ToString()));
-            }
-            else
-            {
-                // INFO: Notifies observers that the player is moving
-                NotifyObservers(EventType.AnimationStateChange, new EventData(PlayerAnimationStates.Run.ToString()));
+                // INFO: Resets the gravity scale to the default value ready for the jump
+                rb2D.gravityScale = jumpingGravityScale;
+
+                if (movementDirection == 0)
+                {
+                    // INFO: Notifies observers that the player is idle
+                    NotifyObservers(EventType.AnimationStateChange, new EventData(PlayerAnimationStates.Idle.ToString()));
+                }
+                else
+                {
+                    // INFO: Notifies observers that the player is moving
+                    NotifyObservers(EventType.AnimationStateChange, new EventData(PlayerAnimationStates.Run.ToString()));
+                }
             }
         }
     }
@@ -174,38 +199,76 @@ public class PlayerActionController : Subject
 
     private void Jump()
     {
-        // INFO: Check for whether the jump action can be performed
-        if (isJumping && IsGrounded())
+        if (!isAttacking)
         {
-            // INFO: Ensures force only gets added once
-            if (!hasJumped)
+            // INFO: Check for whether the jump action can be performed
+            if (isJumping && IsGrounded())
             {
-                rb2D.AddForce(jumpForce * Vector2.up, ForceMode2D.Impulse);
+                // INFO: Ensures force only gets added once
+                if (!hasJumped)
+                {
+                    rb2D.AddForce(jumpForce * Vector2.up, ForceMode2D.Impulse);
 
-                hasJumped = true;
+                    hasJumped = true;
+                }
+
+                // INFO: Notifies observers that the player is jumping
+                NotifyObservers(EventType.AnimationStateChange, new EventData(PlayerAnimationStates.Jump.ToString()));
             }
 
-            // INFO: Notifies observers that the player is jumping
-            NotifyObservers(EventType.AnimationStateChange, new EventData(PlayerAnimationStates.Jump.ToString()));
-        }
+            // INFO: Variable jump height when the jump button is released
+            if (!isJumping && rb2D.velocity.y > 0.0f)
+            {
+                rb2D.velocity = new Vector2(rb2D.velocity.x, 0.0f);
+            }
 
-        // INFO: Variable jump height when the jump button is released
-        if (!isJumping && rb2D.velocity.y > 0.0f)
-        {
-            rb2D.velocity = new Vector2(rb2D.velocity.x, 0.0f);
-        }
+            // INFO: Player falling check
+            if (rb2D.velocity.y < 0.0f && !IsGrounded())
+            {
+                isJumping = false;
 
-        // INFO: Player falling check
-        if (rb2D.velocity.y < 0.0f && !IsGrounded())
-        {
-            isJumping = false;
+                // INFO: Increases the gravity scale to make the player fall faster
+                rb2D.gravityScale = fallingGravityScale;
 
-            // INFO: Increases the gravity scale to make the player fall faster
-            rb2D.gravityScale = fallingGravityScale;
-
-            // INFO: Notifies observers that the player is falling
-            NotifyObservers(EventType.AnimationStateChange, new EventData(PlayerAnimationStates.Fall.ToString()));
+                // INFO: Notifies observers that the player is falling
+                NotifyObservers(EventType.AnimationStateChange, new EventData(PlayerAnimationStates.Fall.ToString()));
+            }
         }
     }
     #endregion JumpingMethods
+
+    #region AttackingMethods
+    private void OnAttack(InputAction.CallbackContext context)
+    {
+        if (IsGrounded() && !isAttacking)
+        {
+            isAttacking = true;
+
+            rb2D.velocity = Vector2.zero;
+
+            if (switchAttack)
+            {
+                NotifyObservers(EventType.AnimationStateChange, new EventData(PlayerAnimationStates.Attack1.ToString()));
+            }
+            else
+            {
+                NotifyObservers(EventType.AnimationStateChange, new EventData(PlayerAnimationStates.Attack2.ToString()));
+            }
+
+            StartCoroutine(AttackCoroutine());
+        }
+    }
+
+    private IEnumerator AttackCoroutine()
+    {
+        yield return null;
+
+        Debug.Log(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name);
+        attackDuration = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+
+        yield return new WaitForSeconds(attackDuration);
+        isAttacking = false;
+        switchAttack = !switchAttack;
+    }
+    #endregion AttackingMethods
 }

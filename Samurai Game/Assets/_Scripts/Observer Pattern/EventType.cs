@@ -12,5 +12,6 @@ public enum EventType
 
     None = 0,
 
-    AnimationStateChange
+    AnimationStateChange,
+    TakeDamage,
 }

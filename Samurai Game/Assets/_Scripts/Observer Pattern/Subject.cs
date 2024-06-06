@@ -7,7 +7,7 @@ using UnityEngine;
 public abstract class Subject : MonoBehaviour
 {
     // INFO: List of Observers
-    private List<IObserver> observers = new();
+    private readonly List<IObserver> observers = new();
 
     /// <summary>
     /// Adds an observer to the list of observers
