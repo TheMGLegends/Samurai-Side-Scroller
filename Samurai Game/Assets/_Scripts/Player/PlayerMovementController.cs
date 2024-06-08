@@ -45,7 +45,7 @@ public class PlayerMovementController : MonoBehaviour
     // INFO: Jump Variables
     private float lastGroundedTime;
     private float lastJumpTime;
-    private bool canJump;
+    private bool isJumping;
     private bool jumpInputReleased;
 
     #region UnityMethods
@@ -156,6 +156,14 @@ public class PlayerMovementController : MonoBehaviour
             rb2D.AddForce(Vector2.right * -amount, ForceMode2D.Impulse);
         }
         #endregion Friction
+
+        #region Animation
+        // INFO: If we are grounded we can animate idling or running
+        if (lastGroundedTime > 0.0f && !isJumping)
+        {
+            playerCharacter.PlayerAnimationController.ChangeAnimationState(Mathf.Abs(rb2D.velocity.x) > 0.01f ? PlayerStates.Run : PlayerStates.Idle);
+        }
+        #endregion Animation
     }
     #endregion MovementMethods
 
@@ -178,7 +186,6 @@ public class PlayerMovementController : MonoBehaviour
         
         if (Physics2D.BoxCast(transform.position, boxSize, 0.0f, Vector2.down, boxDimensions.x, groundLayerMask))
         {
-            canJump = true;
             lastGroundedTime = jumpCoyoteTime;
         }
     }
@@ -186,16 +193,26 @@ public class PlayerMovementController : MonoBehaviour
     private void Jump()
     {
         #region Jump
-        if (lastGroundedTime > 0.0f && lastJumpTime > 0.0f && canJump)
+        if (lastGroundedTime > 0.0f && lastJumpTime > 0.0f && !isJumping)
         {
-            canJump = false;
+            isJumping = true;
 
             lastGroundedTime = 0.0f;
             lastJumpTime = 0.0f;
 
             rb2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+
+            playerCharacter.PlayerAnimationController.ChangeAnimationState(PlayerStates.Jump);
         }
         #endregion Jump
+
+        #region Animation
+        //if (isJumping )
+        //{
+        //   playerCharacter.PlayerAnimationController.ChangeAnimationState(PlayerStates.Jump);
+        //}
+
+        #endregion Animation
 
         #region Fall
         if (rb2D.velocity.y > 0.0f && jumpInputReleased)
@@ -205,9 +222,13 @@ public class PlayerMovementController : MonoBehaviour
         #endregion Fall
 
         #region GravityChange
-        if (rb2D.velocity.y < 0.0f)
+        if (rb2D.velocity.y < 0.0f && lastGroundedTime < 0.0f)
         {
+            isJumping = false;
+
             rb2D.gravityScale = gravityScale * fallGravityMultiplier;
+
+            playerCharacter.PlayerAnimationController.ChangeAnimationState(PlayerStates.Fall);
         }
         else
         {

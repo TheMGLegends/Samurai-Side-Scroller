@@ -5,27 +5,32 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerMovementController))]
 [RequireComponent(typeof(PlayerActionController))]
 [RequireComponent(typeof(PlayerHealthController))]
+[RequireComponent(typeof(PlayerAnimationController))]
 
 public class PlayerCharacter : MonoBehaviour
 {
     public PlayerInputActions PlayerInputActions { get; private set; }
 
-    private PlayerMovementController playerMovementController;
-    private PlayerActionController playerActionController;
-    private PlayerHealthController playerHealthController;
+    public PlayerMovementController PlayerMovementController { get; private set; }
+    public PlayerActionController PlayerActionController { get; private set; }
+    public PlayerHealthController PlayerHealthController { get; private set; }
+    public PlayerAnimationController PlayerAnimationController { get; private set; }
 
     private void Awake()
     {
         PlayerInputActions = new PlayerInputActions();
 
-        playerMovementController = GetComponent<PlayerMovementController>();
-        playerMovementController.Init(this);
+        PlayerMovementController = GetComponent<PlayerMovementController>();
+        PlayerMovementController.Init(this);
 
-        playerActionController = GetComponent<PlayerActionController>();
-        playerActionController.Init(this);
+        PlayerActionController = GetComponent<PlayerActionController>();
+        PlayerActionController.Init(this);
 
-        playerHealthController = GetComponent<PlayerHealthController>();
-        playerHealthController.Init(this);
+        PlayerHealthController = GetComponent<PlayerHealthController>();
+        PlayerHealthController.Init(this);
+
+        PlayerAnimationController = GetComponent<PlayerAnimationController>();
+        PlayerAnimationController.Init(this);
     }
 
 }
