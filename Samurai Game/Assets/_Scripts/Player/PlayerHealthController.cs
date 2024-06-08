@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerActionController : MonoBehaviour
+public class PlayerHealthController : MonoBehaviour
 {
     private PlayerCharacter playerCharacter;
 
@@ -10,4 +10,5 @@ public class PlayerActionController : MonoBehaviour
     {
         playerCharacter = _playerCharacter;
     }
+
 }
