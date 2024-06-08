@@ -51,5 +51,15 @@ public class PlayerAnimationController : MonoBehaviour
     {
         return currentState;
     }
+
+    public void SetTrigger(string triggerName)
+    {
+        animator.SetTrigger(triggerName);
+    }
+
+    public bool GetBool(string boolName)
+    {
+        return animator.GetBool(boolName);
+    }
     #endregion AnimationMethods
 }

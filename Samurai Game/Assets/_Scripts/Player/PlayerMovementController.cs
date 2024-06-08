@@ -41,6 +41,7 @@ public class PlayerMovementController : MonoBehaviour
 
     // INFO: Movement Variables
     private float movementDirection;
+    private bool canMove;
 
     // INFO: Jump Variables
     private float lastGroundedTime;
@@ -92,6 +93,7 @@ public class PlayerMovementController : MonoBehaviour
     private void Update()
     {
         IsGrounded();
+        CanMove();
 
         // INFO: Coyote Timers
         lastGroundedTime -= Time.deltaTime;
@@ -123,6 +125,11 @@ public class PlayerMovementController : MonoBehaviour
         transform.localScale = new Vector2(movementDirection != 0.0f ? movementDirection : transform.localScale.x, 1);
     }
 
+    private void CanMove()
+    {
+        canMove = playerCharacter.PlayerAnimationController.GetBool("canMove");
+    }
+
     private void Move()
     {
         #region Run
@@ -139,7 +146,15 @@ public class PlayerMovementController : MonoBehaviour
         // then multiply by sign of speed difference to maintain direction
         float movement = Mathf.Pow(Mathf.Abs(speedDiff) * accelRate, velocityPower) * Mathf.Sign(speedDiff);
 
-        rb2D.AddForce(Vector2.right * movement);
+        // INFO: Only move when we can
+        if (canMove)
+        {
+            rb2D.AddForce(Vector2.right * movement);
+        }
+        else
+        {
+            rb2D.velocity = Vector2.zero;
+        }
         #endregion Run
 
         #region Friction
@@ -158,8 +173,8 @@ public class PlayerMovementController : MonoBehaviour
         #endregion Friction
 
         #region Animation
-        // INFO: If we are grounded we can animate idling or running
-        if (lastGroundedTime > 0.0f && !isJumping)
+        // INFO: If we are grounded and we can move we can animate idling or running
+        if (lastGroundedTime > 0.0f && !isJumping && canMove)
         {
             playerCharacter.PlayerAnimationController.ChangeAnimationState(Mathf.Abs(rb2D.velocity.x) > 0.01f ? PlayerStates.Run : PlayerStates.Idle);
         }
@@ -193,7 +208,7 @@ public class PlayerMovementController : MonoBehaviour
     private void Jump()
     {
         #region Jump
-        if (lastGroundedTime > 0.0f && lastJumpTime > 0.0f && !isJumping)
+        if (lastGroundedTime > 0.0f && lastJumpTime > 0.0f && !isJumping && canMove)  
         {
             isJumping = true;
 
