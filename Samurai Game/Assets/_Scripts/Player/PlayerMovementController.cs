@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using UnityEngine.Serialization;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
 
 [RequireComponent(typeof(Rigidbody2D))]
 
@@ -20,17 +23,30 @@ public class PlayerMovementController : MonoBehaviour
     [Space(10)]
 
     [Header("Jump Settings:")]
+    [SerializeField] private float jumpForce;
+    [Range(0, 1)] [SerializeField] private float jumpCutMultiplier;
+    [SerializeField] private float gravityScale;
+    [SerializeField] private float fallGravityMultiplier;
+    [SerializeField] private float jumpCoyoteTime;
+    [SerializeField] private float jumpBufferTime;
     [SerializeField] private Vector2 boxDimensions;
     [SerializeField] private LayerMask groundLayerMask;
 
     private PlayerCharacter playerCharacter;
 
     private InputAction movementAction;
+    private InputAction jumpAction;
 
     private Rigidbody2D rb2D;
 
     // INFO: Movement Variables
     private float movementDirection;
+
+    // INFO: Jump Variables
+    private float lastGroundedTime;
+    private float lastJumpTime;
+    private bool canJump;
+    private bool jumpInputReleased;
 
     #region UnityMethods
     private void OnDrawGizmos()
@@ -55,22 +71,37 @@ public class PlayerMovementController : MonoBehaviour
         movementAction = playerCharacter.PlayerInputActions.Player.Movement;
         movementAction.Enable();
         movementAction.performed += OnMovement;
+
+        jumpAction = playerCharacter.PlayerInputActions.Player.Jump;
+        jumpAction.Enable();
+        jumpAction.started += OnJumpPressed;
+        jumpAction.canceled += OnJumpReleased;
+
     }
 
     private void OnDisable()
     {
         movementAction.Disable();
         movementAction.performed -= OnMovement;
+
+        jumpAction.Disable();
+        jumpAction.started -= OnJumpPressed;
+        jumpAction.canceled -= OnJumpReleased;
     }
 
     private void Update()
     {
+        IsGrounded();
 
+        // INFO: Coyote Timers
+        lastGroundedTime -= Time.deltaTime;
+        lastJumpTime -= Time.deltaTime;
     }
 
     private void FixedUpdate()
     {
         Move();
+        Jump();
     }
     #endregion UnityMethods
 
@@ -113,7 +144,7 @@ public class PlayerMovementController : MonoBehaviour
 
         #region Friction
         // INFO: Only apply friction when the player is grounded trying to stop
-        if (IsGrounded() && Mathf.Abs(movementDirection) < 0.01f)
+        if (lastGroundedTime > 0.0f && Mathf.Abs(movementDirection) < 0.01f)
         {
             // INFO: Depending on what is smaller, that is the amount of friction to apply
             float amount = Mathf.Min(Mathf.Abs(rb2D.velocity.x), Mathf.Abs(frictionAmount));
@@ -129,10 +160,60 @@ public class PlayerMovementController : MonoBehaviour
     #endregion MovementMethods
 
     #region JumpMethods
-    private bool IsGrounded()
+    private void OnJumpPressed(InputAction.CallbackContext context)
+    {
+        jumpInputReleased = false;
+
+        lastJumpTime = jumpBufferTime;
+    }
+
+    private void OnJumpReleased(InputAction.CallbackContext context)
+    {
+        jumpInputReleased = true;
+    }
+
+    private void IsGrounded()
     {
         Vector2 boxSize = new(Mathf.Abs(transform.localScale.x / 1.5f), boxDimensions.y);
-        return Physics2D.BoxCast(transform.position, boxSize, 0.0f, Vector2.down, boxDimensions.x, groundLayerMask);
+        
+        if (Physics2D.BoxCast(transform.position, boxSize, 0.0f, Vector2.down, boxDimensions.x, groundLayerMask))
+        {
+            canJump = true;
+            lastGroundedTime = jumpCoyoteTime;
+        }
+    }
+
+    private void Jump()
+    {
+        #region Jump
+        if (lastGroundedTime > 0.0f && lastJumpTime > 0.0f && canJump)
+        {
+            canJump = false;
+
+            lastGroundedTime = 0.0f;
+            lastJumpTime = 0.0f;
+
+            rb2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        }
+        #endregion Jump
+
+        #region Fall
+        if (rb2D.velocity.y > 0.0f && jumpInputReleased)
+        {
+            rb2D.AddForce((1 - jumpCutMultiplier) * rb2D.velocity.y * Vector2.down, ForceMode2D.Impulse);
+        }
+        #endregion Fall
+
+        #region GravityChange
+        if (rb2D.velocity.y < 0.0f)
+        {
+            rb2D.gravityScale = gravityScale * fallGravityMultiplier;
+        }
+        else
+        {
+            rb2D.gravityScale = gravityScale;
+        }
+        #endregion GravityChange
     }
     #endregion JumpMethods
 }
