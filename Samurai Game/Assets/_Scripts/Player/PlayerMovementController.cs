@@ -13,6 +13,13 @@ public class PlayerMovementController : MonoBehaviour
     [Header("Debug Settings:")]
     [SerializeField] private bool isBoxCastVisible;
 
+    [Space(10)]
+
+    [Header("Follow Object:")]
+    [SerializeField] private CameraFollowObject cameraFollowObject;
+
+    [Space(10)]
+
     [Header("Movement Settings:")]
     [SerializeField] private float movementSpeed;
     [SerializeField] private float acceleration;
@@ -41,7 +48,9 @@ public class PlayerMovementController : MonoBehaviour
 
     // INFO: Movement Variables
     private float movementDirection;
+    private bool isFacingRight;
     private bool canMove;
+    private float fallSpeedYDampingChangeThreshold;
 
     // INFO: Jump Variables
     private float lastGroundedTime;
@@ -90,6 +99,11 @@ public class PlayerMovementController : MonoBehaviour
         jumpAction.canceled -= OnJumpReleased;
     }
 
+    private void Start()
+    {
+        fallSpeedYDampingChangeThreshold = CameraManager.Instance.fallSpeedYDampingChangeThreshold;
+    }
+
     private void Update()
     {
         IsGrounded();
@@ -98,6 +112,20 @@ public class PlayerMovementController : MonoBehaviour
         // INFO: Coyote Timers
         lastGroundedTime -= Time.deltaTime;
         lastJumpTime -= Time.deltaTime;
+
+        // INFO: If we are falling past a certain speed, change the camera damping
+        if (rb2D.velocity.y < fallSpeedYDampingChangeThreshold && !CameraManager.Instance.IsSLerpingYDamping && !CameraManager.Instance.LerpedFromPlayerFalling)
+        {
+            CameraManager.Instance.LerpYDamping(true);
+        }
+
+        // INFO: If we are standing still or moving up, change the camera damping back to normal
+        if (rb2D.velocity.y >= 0.0f && !CameraManager.Instance.IsSLerpingYDamping && CameraManager.Instance.LerpedFromPlayerFalling)
+        {
+            CameraManager.Instance.LerpedFromPlayerFalling = false;
+
+            CameraManager.Instance.LerpYDamping(false);
+        }
     }
 
     private void FixedUpdate()
@@ -122,7 +150,23 @@ public class PlayerMovementController : MonoBehaviour
             movementDirection /= Mathf.Abs(movementDirection);
 
         // INFO: Flip player object based on movement direction
-        transform.localScale = new Vector2(movementDirection != 0.0f ? movementDirection : transform.localScale.x, 1);
+        if (movementDirection < 0.0f && !isFacingRight)
+        {
+            isFacingRight = true;
+            Flip();
+        }
+        else if (movementDirection > 0.0f && isFacingRight)
+        {
+            isFacingRight = false;
+            Flip();
+        }
+    }
+
+    private void Flip()
+    {
+        Vector3 rotator = new(transform.rotation.x, isFacingRight ? 180.0f : 0.0f, transform.rotation.z);
+        transform.rotation = Quaternion.Euler(rotator);
+        cameraFollowObject.Turn();
     }
 
     private void CanMove()
@@ -220,14 +264,6 @@ public class PlayerMovementController : MonoBehaviour
             playerCharacter.PlayerAnimationController.ChangeAnimationState(PlayerStates.Jump);
         }
         #endregion Jump
-
-        #region Animation
-        //if (isJumping )
-        //{
-        //   playerCharacter.PlayerAnimationController.ChangeAnimationState(PlayerStates.Jump);
-        //}
-
-        #endregion Animation
 
         #region Fall
         if (rb2D.velocity.y > 0.0f && jumpInputReleased)
