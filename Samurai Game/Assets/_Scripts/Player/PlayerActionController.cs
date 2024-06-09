@@ -40,4 +40,9 @@ public class PlayerActionController : MonoBehaviour
     {
         playerCharacter.PlayerAnimationController.SetTrigger("isAttacking");
     }
+
+    public void PlayAttackSound()
+    {
+        AudioManager.Instance.PlaySFX("PlayerAttack");
+    }
 }

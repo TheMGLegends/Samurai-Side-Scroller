@@ -224,6 +224,11 @@ public class PlayerMovementController : MonoBehaviour
         }
         #endregion Animation
     }
+
+    public void PlayGrassFoostep()
+    {
+        AudioManager.Instance.PlaySFX("FoostepGrass");
+    }
     #endregion MovementMethods
 
     #region JumpMethods
