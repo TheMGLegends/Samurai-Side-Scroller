@@ -9133,20 +9133,20 @@ CompositeCollider2D:
   - m_Collider: {fileID: 59975959}
     m_ColliderPaths:
     - - X: 1507113856
-        Y: 29303646
+        Y: 88087944
       - X: 295670624
-        Y: 29303646
+        Y: 88087944
       - X: 295670624
-        Y: -20970970
+        Y: -20970974
       - X: 1507113856
-        Y: -20970970
+        Y: -20970974
   m_CompositePaths:
     m_Paths:
     - - {x: 29.852724, y: -2.1095333}
-      - {x: 29.852781, y: -2.097097}
-      - {x: 150.71138, y: -2.0970676}
-      - {x: 150.71136, y: 2.9303646}
-      - {x: 29.852753, y: 2.930394}
+      - {x: 29.852781, y: -2.0970974}
+      - {x: 150.71138, y: -2.097068}
+      - {x: 150.71136, y: 8.808795}
+      - {x: 29.852753, y: 8.808825}
       - {x: 29.852724, y: 17.313189}
       - {x: -18.497932, y: 17.31316}
       - {x: -18.497904, y: -2.1095333}
@@ -9188,7 +9188,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 1
   m_CompositeOrder: 0
-  m_Offset: {x: 90.13922, y: 0.41663384}
+  m_Offset: {x: 90.13922, y: 3.3558483}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -9198,7 +9198,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 121.14432, y: 5.0274615}
+  m_Size: {x: 121.14432, y: 10.905891}
   m_EdgeRadius: 0
 --- !u!1 &76464158
 GameObject:
