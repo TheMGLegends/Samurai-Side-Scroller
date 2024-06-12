@@ -9382,7 +9382,7 @@ GameObject:
   - component: {fileID: 145002780}
   - component: {fileID: 145002781}
   m_Layer: 6
-  m_Name: Light 2D
+  m_Name: Player Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9564,6 +9564,7 @@ GameObject:
   m_Component:
   - component: {fileID: 158638099}
   - component: {fileID: 158638100}
+  - component: {fileID: 158638101}
   m_Layer: 7
   m_Name: AttackOne
   m_TagString: Untagged
@@ -9651,6 +9652,18 @@ PolygonCollider2D:
       - {x: 1.8065759, y: 0.89569664}
       - {x: 0.70411205, y: 1.1374762}
   m_UseDelaunayMesh: 0
+--- !u!114 &158638101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 158638098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64d279324a0a5b54292073f8591971c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &160115120
 GameObject:
   m_ObjectHideFlags: 0
@@ -9694,6 +9707,7 @@ GameObject:
   m_Component:
   - component: {fileID: 253437568}
   - component: {fileID: 253437569}
+  - component: {fileID: 253437570}
   m_Layer: 7
   m_Name: AttackTwo
   m_TagString: Untagged
@@ -9785,6 +9799,18 @@ PolygonCollider2D:
       - {x: 1.7512759, y: -0.006473303}
       - {x: 0.85856414, y: 0.2378692}
   m_UseDelaunayMesh: 0
+--- !u!114 &253437570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 253437567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64d279324a0a5b54292073f8591971c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &273155648
 GameObject:
   m_ObjectHideFlags: 0
