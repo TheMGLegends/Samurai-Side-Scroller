@@ -6,8 +6,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
 
-[RequireComponent(typeof(Rigidbody2D))]
-
 public class PlayerMovementController : MonoBehaviour
 {
     [Header("Debug Settings:")]
@@ -73,7 +71,7 @@ public class PlayerMovementController : MonoBehaviour
 
     private void Awake()
     {
-        rb2D = GetComponent<Rigidbody2D>();
+        rb2D = playerCharacter.Rb2D;
     }
 
     private void OnEnable()
@@ -224,11 +222,6 @@ public class PlayerMovementController : MonoBehaviour
         }
         #endregion Animation
     }
-
-    public void PlayGrassFoostep()
-    {
-        AudioManager.Instance.PlaySFX("FoostepGrass");
-    }
     #endregion MovementMethods
 
     #region JumpMethods
@@ -250,6 +243,12 @@ public class PlayerMovementController : MonoBehaviour
         
         if (Physics2D.BoxCast(transform.position, boxSize, 0.0f, Vector2.down, boxDimensions.x, groundLayerMask))
         {
+            // INFO: Play Landing Sound
+            if (lastGroundedTime < 0.0f)
+            {
+                AudioManager.Instance.PlaySFX("PlayerLand", 0.75f);
+            }
+
             lastGroundedTime = jumpCoyoteTime;
         }
     }
@@ -267,6 +266,7 @@ public class PlayerMovementController : MonoBehaviour
             rb2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
 
             playerCharacter.PlayerAnimationController.ChangeAnimationState(PlayerStates.Jump);
+            AudioManager.Instance.PlaySFX("PlayerJump", 0.75f);
         }
         #endregion Jump
 

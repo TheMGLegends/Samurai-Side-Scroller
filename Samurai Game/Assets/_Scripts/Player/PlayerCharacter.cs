@@ -7,6 +7,9 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerHealthController))]
 [RequireComponent(typeof(PlayerAnimationController))]
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Animator))]
+
 public class PlayerCharacter : MonoBehaviour
 {
     public PlayerInputActions PlayerInputActions { get; private set; }
@@ -15,6 +18,9 @@ public class PlayerCharacter : MonoBehaviour
     public PlayerActionController PlayerActionController { get; private set; }
     public PlayerHealthController PlayerHealthController { get; private set; }
     public PlayerAnimationController PlayerAnimationController { get; private set; }
+
+    public Rigidbody2D Rb2D { get; private set; }
+    public Animator Animator { get; private set; }
 
     private void Awake()
     {
@@ -31,6 +37,16 @@ public class PlayerCharacter : MonoBehaviour
 
         PlayerAnimationController = GetComponent<PlayerAnimationController>();
         PlayerAnimationController.Init(this);
+
+        Rb2D = GetComponent<Rigidbody2D>();
+        Animator = GetComponent<Animator>();
     }
 
+    /// <summary>
+    /// Wrapper function for calling audio manager to play sfx used mostly in animation events
+    /// </summary>
+    public void PlaySFX(AnimationEvent animationEvent)
+    {
+       AudioManager.Instance.PlaySFX(animationEvent.stringParameter, animationEvent.floatParameter);
+    }
 }

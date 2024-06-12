@@ -10675,6 +10675,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &712841932
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 712841933}
+  m_Layer: 0
+  m_Name: Music Sources
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &712841933
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712841932}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1697500482}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &769506186
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11960,7 +11991,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1809651687}
+  - {fileID: 712841933}
   m_Father: {fileID: 613151740}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1697500483
@@ -11975,12 +12008,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe04aa2e790628d4dbaeeddf19a9ae5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sfxCount: 50
+  musicCount: 5
   clipNames:
   - PlayerAttack
   - FoostepGrass
+  - PlayerJump
+  - PlayerLand
   audioClips:
   - {fileID: 8300000, guid: c921ed73176fcc3439ced103fda41a47, type: 3}
   - {fileID: 8300000, guid: 5959b74874aa74d47847b7ddd490d0f2, type: 3}
+  - {fileID: 8300000, guid: e9781c1ba5e68834a92bc60e31e4a852, type: 3}
+  - {fileID: 8300000, guid: c241135636b3c0e49a219ca6a4333597, type: 3}
   audioSourcePrefab: {fileID: 3218136191704548429, guid: b8030a629d082ff459ff044333b2e1e0, type: 3}
 --- !u!1 &1779256829
 GameObject:
@@ -12339,6 +12378,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
+--- !u!1 &1809651686
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1809651687}
+  m_Layer: 0
+  m_Name: SFX Sources
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1809651687
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809651686}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1697500482}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1830705692
 GameObject:
   m_ObjectHideFlags: 0
@@ -12505,7 +12575,7 @@ Transform:
   m_GameObject: {fileID: 1882464749}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.9999851, y: 2.39047, z: -10}
+  m_LocalPosition: {x: 0.99999446, y: 2.39047, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

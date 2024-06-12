@@ -16,8 +16,6 @@ public enum PlayerStates
     Death
 }
 
-[RequireComponent(typeof(Animator))]
-
 public class PlayerAnimationController : MonoBehaviour
 {
     private PlayerCharacter playerCharacter;
@@ -28,7 +26,7 @@ public class PlayerAnimationController : MonoBehaviour
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        animator = playerCharacter.Animator;
     }
 
     public void Init(PlayerCharacter _playerCharacter)

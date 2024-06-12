@@ -3,20 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody2D))]
-
 public class PlayerActionController : MonoBehaviour
 {
     private PlayerCharacter playerCharacter;
 
     private InputAction attackAction;
-
-    private Rigidbody2D rb2D;
-
-    private void Awake()
-    {
-        rb2D = GetComponent<Rigidbody2D>();
-    }
 
     private void OnEnable()
     {
@@ -39,10 +30,5 @@ public class PlayerActionController : MonoBehaviour
     private void OnAttack(InputAction.CallbackContext context)
     {
         playerCharacter.PlayerAnimationController.SetTrigger("isAttacking");
-    }
-
-    public void PlayAttackSound()
-    {
-        AudioManager.Instance.PlaySFX("PlayerAttack");
     }
 }
