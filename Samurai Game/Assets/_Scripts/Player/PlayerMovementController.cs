@@ -99,7 +99,7 @@ public class PlayerMovementController : MonoBehaviour
 
     private void Start()
     {
-        fallSpeedYDampingChangeThreshold = CameraManager.Instance.fallSpeedYDampingChangeThreshold;
+        fallSpeedYDampingChangeThreshold = CameraManager.Instance.GetFallSpeedYDampingChangeThreshold;
     }
 
     private void Update()

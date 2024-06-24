@@ -13,17 +13,22 @@ public class CameraManager : MonoBehaviour
     [Header("Y Damping Settings:")]
     [SerializeField] private float fallPanAmount = 0.25f;
     [SerializeField] private float fallYPanTime = 0.35f;
-    public float fallSpeedYDampingChangeThreshold = -15f;
+    [SerializeField] private float fallSpeedYDampingChangeThreshold = -15f;
 
     public bool IsSLerpingYDamping { get; private set; }
     public bool LerpedFromPlayerFalling { get; set; }
 
+    public float GetFallSpeedYDampingChangeThreshold => fallSpeedYDampingChangeThreshold;
+
     private Coroutine lerpYPanCoroutine;
+    private Coroutine panCameraCoroutine;
 
     private CinemachineVirtualCamera currentVirtualCamera;
     private CinemachineFramingTransposer framingTransposer;
 
     private float normYPanAmount;
+
+    private Vector2 startingTrackedObjectOffset;
 
     private void Awake()
     {
@@ -46,8 +51,11 @@ public class CameraManager : MonoBehaviour
         }
 
         normYPanAmount = framingTransposer.m_YDamping;
+
+        startingTrackedObjectOffset = framingTransposer.m_TrackedObjectOffset;
     }
 
+    #region LerpYDamping
     public void LerpYDamping(bool isPlayerFalling)
     {
         lerpYPanCoroutine = StartCoroutine(LerpYAction(isPlayerFalling));
@@ -58,7 +66,7 @@ public class CameraManager : MonoBehaviour
         IsSLerpingYDamping = true;
 
         float startDampAmount = framingTransposer.m_YDamping;
-        float endDampAmount = 0.0f;
+        float endDampAmount;
 
         // INFO: Determine end damping amount
         if (isPlayerFalling)
@@ -84,4 +92,67 @@ public class CameraManager : MonoBehaviour
 
         IsSLerpingYDamping = false;
     }
+    #endregion LerpYDamping
+
+    #region PanCamera
+    public void PanCameraOnContact(float panDistance, float panTime, PanDirection panDirection, bool panToStartingPos)
+    {
+        panCameraCoroutine = StartCoroutine(PanCamera(panDistance, panTime, panDirection, panToStartingPos));
+    }
+
+    private IEnumerator PanCamera(float panDistance, float panTime, PanDirection panDirection, bool panToStartingPos)
+    {
+        Vector2 endPos = Vector2.zero;
+        Vector2 startingPos = Vector2.zero;
+
+        // INFO: Handle Pan to End Position
+        if (!panToStartingPos)
+        {
+            // INFO: Set Direction and Distance
+            switch (panDirection)
+            {
+                case PanDirection.Up:
+                    endPos = Vector2.up;
+                    break;
+                case PanDirection.Down:
+                    endPos = Vector2.down;
+                    break;
+                case PanDirection.Left:
+                    endPos = Vector2.left;
+                    break;
+                case PanDirection.Right:
+                    endPos = Vector2.right;
+                    break;
+                case PanDirection.None:
+                default:
+                    break;
+            }
+
+            endPos *= panDistance;
+
+            startingPos = startingTrackedObjectOffset;
+
+            endPos += startingPos;
+        }
+        // INFO: Handle Pan to Starting Position
+        else
+        {
+            startingPos = framingTransposer.m_TrackedObjectOffset;
+            endPos = startingTrackedObjectOffset;
+        }
+
+        // INFO: Perform the Panning
+        float elapsedTime = 0.0f;
+
+        while (elapsedTime < panTime)
+        {
+            elapsedTime += Time.deltaTime;
+
+            Vector3 panLerp = Vector3.Lerp(startingPos, endPos, elapsedTime / panTime);
+            framingTransposer.m_TrackedObjectOffset = panLerp;
+
+            yield return null;
+        }
+    }
+    #endregion PanCamera
 }
