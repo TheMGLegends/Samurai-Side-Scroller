@@ -92,9 +92,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   swapCameras: 0
+  swapVerticalCameras: 0
   cameraOnLeft: {fileID: 0}
   cameraOnRight: {fileID: 0}
-  panCameraOnContact: 1
+  cameraOnTop: {fileID: 0}
+  cameraOnBottom: {fileID: 0}
+  panCameraOnContact: 0
   panDirection: 0
   panDistance: 2
   panTime: 0.7

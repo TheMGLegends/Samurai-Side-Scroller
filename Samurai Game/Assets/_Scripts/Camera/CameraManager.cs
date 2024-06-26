@@ -103,7 +103,7 @@ public class CameraManager : MonoBehaviour
     private IEnumerator PanCamera(float panDistance, float panTime, PanDirection panDirection, bool panToStartingPos)
     {
         Vector2 endPos = Vector2.zero;
-        Vector2 startingPos = Vector2.zero;
+        Vector2 startingPos;
 
         // INFO: Handle Pan to End Position
         if (!panToStartingPos)
@@ -155,4 +155,49 @@ public class CameraManager : MonoBehaviour
         }
     }
     #endregion PanCamera
+
+    #region SwapCameras
+    public void SwapHorizontalCameras(CinemachineVirtualCamera cameraFromLeft, CinemachineVirtualCamera cameraFromRight, Vector2 triggerExitDirection)
+    {
+        // INFO: If current camera is the camera from the left and the player exits from the right
+        if (currentVirtualCamera == cameraFromLeft && triggerExitDirection.x > 0.0f)
+        {
+            // INFO: Enable new camera and disable old camera
+            SwitchCameras(cameraFromRight, cameraFromLeft);
+        }
+
+        // INFO: If current camera is the camera from the right and the player exits from the left
+        if (currentVirtualCamera == cameraFromRight && triggerExitDirection.x < 0.0f)
+        {
+            // INFO: Enable new camera and disable old camera
+            SwitchCameras(cameraFromLeft, cameraFromRight);
+        }
+    }
+
+    public void SwapVerticalCameras(CinemachineVirtualCamera cameraFromBottom, CinemachineVirtualCamera cameraFromTop, Vector2 triggerExitDirection)
+    {
+        // INFO: If current camera is the camera from the bottom and the player exits from the top
+        if (currentVirtualCamera == cameraFromBottom && triggerExitDirection.y > 0.0f)
+        {
+            // INFO: Enable new camera and disable old camera
+            SwitchCameras(cameraFromTop, cameraFromBottom);
+        }
+
+        // INFO: If current camera is the camera from the top and the player exits from the bottom
+        if (currentVirtualCamera == cameraFromTop && triggerExitDirection.y < 0.0f)
+        {
+            // INFO: Enable new camera and disable old camera
+            SwitchCameras(cameraFromBottom, cameraFromTop);
+        }
+    }
+
+    private void SwitchCameras(CinemachineVirtualCamera cameraToEnable, CinemachineVirtualCamera cameraToDisable)
+    {
+        cameraToEnable.enabled = true;
+        cameraToDisable.enabled = false;
+
+        currentVirtualCamera = cameraToEnable;
+        framingTransposer = currentVirtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+    }
+    #endregion SwapCameras
 }
