@@ -134,7 +134,6 @@ public class CameraControlTrigger : MonoBehaviour
                 }
                 else if (!swapVerticalCameras && cameraOnLeft != null && cameraOnRight != null)
                 {
-                    Debug.Log("Swaping Horizontal Cameras");
                     // INFO: Swap Horizontal Cameras
                     CameraManager.Instance.SwapHorizontalCameras(cameraOnLeft, cameraOnRight, exitDirection);
                 }

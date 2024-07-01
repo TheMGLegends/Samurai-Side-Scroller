@@ -55,6 +55,11 @@ public class PlayerAnimationController : MonoBehaviour
         animator.SetTrigger(triggerName);
     }
 
+    public void SetBool(string boolName, bool boolState)
+    {
+       animator.SetBool(boolName, boolState);
+    }
+
     public bool GetBool(string boolName)
     {
         return animator.GetBool(boolName);

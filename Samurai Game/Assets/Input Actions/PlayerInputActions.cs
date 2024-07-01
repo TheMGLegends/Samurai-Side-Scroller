@@ -62,6 +62,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TakeDamageTEMPORARY"",
+                    ""type"": ""Button"",
+                    ""id"": ""3fb591a7-a983-4bbf-88a0-50c30d3f15d0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -194,6 +203,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a5b142b3-950f-4b70-a9ba-9bea79db19bb"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""TakeDamageTEMPORARY"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -785,6 +805,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_MovementSwitch = m_Player.FindAction("MovementSwitch", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
+        m_Player_TakeDamageTEMPORARY = m_Player.FindAction("TakeDamageTEMPORARY", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -862,6 +883,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_MovementSwitch;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Attack;
+    private readonly InputAction m_Player_TakeDamageTEMPORARY;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -870,6 +892,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @MovementSwitch => m_Wrapper.m_Player_MovementSwitch;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
+        public InputAction @TakeDamageTEMPORARY => m_Wrapper.m_Player_TakeDamageTEMPORARY;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -891,6 +914,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
+            @TakeDamageTEMPORARY.started += instance.OnTakeDamageTEMPORARY;
+            @TakeDamageTEMPORARY.performed += instance.OnTakeDamageTEMPORARY;
+            @TakeDamageTEMPORARY.canceled += instance.OnTakeDamageTEMPORARY;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -907,6 +933,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
+            @TakeDamageTEMPORARY.started -= instance.OnTakeDamageTEMPORARY;
+            @TakeDamageTEMPORARY.performed -= instance.OnTakeDamageTEMPORARY;
+            @TakeDamageTEMPORARY.canceled -= instance.OnTakeDamageTEMPORARY;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1093,6 +1122,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnMovementSwitch(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
+        void OnTakeDamageTEMPORARY(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

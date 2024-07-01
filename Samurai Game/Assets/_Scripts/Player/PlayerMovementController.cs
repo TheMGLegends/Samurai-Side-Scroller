@@ -84,7 +84,6 @@ public class PlayerMovementController : MonoBehaviour
         jumpAction.Enable();
         jumpAction.started += OnJumpPressed;
         jumpAction.canceled += OnJumpReleased;
-
     }
 
     private void OnDisable()
@@ -106,6 +105,7 @@ public class PlayerMovementController : MonoBehaviour
     {
         IsGrounded();
         CanMove();
+        Flip();
 
         // INFO: Coyote Timers
         lastGroundedTime -= Time.deltaTime;
@@ -146,22 +146,22 @@ public class PlayerMovementController : MonoBehaviour
         // INFO: Ensures movement direction is either -1 or 1 when using controller input
         if (movementDirection != 0) 
             movementDirection /= Mathf.Abs(movementDirection);
-
-        // INFO: Flip player object based on movement direction
-        if (movementDirection < 0.0f && !isFacingRight)
-        {
-            isFacingRight = true;
-            Flip();
-        }
-        else if (movementDirection > 0.0f && isFacingRight)
-        {
-            isFacingRight = false;
-            Flip();
-        }
     }
 
     private void Flip()
     {
+        // INFO: If we can't move, return
+        if (!canMove)
+            return;
+
+        // INFO: Flip the player if movement direction has changed, otherwise return
+        if (movementDirection < 0.0f && !isFacingRight)
+            isFacingRight = true;
+        else if (movementDirection > 0.0f && isFacingRight)
+            isFacingRight = false;
+        else
+            return;
+
         Vector3 rotator = new(transform.rotation.x, isFacingRight ? 180.0f : 0.0f, transform.rotation.z);
         transform.rotation = Quaternion.Euler(rotator);
         cameraFollowObject.Turn();
@@ -195,7 +195,7 @@ public class PlayerMovementController : MonoBehaviour
         }
         else
         {
-            rb2D.velocity = Vector2.zero;
+            rb2D.velocity = new Vector2(0.0f, rb2D.velocity.y);
         }
         #endregion Run
 
