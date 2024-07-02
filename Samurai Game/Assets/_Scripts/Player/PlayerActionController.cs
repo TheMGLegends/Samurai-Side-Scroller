@@ -29,6 +29,7 @@ public class PlayerActionController : MonoBehaviour
 
     private void OnAttack(InputAction.CallbackContext context)
     {
-        playerCharacter.PlayerAnimationController.SetTrigger("isAttacking");
+        if (!playerCharacter.PlayerHealthController.IsDead)
+            playerCharacter.PlayerAnimationController.SetTrigger("isAttacking");
     }
 }

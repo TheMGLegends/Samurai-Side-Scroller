@@ -22,7 +22,7 @@ public class PlayerAnimationController : MonoBehaviour
 
     private Animator animator;
 
-    [ReadOnlyInspector] [SerializeField] private PlayerStates currentState;
+    /*[ReadOnlyInspector] [SerializeField] */private PlayerStates currentState;
 
     private void Awake()
     {
@@ -45,14 +45,14 @@ public class PlayerAnimationController : MonoBehaviour
         currentState = newState;
     }
 
-    public PlayerStates GetCurrentState() 
-    {
-        return currentState;
-    }
-
     public void SetTrigger(string triggerName)
     {
         animator.SetTrigger(triggerName);
+    }
+
+    public void ResetTrigger(string triggerName)
+    {
+        animator.ResetTrigger(triggerName);
     }
 
     public void SetBool(string boolName, bool boolState)

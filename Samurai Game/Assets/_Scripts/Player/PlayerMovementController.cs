@@ -215,8 +215,8 @@ public class PlayerMovementController : MonoBehaviour
         #endregion Friction
 
         #region Animation
-        // INFO: If we are grounded and we can move we can animate idling or running
-        if (lastGroundedTime > 0.0f && !isJumping && canMove)
+        // INFO: If we are grounded and we can move and we aren't dead we can animate idling or running
+        if (lastGroundedTime > 0.0f && !isJumping && canMove && !playerCharacter.PlayerHealthController.IsDead)
         {
             playerCharacter.PlayerAnimationController.ChangeAnimationState(Mathf.Abs(rb2D.velocity.x) > 0.01f ? PlayerStates.Run : PlayerStates.Idle);
         }
@@ -250,7 +250,14 @@ public class PlayerMovementController : MonoBehaviour
             }
 
             lastGroundedTime = jumpCoyoteTime;
+
+            playerCharacter.PlayerAnimationController.SetBool("isGrounded", true);
         }
+        else
+        {
+            playerCharacter.PlayerAnimationController.SetBool("isGrounded", false);
+        }
+
     }
 
     private void Jump()
@@ -271,7 +278,7 @@ public class PlayerMovementController : MonoBehaviour
         #endregion Jump
 
         #region Fall
-        if (rb2D.velocity.y > 0.0f && jumpInputReleased)
+        if (rb2D.velocity.y > 0.0f && (jumpInputReleased || playerCharacter.PlayerHealthController.IsDead))
         {
             rb2D.AddForce((1 - jumpCutMultiplier) * rb2D.velocity.y * Vector2.down, ForceMode2D.Impulse);
         }
@@ -284,7 +291,8 @@ public class PlayerMovementController : MonoBehaviour
 
             rb2D.gravityScale = gravityScale * fallGravityMultiplier;
 
-            playerCharacter.PlayerAnimationController.ChangeAnimationState(PlayerStates.Fall);
+            if (canMove)
+                playerCharacter.PlayerAnimationController.ChangeAnimationState(PlayerStates.Fall);
         }
         else
         {

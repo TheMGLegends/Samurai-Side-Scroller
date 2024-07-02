@@ -11,11 +11,16 @@ public class PlayerHealthController : MonoBehaviour
     [SerializeField] private int maxHealth;
     [ReadOnlyInspector] [SerializeField] private int currentHealth;
 
+    [Space(10)]
+
+    [Header("Respawn Settings:")]
+    [SerializeField] private float respawnDelay;
+
     private PlayerCharacter playerCharacter;
 
     private InputAction takeDamageTEMPORARYAction;
 
-    private Coroutine lockMovementCoroutine;
+    public bool IsDead { get; private set;}
 
     public void Init(PlayerCharacter _playerCharacter)
     {
@@ -40,6 +45,14 @@ public class PlayerHealthController : MonoBehaviour
         takeDamageTEMPORARYAction.Disable();
         takeDamageTEMPORARYAction.started -= OnTakeDamageTEMPORARYPressed;
     }
+
+    private void Update()
+    {
+        if (IsDead)
+        {
+            playerCharacter.PlayerAnimationController.SetBool("canMove", false);
+        }
+    }
     #endregion UnityMethods
 
     #region HealthMethods
@@ -59,18 +72,20 @@ public class PlayerHealthController : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            playerCharacter.PlayerAnimationController.SetTrigger("isDead");
-            Debug.Log("The player has died!");
-
-            Invoke(nameof(Respawn), 2.0f);
+            IsDead = true;
+            playerCharacter.PlayerAnimationController.SetBool("isDead", true);
         }
-
     }
 
-    private void Respawn()
+    public IEnumerator RespawnCoroutine()
     {
+        yield return new WaitForSeconds(respawnDelay);
+
+        IsDead = false;
         currentHealth = maxHealth;
         transform.position = new Vector2(0, 1);
+        playerCharacter.PlayerAnimationController.ResetTrigger("isAttacking");
+        playerCharacter.PlayerAnimationController.SetBool("isDead", false);
         playerCharacter.PlayerAnimationController.SetBool("canMove", true);
     }
     #endregion HealthMethods

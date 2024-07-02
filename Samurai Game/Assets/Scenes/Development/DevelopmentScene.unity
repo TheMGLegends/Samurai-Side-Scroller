@@ -10631,7 +10631,7 @@ MonoBehaviour:
   m_SoftZoneHeight: 2
   m_BiasX: 0
   m_BiasY: 0
-  m_CenterOnActivate: 1
+  m_CenterOnActivate: 0
   m_GroupFramingMode: 2
   m_AdjustmentMode: 0
   m_GroupFramingSize: 0.8
@@ -11934,7 +11934,7 @@ Transform:
   m_GameObject: {fileID: 1229878716}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 1.5, z: -10}
+  m_LocalPosition: {x: 1, y: 2.75, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -12639,11 +12639,15 @@ MonoBehaviour:
   - FoostepGrass
   - PlayerJump
   - PlayerLand
+  - PlayerHurt
+  - PlayerDeath
   audioClips:
   - {fileID: 8300000, guid: c921ed73176fcc3439ced103fda41a47, type: 3}
   - {fileID: 8300000, guid: 5959b74874aa74d47847b7ddd490d0f2, type: 3}
   - {fileID: 8300000, guid: e9781c1ba5e68834a92bc60e31e4a852, type: 3}
   - {fileID: 8300000, guid: c241135636b3c0e49a219ca6a4333597, type: 3}
+  - {fileID: 8300000, guid: bc9821cc180ddf74cb48d7c917ccb35c, type: 3}
+  - {fileID: 8300000, guid: c0803b9afc1037b46a7cb264b21cecc0, type: 3}
   audioSourcePrefab: {fileID: 3218136191704548429, guid: b8030a629d082ff459ff044333b2e1e0, type: 3}
 --- !u!1 &1779256829
 GameObject:
@@ -12979,6 +12983,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 5
   currentHealth: 0
+  respawnDelay: 1
 --- !u!114 &1783596267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13003,7 +13008,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5ba89e30aba4e64fad888c84b314384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: 0
 --- !u!1 &1809651686
 GameObject:
   m_ObjectHideFlags: 0
