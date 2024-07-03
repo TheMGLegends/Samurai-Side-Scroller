@@ -59,16 +59,15 @@ public class PlayerHealthController : MonoBehaviour
     private void OnTakeDamageTEMPORARYPressed(InputAction.CallbackContext context)
     {
         // For testing purposes, always to the right of the player (knocked back to the left)
-        TakeDamage(1, new Vector2(transform.position.x + 1, transform.position.y));
+        TakeDamage(1, new Vector2(transform.rotation.eulerAngles.y == 180.0f ? transform.position.x - 1.0f : transform.position.x + 1.0f, transform.position.y));
     }
 
     public void TakeDamage(int damage, Vector2 instigatorPosition)
     {
         currentHealth -= damage;
-
-        Debug.Log("Current Health: " + currentHealth);
-
         playerCharacter.PlayerAnimationController.SetTrigger("isTakingHit");
+
+        playerCharacter.PlayerMovementController.SetKnockbackDirection(instigatorPosition);
 
         if (currentHealth <= 0)
         {
@@ -79,6 +78,8 @@ public class PlayerHealthController : MonoBehaviour
 
     public IEnumerator RespawnCoroutine()
     {
+        AudioManager.Instance.PlaySFX("PlayerRespawn", 0.75f);
+
         yield return new WaitForSeconds(respawnDelay);
 
         IsDead = false;

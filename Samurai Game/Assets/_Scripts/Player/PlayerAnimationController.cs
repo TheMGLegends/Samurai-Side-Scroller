@@ -45,6 +45,11 @@ public class PlayerAnimationController : MonoBehaviour
         currentState = newState;
     }
 
+    public void ResetCurrentAnimationState()
+    {
+        currentState = PlayerStates.None;
+    }
+
     public void SetTrigger(string triggerName)
     {
         animator.SetTrigger(triggerName);

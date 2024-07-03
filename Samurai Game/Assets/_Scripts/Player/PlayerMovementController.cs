@@ -37,6 +37,11 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] private Vector2 boxDimensions;
     [SerializeField] private LayerMask groundLayerMask;
 
+    [Space(10)]
+
+    [Header("Knockback Settings:")]
+    [SerializeField] private Vector2 knockbackForce;
+
     private PlayerCharacter playerCharacter;
 
     private InputAction movementAction;
@@ -55,6 +60,9 @@ public class PlayerMovementController : MonoBehaviour
     private float lastJumpTime;
     private bool isJumping;
     private bool jumpInputReleased;
+
+    // INFO: Knockback Variables
+    private Vector2 knockbackDirection;
 
     #region UnityMethods
     private void OnDrawGizmos()
@@ -189,13 +197,20 @@ public class PlayerMovementController : MonoBehaviour
         float movement = Mathf.Pow(Mathf.Abs(speedDiff) * accelRate, velocityPower) * Mathf.Sign(speedDiff);
 
         // INFO: Only move when we can
-        if (canMove)
+        if (!playerCharacter.PlayerAnimationController.GetBool("isKnockedback"))
         {
-            rb2D.AddForce(Vector2.right * movement);
+            if (canMove)
+            {
+                rb2D.AddForce(Vector2.right * movement);
+            }
+            else
+            {
+                rb2D.velocity = new Vector2(0.0f, rb2D.velocity.y);
+            }
         }
         else
         {
-            rb2D.velocity = new Vector2(0.0f, rb2D.velocity.y);
+            Knockback();
         }
         #endregion Run
 
@@ -215,10 +230,9 @@ public class PlayerMovementController : MonoBehaviour
         #endregion Friction
 
         #region Animation
-        // INFO: If we are grounded and we can move and we aren't dead we can animate idling or running
-        if (lastGroundedTime > 0.0f && !isJumping && canMove && !playerCharacter.PlayerHealthController.IsDead)
+        if (lastGroundedTime > 0.0f && !isJumping && canMove)
         {
-            playerCharacter.PlayerAnimationController.ChangeAnimationState(Mathf.Abs(rb2D.velocity.x) > 0.01f ? PlayerStates.Run : PlayerStates.Idle);
+            playerCharacter.PlayerAnimationController.ChangeAnimationState(movementDirection != 0.0f ? PlayerStates.Run : PlayerStates.Idle);
         }
         #endregion Animation
     }
@@ -301,4 +315,19 @@ public class PlayerMovementController : MonoBehaviour
         #endregion GravityChange
     }
     #endregion JumpMethods
+
+    #region KnockbackMethods
+    public void SetKnockbackDirection(Vector2 instigatorPosition)
+    {
+        // INFO: Compare instigator and player positions to determine knockback direction
+        knockbackDirection = ((Vector2)transform.position - instigatorPosition).normalized;
+    }
+
+    private void Knockback()
+    {
+        //rb2D.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
+        rb2D.velocity = knockbackDirection * knockbackForce;
+    }
+    #endregion KnockbackMethods
+
 }
