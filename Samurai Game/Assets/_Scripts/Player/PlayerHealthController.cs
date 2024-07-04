@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,6 +6,11 @@ using UnityEngine.InputSystem;
 
 public class PlayerHealthController : MonoBehaviour
 {
+    [Header("HUD References:")]
+    [SerializeField] private HealthBarController healthBarController;
+
+    [Space(10)]
+
     [Header("Health Settings:")]
     [SerializeField] private int maxHealth;
     [ReadOnlyInspector] [SerializeField] private int currentHealth;
@@ -46,6 +50,16 @@ public class PlayerHealthController : MonoBehaviour
         takeDamageTEMPORARYAction.started -= OnTakeDamageTEMPORARYPressed;
     }
 
+    private void Start()
+    {
+        if (!healthBarController)
+        {
+            healthBarController = FindFirstObjectByType<HealthBarController>();
+        }
+
+        healthBarController.SetMaxHealth(maxHealth);
+    }
+
     private void Update()
     {
         if (IsDead)
@@ -65,8 +79,9 @@ public class PlayerHealthController : MonoBehaviour
     public void TakeDamage(int damage, Vector2 instigatorPosition)
     {
         currentHealth -= damage;
-        playerCharacter.PlayerAnimationController.SetTrigger("isTakingHit");
 
+        healthBarController.SetHealth(currentHealth);
+        playerCharacter.PlayerAnimationController.SetTrigger("isTakingHit");
         playerCharacter.PlayerMovementController.SetKnockbackDirection(instigatorPosition);
 
         if (currentHealth <= 0)
@@ -84,6 +99,7 @@ public class PlayerHealthController : MonoBehaviour
 
         IsDead = false;
         currentHealth = maxHealth;
+        healthBarController.SetHealth(maxHealth);
         transform.position = new Vector2(0, 1);
         playerCharacter.PlayerAnimationController.ResetTrigger("isAttacking");
         playerCharacter.PlayerAnimationController.SetBool("isDead", false);
