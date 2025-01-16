@@ -305,8 +305,7 @@ public class PlayerMovementController : MonoBehaviour
 
             rb2D.gravityScale = gravityScale * fallGravityMultiplier;
 
-            if (canMove)
-                playerCharacter.PlayerAnimationController.ChangeAnimationState(PlayerStates.Fall);
+            playerCharacter.PlayerAnimationController.ChangeAnimationState(PlayerStates.Fall);
         }
         else
         {
