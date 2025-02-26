@@ -100,7 +100,7 @@ public class PlayerHealthController : MonoBehaviour
         IsDead = false;
         currentHealth = maxHealth;
         healthBarController.SetHealth(maxHealth);
-        transform.position = new Vector2(0, 1);
+        transform.position = new Vector2(0, 0);
         playerCharacter.PlayerAnimationController.ResetTrigger("isAttacking");
         playerCharacter.PlayerAnimationController.SetBool("isDead", false);
         playerCharacter.PlayerAnimationController.SetBool("canMove", true);
