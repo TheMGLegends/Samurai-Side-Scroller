@@ -189,7 +189,7 @@ namespace Pathfinding {
 		}
 
 		static void DownloadVersionInfo () {
-			var script = AstarPath.active != null ? AstarPath.active : GameObject.FindObjectOfType(typeof(AstarPath)) as AstarPath;
+			var script = AstarPath.active != null ? AstarPath.active : GameObject.FindFirstObjectByType<AstarPath>();
 
 			if (script != null) {
 				script.ConfigureReferencesInternal();
@@ -198,7 +198,7 @@ namespace Pathfinding {
 				}
 			}
 
-			bool mecanim = GameObject.FindObjectOfType(typeof(Animator)) != null;
+			bool mecanim = GameObject.FindFirstObjectByType<Animator>() != null;
 			string query = updateURL+
 						   "?v="+AstarPath.Version+
 						   "&pro=0"+

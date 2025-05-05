@@ -14271,7 +14271,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 4.5
+  orthographic size: 4.7916665
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -14296,7 +14296,7 @@ Transform:
   m_GameObject: {fileID: 1882464749}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.9999962, y: 1.88368, z: -10}
+  m_LocalPosition: {x: 0.9999924, y: 2.0780098, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -15045,10 +15045,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2113348072}
-  - component: {fileID: 2113348074}
-  - component: {fileID: 2113348073}
-  - component: {fileID: 2113348075}
   - component: {fileID: 2113348076}
+  - component: {fileID: 2113348073}
+  - component: {fileID: 2113348074}
+  - component: {fileID: 2113348075}
   m_Layer: 0
   m_Name: FlyingEye
   m_TagString: Untagged

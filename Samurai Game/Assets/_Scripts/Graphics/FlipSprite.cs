@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// OLD CLASS CAN BE DELETED AFTER
 public class FlipSprite : MonoBehaviour
 {
     [SerializeField] private AIPath aiPath;
