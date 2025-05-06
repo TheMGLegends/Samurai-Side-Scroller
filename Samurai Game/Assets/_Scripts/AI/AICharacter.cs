@@ -77,12 +77,12 @@ public class AICharacter : MonoBehaviour
 
     private void Awake()
     {
-        InitialiseStates();
-
         AIPath = GetComponent<AIPath>();
         Seeker = GetComponent<Seeker>();
         AIDestinationSetter = GetComponent<AIDestinationSetter>();
         Animator = GetComponent<Animator>();
+
+        InitialiseStates();
     }
 
     private void Update()
@@ -124,6 +124,8 @@ public class AICharacter : MonoBehaviour
 
     private void FaceMovingDirection()
     {
+        // TODO: Need to remake this to be in a state maybe and also not use AI stuff if no ai found
+
         if (AIPath == null) { return; }
 
         if (AIPath.desiredVelocity.x >= 0.01f)

@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
-/// <summary>
-/// Example State Class
-/// </summary>
 public class IdleState : State
 {
     public override void Enter()
     {
+        if (aiCharacter.Animator != null)
+        {
+            aiCharacter.Animator.Play("Idle");
+        }
     }
 
     public override void Exit()
