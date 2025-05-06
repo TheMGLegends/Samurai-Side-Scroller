@@ -1,12 +1,15 @@
 using Pathfinding;
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
-[RequireComponent(typeof(AIPath))]
-[RequireComponent(typeof(AIDestinationSetter))]
 public class AICharacter : MonoBehaviour
 {
+    [Header("AI Customization")]
+
+    [SerializeField] private bool usePathfinding = true;
+
     [TypeFilter(typeof(State))] public SerializableType CurrentState;
     private State currentState;
 
@@ -20,6 +23,46 @@ public class AICharacter : MonoBehaviour
     public Seeker Seeker { get; private set; }
     public AIDestinationSetter AIDestinationSetter { get; private set; }
 
+    private void OnValidate()
+    {
+        if (usePathfinding)
+        {
+            EditorApplication.delayCall += () =>
+            {
+                // INFO: AIPath auto adds Seeker
+                if (GetComponent<AIPath>() == null)
+                {
+                    AIPath path = Undo.AddComponent<AIPath>(gameObject);
+                    path.orientation = OrientationMode.YAxisForward;
+                    path.enableRotation = false;
+                }
+
+                if (GetComponent<AIDestinationSetter>() == null)
+                {
+                    Undo.AddComponent<AIDestinationSetter>(gameObject);
+                }
+            };
+        }
+        else
+        {
+            EditorApplication.delayCall += () =>
+            {
+                // INFO: Remove the components if they exist
+                if (GetComponent<AIPath>() != null)
+                {
+                    Undo.DestroyObjectImmediate(GetComponent<AIPath>());
+                }
+                if (GetComponent<Seeker>() != null)
+                {
+                    Undo.DestroyObjectImmediate(GetComponent<Seeker>());
+                }
+                if (GetComponent<AIDestinationSetter>() != null)
+                {
+                    Undo.DestroyObjectImmediate(GetComponent<AIDestinationSetter>());
+                }
+            };
+        }
+    }
 
     private void Awake()
     {
