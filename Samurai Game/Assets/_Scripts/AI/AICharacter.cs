@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(SpriteRenderer))]
 public class AICharacter : MonoBehaviour
 {
     [Header("AI Customization")]
+    [Space(5)]
 
     [SerializeField] private bool usePathfinding = true;
 
@@ -22,9 +25,14 @@ public class AICharacter : MonoBehaviour
     public AIPath AIPath { get; private set; }
     public Seeker Seeker { get; private set; }
     public AIDestinationSetter AIDestinationSetter { get; private set; }
+    public Animator Animator { get; private set; }
 
     private void OnValidate()
     {
+#if UNITY_EDITOR
+        if (EditorApplication.isPlayingOrWillChangePlaymode)
+            return;
+
         if (usePathfinding)
         {
             EditorApplication.delayCall += () =>
@@ -52,16 +60,19 @@ public class AICharacter : MonoBehaviour
                 {
                     Undo.DestroyObjectImmediate(GetComponent<AIPath>());
                 }
+
                 if (GetComponent<Seeker>() != null)
                 {
                     Undo.DestroyObjectImmediate(GetComponent<Seeker>());
                 }
+
                 if (GetComponent<AIDestinationSetter>() != null)
                 {
                     Undo.DestroyObjectImmediate(GetComponent<AIDestinationSetter>());
                 }
             };
         }
+#endif
     }
 
     private void Awake()
@@ -71,6 +82,7 @@ public class AICharacter : MonoBehaviour
         AIPath = GetComponent<AIPath>();
         Seeker = GetComponent<Seeker>();
         AIDestinationSetter = GetComponent<AIDestinationSetter>();
+        Animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -107,11 +119,6 @@ public class AICharacter : MonoBehaviour
         {
             currentState = states[CurrentState.Type];
             currentState.Enter();
-        }
-        else
-        {
-            Debug.LogError($"Current state {CurrentState} not found in states list");
-            return;
         }
     }
 
