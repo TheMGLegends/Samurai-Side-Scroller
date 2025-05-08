@@ -17,11 +17,11 @@ public abstract class State : MonoBehaviour
     /// <summary>
     /// This function is called when the state is exited
     /// </summary>
-    public abstract void Exit();
+    public virtual void Exit() { }
 
     /// <summary>
     /// This function is called every frame while the state is active
     /// </summary>
-    public abstract void Run();
+    public virtual void Run() { }
 
 }

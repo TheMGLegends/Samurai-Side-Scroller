@@ -1,6 +1,7 @@
 using Pathfinding;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,9 +9,6 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class AICharacter : MonoBehaviour
 {
-    [Header("AI Customization")]
-    [Space(5)]
-
     [SerializeField] private bool usePathfinding = true;
 
     [TypeFilter(typeof(State))] public SerializableType CurrentState;
@@ -72,6 +70,11 @@ public class AICharacter : MonoBehaviour
                 }
             };
         }
+
+        EditorApplication.delayCall += () =>
+        {
+            CreateStates();
+        };
 #endif
     }
 
@@ -81,8 +84,13 @@ public class AICharacter : MonoBehaviour
         Seeker = GetComponent<Seeker>();
         AIDestinationSetter = GetComponent<AIDestinationSetter>();
         Animator = GetComponent<Animator>();
+    }
 
+    private void Start()
+    {
         InitialiseStates();
+
+        if (currentState != null) { currentState.Enter(); }
     }
 
     private void Update()
@@ -92,33 +100,103 @@ public class AICharacter : MonoBehaviour
         FaceMovingDirection();
     }
 
-    private void InitialiseStates()
+    private void CreateStates()
     {
+        // INFO: Remove all states from the holder if chosen states is empty
+        if (States.Count == 0)
+        {
+            if (states.Count > 0)
+            {
+                foreach (var state in states)
+                {
+                    if (state.Value == null) { continue; }
+
+                    Undo.DestroyObjectImmediate(state.Value);
+                }
+
+                states.Clear();
+            }
+
+            return;
+        }
+
         // INFO: Create a holder for the states
-        GameObject statesHolder = new("States");
-        statesHolder.transform.SetParent(transform);
+        GameObject statesHolder = null;
+
+        if (transform.Find("States") == null)
+        {
+            // INFO: Clear Existing states to avoid duplicate errors
+            if (States.Count > 1)
+            {
+                States.RemoveRange(1, States.Count - 1);
+                states.Clear();
+            }
+
+            statesHolder = new("States");
+            Undo.RegisterCreatedObjectUndo(statesHolder, "Create States Holder");
+            Undo.SetTransformParent(statesHolder.transform, transform, "Set States Holder Parent");
+        }
+        else
+        {
+            statesHolder = transform.Find("States").gameObject;
+        }
 
         // INFO: Add the states to the holder
         foreach (var state in States)
         {
-            if (statesHolder.GetComponent(state.Type) != null)
+            if (state.Type == null || statesHolder == null) { continue; }
+
+            State stateComponent = null;
+
+            if (statesHolder.GetComponent(state.Type) == null)
             {
-                Debug.LogWarning($"State {state} already exists on {gameObject.name}");
-                continue;
+                stateComponent = (State)Undo.AddComponent(statesHolder, state.Type);
             }
-
-            State stateComponent = (State)statesHolder.AddComponent(state.Type);
-            stateComponent.SetAICharacter(this);
-
-            // INFO: Add the state to the dictionary with the type as the key
-            states.Add(state.Type, stateComponent);
+            else
+            {
+                stateComponent = (State)statesHolder.GetComponent(state.Type);
+            }
         }
 
-        // INFO: Set the current state
-        if (states.ContainsKey(CurrentState.Type))
+        // INFO: Go through the states and remove any that are not in the list
+        foreach (var state in states)
         {
-            currentState = states[CurrentState.Type];
-            currentState.Enter();
+            if (!States.Any(s => s.Equals(state.Key)))
+            {
+                Undo.DestroyObjectImmediate(state.Value);
+                states.Remove(state.Key);
+            }
+        }
+    }
+
+    private void InitialiseStates()
+    {
+        // INFO: Register all states in StatesHolder to the states dictionary
+        GameObject statesHolder;
+
+        if ((statesHolder = transform.Find("States").gameObject) != null)
+        {
+            foreach (var state in statesHolder.GetComponents<State>())
+            {
+                if (state == null) { continue; }
+
+                if (!states.ContainsKey(state.GetType()))
+                {
+                    state.SetAICharacter(this);
+                    states.Add(state.GetType(), state);
+                }
+            }
+
+            // INFO: Set the current state
+            if (states.ContainsKey(CurrentState.Type))
+            {
+                currentState = states[CurrentState.Type];
+            }
+            else
+            {
+                Debug.LogError($"State {CurrentState.Type} not found in states list");
+                return;
+            }
         }
     }
 

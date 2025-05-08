@@ -26,6 +26,21 @@ public class SerializableType : ISerializationCallbackReceiver
         Type = type;
     }
 
+    public override bool Equals(object obj)
+    {
+        if (obj is Type type)
+        {
+            return Type == type;
+        }
+
+        return false;
+    }
+
+    public override int GetHashCode()
+    {
+        return Type?.GetHashCode() ?? 0;
+    }
+
     static bool TryGetType(string typeString, out Type type)
     {
         type = Type.GetType(typeString);
