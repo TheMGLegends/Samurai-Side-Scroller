@@ -234,4 +234,10 @@ public class AICharacter : MonoBehaviour
             return;
         }
     }
+
+    public void PlayAnimation(string animationName)
+    {
+        if (Animator == null) { return; }
+        Animator.Play(animationName);
+    }
 }
