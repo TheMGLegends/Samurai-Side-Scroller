@@ -9,7 +9,7 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class AICharacter : MonoBehaviour
 {
-    [SerializeField] private bool usePathfinding = true;
+    [SerializeField] private bool usePathfinding;
 
     [TypeFilter(typeof(State))] public SerializableType CurrentState;
     private State currentState;
@@ -24,6 +24,9 @@ public class AICharacter : MonoBehaviour
     public Seeker Seeker { get; private set; }
     public AIDestinationSetter AIDestinationSetter { get; private set; }
     public Animator Animator { get; private set; }
+    public Collider2D Collider2D { get; private set; }
+
+    public bool UsePathfinding => usePathfinding;
 
     private void OnValidate()
     {
@@ -47,6 +50,18 @@ public class AICharacter : MonoBehaviour
                 {
                     Undo.AddComponent<AIDestinationSetter>(gameObject);
                 }
+
+                // INFO: Remove the BoxCollider2D and add a CircleCollider2D
+                if (GetComponent<BoxCollider2D>() != null)
+                {
+                    Undo.DestroyObjectImmediate(GetComponent<BoxCollider2D>());
+                }
+
+                if (GetComponent<CircleCollider2D>() == null)
+                {
+                    CircleCollider2D collider = Undo.AddComponent<CircleCollider2D>(gameObject);
+                    collider.isTrigger = true;
+                }
             };
         }
         else
@@ -68,6 +83,17 @@ public class AICharacter : MonoBehaviour
                 {
                     Undo.DestroyObjectImmediate(GetComponent<AIDestinationSetter>());
                 }
+
+                // INFO: Remove the CircleCollider2D and add a BoxCollider2D
+                if (GetComponent<CircleCollider2D>() != null)
+                {
+                    Undo.DestroyObjectImmediate(GetComponent<CircleCollider2D>());
+                }
+
+                if (GetComponent<BoxCollider2D>() == null)
+                {
+                    Undo.AddComponent<BoxCollider2D>(gameObject);
+                }
             };
         }
 
@@ -84,6 +110,7 @@ public class AICharacter : MonoBehaviour
         Seeker = GetComponent<Seeker>();
         AIDestinationSetter = GetComponent<AIDestinationSetter>();
         Animator = GetComponent<Animator>();
+        Collider2D = GetComponent<Collider2D>();
     }
 
     private void Start()
@@ -96,8 +123,6 @@ public class AICharacter : MonoBehaviour
     private void Update()
     {
         if (currentState != null) { currentState.Run(); }
-
-        FaceMovingDirection();
     }
 
     private void CreateStates()
@@ -151,6 +176,9 @@ public class AICharacter : MonoBehaviour
             if (statesHolder.GetComponent(state.Type) == null)
             {
                 stateComponent = (State)Undo.AddComponent(statesHolder, state.Type);
+
+                stateComponent.SetAICharacter(this);
+                stateComponent.SetUsePathfinding(usePathfinding);
             }
             else
             {
@@ -183,6 +211,8 @@ public class AICharacter : MonoBehaviour
                 if (!states.ContainsKey(state.GetType()))
                 {
                     state.SetAICharacter(this);
+                    state.SetUsePathfinding(usePathfinding);
+
                     states.Add(state.GetType(), state);
                 }
             }
@@ -197,22 +227,6 @@ public class AICharacter : MonoBehaviour
                 Debug.LogError($"State {CurrentState.Type} not found in states list");
                 return;
             }
-        }
-    }
-
-    private void FaceMovingDirection()
-    {
-        // TODO: Need to remake this to be in a state maybe and also not use AI stuff if no ai found
-
-        if (AIPath == null) { return; }
-
-        if (AIPath.desiredVelocity.x >= 0.01f)
-        {
-            transform.localScale = new Vector3(1f, 1f, 1f);
-        }
-        else if (AIPath.desiredVelocity.x <= -0.01f)
-        {
-            transform.localScale = new Vector3(-1f, 1f, 1f);
         }
     }
 
@@ -235,9 +249,63 @@ public class AICharacter : MonoBehaviour
         }
     }
 
+    public void FaceMovingDirection(float movingDirection = 0.0f)
+    {
+        // INFO: Sprite Flip based on Pathfinding
+        if (AIPath)
+        {
+            if (AIPath.desiredVelocity.x >= 0.01f)
+            {
+                transform.localScale = new Vector3(1f, 1f, 1f);
+            }
+            else if (AIPath.desiredVelocity.x <= -0.01f)
+            {
+                transform.localScale = new Vector3(-1f, 1f, 1f);
+            }
+        }
+        // INFO: Sprite Flip based on Moving Direction
+        else
+        {
+            if (movingDirection == 1.0f)
+            {
+                transform.localScale = new Vector3(1f, 1f, 1f);
+            }
+            else if (movingDirection == -1.0f)
+            {
+                transform.localScale = new Vector3(-1f, 1f, 1f);
+            }
+        }
+    }
+
     public void PlayAnimation(string animationName)
     {
         if (Animator == null) { return; }
         Animator.Play(animationName);
+    }
+
+    public Vector2 GetColliderSize()
+    {
+        if (Collider2D != null)
+        {
+            if (Collider2D is BoxCollider2D boxCollider)
+            {
+                return boxCollider.size;
+            }
+        }
+
+        return Vector2.zero;
+    }
+
+    public float GetColliderRadius()
+    {
+        if (Collider2D != null)
+        {
+            if (Collider2D is CircleCollider2D circleCollider)
+            {
+                return circleCollider.radius;
+            }
+        }
+
+        return 0.0f;
     }
 }

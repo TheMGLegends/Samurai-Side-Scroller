@@ -3,10 +3,18 @@ using UnityEngine;
 public abstract class State : MonoBehaviour
 {
     protected AICharacter aiCharacter;
+    private bool usePathfinding;
+
+    public bool UsePathfinding => usePathfinding;
 
     public void SetAICharacter(AICharacter _aiCharacter)
     {
         aiCharacter = _aiCharacter;
+    }
+
+    public void SetUsePathfinding(bool _usePathfinding)
+    {
+        usePathfinding = _usePathfinding;
     }
 
     /// <summary>
