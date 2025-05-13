@@ -33,6 +33,14 @@ public class PatrolState : State
     [Tooltip("The layers that the character considers as walls")]
     [SerializeField] private LayerMask boundaryMask;
 
+    [Min(0)]
+    [Tooltip("The length of the raycast to check for ledges")]
+    [SerializeField] private float ledgeRaycastDistance = 1.0f;
+
+    [Min(0)]
+    [Tooltip("The offset of the ledge detecting raycast from the characters position")]
+    [SerializeField] private float ledgeRaycastOffset = 0.5f;
+
 
     private Coroutine idleDurationCoroutine;
     private readonly float rangeDifference = 0.1f;
@@ -60,7 +68,14 @@ public class PatrolState : State
 
         // INFO: Draw the Patrol Destination Point
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(new Vector3(destinationX, transform.position.y, 0.0f), destinationDifference);
+        Gizmos.DrawSphere(new Vector3(destinationX, transform.position.y), destinationDifference);
+
+        // INFO: Draw the Ledge Detection Maximum Distance Point
+        Transform characterTransform = transform.parent;
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(new Vector3(characterTransform.position.x + (characterTransform.localScale.x * ledgeRaycastOffset), 
+                          characterTransform.position.y - ledgeRaycastDistance), 0.1f);
     }
 
     private void OnDrawGizmosSelected()
@@ -92,7 +107,7 @@ public class PatrolState : State
                                                                  new Vector2(destinationX, aiCharacter.transform.position.y),
                                                                  patrolSpeed * Time.deltaTime);
 
-            // TODO: NEED LOGIC TO DETECT WHEN THERE IS A LEDGE AND HAVE THEM TURN AROUND
+            DetectLedge();
 
             if (HasReachedDestination())
             {
@@ -153,6 +168,25 @@ public class PatrolState : State
                     destinationX = aiPosition.x + (distance * movingDirection);
                 }
             }
+        }
+    }
+
+    private void DetectLedge()
+    {
+        if (UsePathfinding) { return; }
+
+        Transform characterTransform = aiCharacter.transform;
+        Vector2 ledgeRaycastOrigin = new (characterTransform.position.x + (characterTransform.localScale.x * ledgeRaycastOffset), characterTransform.position.y);
+
+        RaycastHit2D ledgeHit = Physics2D.Raycast(ledgeRaycastOrigin, Vector2.down, ledgeRaycastDistance, boundaryMask);
+
+        if (!ledgeHit)
+        {
+            float distanceLeftToTravel = Mathf.Abs(destinationX - characterTransform.position.x);
+            float movingDirection = -Mathf.Sign(destinationX - characterTransform.position.x);
+
+            aiCharacter.FaceMovingDirection(movingDirection);
+            destinationX = characterTransform.position.x + (distanceLeftToTravel * movingDirection);
         }
     }
 
