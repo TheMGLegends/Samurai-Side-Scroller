@@ -9,6 +9,13 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class AICharacter : MonoBehaviour
 {
+    [Header("Gizmo Toggles")]
+
+    [SerializeField] private bool drawLedgeDetectionPoint = true;
+
+
+    [Header("State Settings")]
+
     [SerializeField] private bool usePathfinding;
 
     [TypeFilter(typeof(State))] public SerializableType CurrentState;
@@ -18,7 +25,27 @@ public class AICharacter : MonoBehaviour
     [TypeFilter(typeof(State))] [SerializeField] private List<SerializableType> States;
     private readonly Dictionary<Type, State> states = new();
 
+
+    [Header("Ledge Detection Settings")]
+
+    [Min(0)]
+    [Tooltip("The length of the raycast to check for ledges")]
+    [SerializeField] private float ledgeRaycastDistance = 1.0f;
+
+    [Min(0)]
+    [Tooltip("The offset of the ledge detecting raycast from the characters position")]
+    [SerializeField] private float ledgeRaycastOffset = 0.5f;
+
+    [Tooltip("The layers that the character considers as walls")]
+    [SerializeField] private LayerMask boundaryMask;
+
+
+    [Header("Target Settings")]
+
+    [Tooltip("The layers that the character considers as targets")]
+    [SerializeField] private LayerMask targetMask;
     private GameObject target;
+
 
     public AIPath AIPath { get; private set; }
     public Seeker Seeker { get; private set; }
@@ -26,7 +53,8 @@ public class AICharacter : MonoBehaviour
     public Animator Animator { get; private set; }
     public Collider2D Collider2D { get; private set; }
 
-    public bool UsePathfinding => usePathfinding;
+    public LayerMask BoundaryMask => boundaryMask;
+    public LayerMask TargetMask => targetMask;
     public GameObject Target => target;
 
     private void OnValidate()
@@ -105,6 +133,17 @@ public class AICharacter : MonoBehaviour
 #endif
     }
 
+    private void OnDrawGizmosSelected()
+    {
+        // INFO: Draw the Ledge Detection Maximum Distance Point
+        if (drawLedgeDetectionPoint)
+        {
+            Gizmos.color = Color.blue;
+            Vector2 centre = new(transform.position.x + (transform.localScale.x * ledgeRaycastOffset), transform.position.y - ledgeRaycastDistance);
+            Gizmos.DrawSphere(centre, 0.1f);
+        }
+    }
+
     private void Awake()
     {
         AIPath = GetComponent<AIPath>();
@@ -117,7 +156,6 @@ public class AICharacter : MonoBehaviour
     private void Start()
     {
         target = FindFirstObjectByType<PlayerCharacter>().gameObject;
-
         InitialiseStates();
 
         if (currentState != null) { currentState.Enter(); }
@@ -130,21 +168,19 @@ public class AICharacter : MonoBehaviour
 
     private void CreateStates()
     {
+        if (States.Count == 0) { return; }
+
         // INFO: Remove all states from the holder if chosen states is empty
-        if (States.Count == 0)
+        if (states.Count > 0)
         {
-            if (states.Count > 0)
+            foreach (var state in states)
             {
-                foreach (var state in states)
-                {
-                    if (state.Value == null) { continue; }
+                if (state.Value == null) { continue; }
 
-                    Undo.DestroyObjectImmediate(state.Value);
-                }
-
-                states.Clear();
+                Undo.DestroyObjectImmediate(state.Value);
             }
 
+            states.Clear();
             return;
         }
 
@@ -267,6 +303,21 @@ public class AICharacter : MonoBehaviour
                 transform.localScale = new Vector3(-1f, 1f, 1f);
             }
         }
+    }
+
+    /// <summary>
+    /// Detects if the character is about to fall off a ledge, used by walking characters
+    /// <return>True if there is a ledge i.e (If there is no tile to step on)</return>
+    /// </summary>
+    public bool LedgeDetected()
+    {
+        Vector2 ledgeRaycastOrigin = new(transform.position.x + (transform.localScale.x * ledgeRaycastOffset), transform.position.y);
+        RaycastHit2D floorHit = Physics2D.Raycast(ledgeRaycastOrigin, Vector2.down, ledgeRaycastDistance, boundaryMask);
+
+        // INFO: If the raycast hits nothing, then there must be a ledge
+        if (!floorHit) {  return true; }
+
+        return false;
     }
 
     public void PlayAnimation(string animationName)

@@ -12207,6 +12207,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 841a01151d3ec1840baaeaed46359774, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drawPatrolDestinationPoint: 1
+  drawPatrolRange: 1
+  drawTargetDetectionBox: 1
   minIdleTime: 1
   maxIdleTime: 2.5
   patrolSpeed: 1
@@ -12214,12 +12217,7 @@ MonoBehaviour:
   maxPatrolRange: 2.5
   destinationDifference: 0.1
   patrolLineVerticalOffset: -1
-  boundaryMask:
-    serializedVersion: 2
-    m_Bits: 520
-  ledgeRaycastDistance: 1.1
-  ledgeRaycastOffset: 0.5
-  targetDetectionRadius: 2.5
+  targetDetectionBox: {x: 5, y: 3}
 --- !u!114 &985382707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12232,6 +12230,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36c34356c4d216c498981481b4895cf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drawTargetLoseBox: 1
+  drawAttackRangeBox: 1
+  chaseSpeed: 1.5
+  targetLoseBox: {x: 6, y: 4}
+  timeUntilTargetLost: 2
+  attackRangeBox: {x: 2.5, y: 2.25}
 --- !u!1 &1000268896
 GameObject:
   m_ObjectHideFlags: 0
@@ -13209,7 +13213,7 @@ Transform:
   m_GameObject: {fileID: 1377524876}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5.17, z: 0}
+  m_LocalPosition: {x: 1.54, y: 5.17, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -13228,15 +13232,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f69a5431fb9af6448bcf011f65e076bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drawLedgeDetectionPoint: 1
   usePathfinding: 0
   CurrentState:
-    assemblyQualifiedName: PatrolState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    assemblyQualifiedName: GroundPatrolState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   States:
-  - assemblyQualifiedName: PatrolState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+  - assemblyQualifiedName: GroundPatrolState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  - assemblyQualifiedName: ChaseState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+  - assemblyQualifiedName: GroundChaseState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  ledgeRaycastDistance: 1.1
+  ledgeRaycastOffset: 0.6
+  boundaryMask:
+    serializedVersion: 2
+    m_Bits: 520
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!212 &1377524883
 SpriteRenderer:
   m_ObjectHideFlags: 0
