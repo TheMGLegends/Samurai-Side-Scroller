@@ -30,6 +30,9 @@ public class PatrolState : State
     [Tooltip("The character will stop moving when it is within this range of the destination")]
     [SerializeField] private float destinationDifference = 0.1f;
 
+    [Tooltip("The height at which the patrol range is drawn from the character origin")]
+    [SerializeField] private float patrolLineVerticalOffset = -1.0f;
+
     [Tooltip("The layers that the character considers as walls")]
     [SerializeField] private LayerMask boundaryMask;
 
@@ -40,6 +43,12 @@ public class PatrolState : State
     [Min(0)]
     [Tooltip("The offset of the ledge detecting raycast from the characters position")]
     [SerializeField] private float ledgeRaycastOffset = 0.5f;
+
+
+    [Header("Target Detection Settings")]
+
+    [Min(0)]
+    [SerializeField] private float targetDetectionRadius = 2.0f;
 
 
     private Coroutine idleDurationCoroutine;
@@ -84,8 +93,13 @@ public class PatrolState : State
 
         // INFO: Draw the Patrol Range
         Gizmos.color = Color.green;
-        Gizmos.DrawLine(transform.position - new Vector3(maxPatrolRange, 0.0f, 0.0f), 
-                        transform.position + new Vector3(maxPatrolRange, 0.0f, 0.0f));
+        Vector3 from = new(transform.position.x - maxPatrolRange, transform.position.y + patrolLineVerticalOffset, 0.0f);
+        Vector3 to = new(transform.position.x + maxPatrolRange, transform.position.y + patrolLineVerticalOffset, 0.0f);
+        Gizmos.DrawLine(from, to);
+
+        // INFO: Draw the Target Detection Radius
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, targetDetectionRadius);
     }
 
     public override void Enter()
@@ -96,7 +110,7 @@ public class PatrolState : State
 
     public override void Run()
     {
-        // TODO: Check if target in range and switch to chase state
+        DetectTarget();
 
         if (!canMove) { return; }
 
@@ -106,7 +120,6 @@ public class PatrolState : State
             aiCharacter.transform.position = Vector2.MoveTowards(aiCharacter.transform.position,
                                                                  new Vector2(destinationX, aiCharacter.transform.position.y),
                                                                  patrolSpeed * Time.deltaTime);
-
             DetectLedge();
 
             if (HasReachedDestination())
@@ -169,6 +182,14 @@ public class PatrolState : State
                 }
             }
         }
+    }
+
+    private void DetectTarget()
+    {
+        if (aiCharacter.Target == null) { return; }
+
+        float distanceToTarget = Vector2.Distance(aiCharacter.transform.position, aiCharacter.Target.transform.position);
+        if (distanceToTarget <= targetDetectionRadius) { aiCharacter.SwitchState<ChaseState>(); }
     }
 
     private void DetectLedge()

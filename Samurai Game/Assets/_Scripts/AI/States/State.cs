@@ -7,13 +7,9 @@ public abstract class State : MonoBehaviour
 
     public bool UsePathfinding => usePathfinding;
 
-    public void SetAICharacter(AICharacter _aiCharacter)
+    public void SetStateInfo(AICharacter _aiCharacter, bool _usePathfinding)
     {
         aiCharacter = _aiCharacter;
-    }
-
-    public void SetUsePathfinding(bool _usePathfinding)
-    {
         usePathfinding = _usePathfinding;
     }
 

@@ -14,11 +14,11 @@ public class AICharacter : MonoBehaviour
     [TypeFilter(typeof(State))] public SerializableType CurrentState;
     private State currentState;
 
-    /// <summary>
-    /// User-defined states that the AI has access to
-    /// </summary>
+    [Tooltip("User-defined states that the AI has access to")]
     [TypeFilter(typeof(State))] [SerializeField] private List<SerializableType> States;
     private readonly Dictionary<Type, State> states = new();
+
+    private GameObject target;
 
     public AIPath AIPath { get; private set; }
     public Seeker Seeker { get; private set; }
@@ -27,6 +27,7 @@ public class AICharacter : MonoBehaviour
     public Collider2D Collider2D { get; private set; }
 
     public bool UsePathfinding => usePathfinding;
+    public GameObject Target => target;
 
     private void OnValidate()
     {
@@ -115,6 +116,8 @@ public class AICharacter : MonoBehaviour
 
     private void Start()
     {
+        target = FindFirstObjectByType<PlayerCharacter>().gameObject;
+
         InitialiseStates();
 
         if (currentState != null) { currentState.Enter(); }
@@ -171,18 +174,9 @@ public class AICharacter : MonoBehaviour
         {
             if (state.Type == null || statesHolder == null) { continue; }
 
-            State stateComponent = null;
-
             if (statesHolder.GetComponent(state.Type) == null)
             {
-                stateComponent = (State)Undo.AddComponent(statesHolder, state.Type);
-
-                stateComponent.SetAICharacter(this);
-                stateComponent.SetUsePathfinding(usePathfinding);
-            }
-            else
-            {
-                stateComponent = (State)statesHolder.GetComponent(state.Type);
+                Undo.AddComponent(statesHolder, state.Type);
             }
         }
 
@@ -210,9 +204,7 @@ public class AICharacter : MonoBehaviour
 
                 if (!states.ContainsKey(state.GetType()))
                 {
-                    state.SetAICharacter(this);
-                    state.SetUsePathfinding(usePathfinding);
-
+                    state.SetStateInfo(this, usePathfinding);
                     states.Add(state.GetType(), state);
                 }
             }
@@ -283,6 +275,10 @@ public class AICharacter : MonoBehaviour
         Animator.Play(animationName);
     }
 
+    /// <summary>
+    /// Get the size of the collider on the character
+    /// </summary>
+    /// <returns>When CircleCollider2D returns Vector2(radius, radius), otherwise BoxCollider2D Vector2(width, height)</returns>
     public Vector2 GetColliderSize()
     {
         if (Collider2D != null)
@@ -291,21 +287,13 @@ public class AICharacter : MonoBehaviour
             {
                 return boxCollider.size;
             }
-        }
 
-        return Vector2.zero;
-    }
-
-    public float GetColliderRadius()
-    {
-        if (Collider2D != null)
-        {
             if (Collider2D is CircleCollider2D circleCollider)
             {
-                return circleCollider.radius;
+                return new Vector2(circleCollider.radius, circleCollider.radius);
             }
         }
 
-        return 0.0f;
+        return Vector2.zero;
     }
 }
