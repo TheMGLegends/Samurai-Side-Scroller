@@ -31,7 +31,7 @@ public class GroundChaseState : State
     [SerializeField] private Vector2 attackRangeBox = Vector2.zero;
 
 
-    private Coroutine lostTargetCoroutine;
+    private Coroutine lostTargetCoroutine = null;
     private bool ledgeDetected = false;
 
 
@@ -54,7 +54,7 @@ public class GroundChaseState : State
 
     public override void Enter()
     {
-        aiCharacter.PlayAnimation("Chase");
+        if (!ledgeDetected) { aiCharacter.PlayAnimation("Chase"); }
     }
 
     public override void Run()
@@ -64,6 +64,7 @@ public class GroundChaseState : State
 
         Vector2 targetPosition = aiCharacter.Target.transform.position;
         targetPosition.y = aiCharacter.transform.position.y;
+
         if (!aiCharacter.LedgeDetected())
         {
             if (ledgeDetected)
@@ -82,7 +83,8 @@ public class GroundChaseState : State
                 ledgeDetected = true;
             }
         }
-        aiCharacter.FaceMovingDirection(Mathf.Sign(targetPosition.x - aiCharacter.transform.position.x));
+
+        aiCharacter.FaceDirection(Mathf.Sign(targetPosition.x - aiCharacter.transform.position.x));
     }
 
     public override void Exit()
@@ -92,6 +94,8 @@ public class GroundChaseState : State
             StopCoroutine(lostTargetCoroutine);
             lostTargetCoroutine = null;
         }
+
+        ledgeDetected = false;
     }
 
     private IEnumerator LoseTargetCoroutine()
@@ -119,8 +123,7 @@ public class GroundChaseState : State
     {
         if (Physics2D.OverlapBox(transform.position, attackRangeBox, 0, aiCharacter.TargetMask))
         {
-            // TODO: Switch to Attack State
-            Debug.Log("Attacking");
+            aiCharacter.SwitchState<AttackState>();
         }
     }
 }

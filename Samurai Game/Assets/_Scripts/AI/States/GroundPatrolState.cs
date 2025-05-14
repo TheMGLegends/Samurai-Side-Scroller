@@ -48,10 +48,10 @@ public class GroundPatrolState : State
     [SerializeField] private Vector2 targetDetectionBox = Vector2.zero;
 
 
-    private Coroutine idleDurationCoroutine;
+    private Coroutine idleDurationCoroutine = null;
     private readonly float rangeDifference = 0.1f;
     private bool canMove = true;
-    private float destinationX;
+    private float destinationX = 0.0f;
 
 
     private void OnValidate()
@@ -116,7 +116,7 @@ public class GroundPatrolState : State
                 float distanceLeftToTravel = Mathf.Abs(destinationX - characterPosition.x);
                 float movingDirection = -Mathf.Sign(destinationX - characterPosition.x);
 
-                aiCharacter.FaceMovingDirection(movingDirection);
+                aiCharacter.FaceDirection(movingDirection);
                 destinationX = characterPosition.x + (distanceLeftToTravel * movingDirection);
             }
 
@@ -159,7 +159,7 @@ public class GroundPatrolState : State
         float distance = Random.Range(minPatrolRange, maxPatrolRange);
         float movingDirection = Mathf.Sign(Random.Range(0, 2) * 2 - 1); // INFO: -1 or 1
 
-        aiCharacter.FaceMovingDirection(movingDirection);
+        aiCharacter.FaceDirection(movingDirection);
 
         // INFO: Adjust the destination to be relative to the character's position
         destinationX = aiPosition.x + (distance * movingDirection);
@@ -176,7 +176,7 @@ public class GroundPatrolState : State
             if (Mathf.Abs(destinationX - aiPosition.x) <= colliderSize.x)
             {
                 movingDirection *= -1;
-                aiCharacter.FaceMovingDirection(movingDirection);
+                aiCharacter.FaceDirection(movingDirection);
                 destinationX = aiPosition.x + (distance * movingDirection);
             }
         }

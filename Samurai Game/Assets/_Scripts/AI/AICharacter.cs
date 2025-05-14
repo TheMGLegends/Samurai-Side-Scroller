@@ -277,7 +277,7 @@ public class AICharacter : MonoBehaviour
         }
     }
 
-    public void FaceMovingDirection(float movingDirection = 0.0f)
+    public void FaceDirection(float direction = 0.0f)
     {
         // INFO: Sprite Flip based on Pathfinding
         if (AIPath)
@@ -294,11 +294,11 @@ public class AICharacter : MonoBehaviour
         // INFO: Sprite Flip based on Moving Direction
         else
         {
-            if (movingDirection == 1.0f)
+            if (direction == 1.0f)
             {
                 transform.localScale = new Vector3(1f, 1f, 1f);
             }
-            else if (movingDirection == -1.0f)
+            else if (direction == -1.0f)
             {
                 transform.localScale = new Vector3(-1f, 1f, 1f);
             }
@@ -324,6 +324,18 @@ public class AICharacter : MonoBehaviour
     {
         if (Animator == null) { return; }
         Animator.Play(animationName);
+    }
+
+    public bool AnimatorIsPlaying()
+    {
+        if (Animator == null) { return false; }
+        return Animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f;
+    }
+
+    public bool AnimatorIsPlaying(string stateName)
+    {
+        if (Animator == null) { return false; }
+        return AnimatorIsPlaying() && Animator.GetCurrentAnimatorStateInfo(0).IsName(stateName);
     }
 
     /// <summary>
