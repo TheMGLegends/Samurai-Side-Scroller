@@ -258,7 +258,7 @@ public class AICharacter : MonoBehaviour
         }
     }
 
-    public void SwitchState<T>() where T : State
+    public T SwitchState<T>() where T : State
     {
         Type type = typeof(T);
 
@@ -269,11 +269,13 @@ public class AICharacter : MonoBehaviour
             CurrentState = type;
             currentState = states[CurrentState];
             currentState.Enter();
+
+            return currentState as T;
         }
         else
         {
             Debug.LogError($"State {type} not found in states list");
-            return;
+            return null;
         }
     }
 
@@ -343,7 +345,7 @@ public class AICharacter : MonoBehaviour
     public bool AnimatorIsPlaying(string stateName)
     {
         if (Animator == null) { return false; }
-        return AnimatorIsPlaying() && Animator.GetCurrentAnimatorStateInfo(0).IsName(stateName);
+        return AnimatorIsPlaying() && !Animator.IsInTransition(0) && Animator.GetCurrentAnimatorStateInfo(0).IsName(stateName);
     }
 
     /// <summary>

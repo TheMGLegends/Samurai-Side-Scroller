@@ -21,8 +21,8 @@ public class AttackAction : MonoBehaviour
         }
         else if (collision.gameObject.TryGetComponent(out AICharacter aiCharacter))
         {
-            // TODO: Switch State of AI to DamageState
-            aiCharacter.PlayAnimation("TakeHit");
+            TakeHitState hitState = aiCharacter.SwitchState<TakeHitState>();
+            hitState.SetDamageAmount(damageAmount);
         }
     }
 }
