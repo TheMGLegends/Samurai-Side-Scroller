@@ -277,6 +277,14 @@ public class AICharacter : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Wrapper function for calling audio manager to play sfx used mostly in animation events
+    /// </summary>
+    public void PlaySFX(AnimationEvent animationEvent)
+    {
+        AudioManager.Instance.PlaySFX(animationEvent.stringParameter, animationEvent.floatParameter);
+    }
+
     public void FaceDirection(float direction = 0.0f)
     {
         // INFO: Sprite Flip based on Pathfinding

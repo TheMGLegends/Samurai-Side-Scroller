@@ -33,6 +33,7 @@ public class GroundChaseState : State
 
     private Coroutine lostTargetCoroutine = null;
     private bool ledgeDetected = false;
+    private bool targetReached = false;
 
 
     private void OnDrawGizmosSelected()
@@ -74,6 +75,17 @@ public class GroundChaseState : State
             }
 
             aiCharacter.transform.position = Vector2.MoveTowards(aiCharacter.transform.position, targetPosition, chaseSpeed * Time.deltaTime);
+
+            if (aiCharacter.transform.position.x == targetPosition.x && !targetReached)
+            {
+                targetReached = true;
+                aiCharacter.PlayAnimation("Idle");
+            }
+            else if (aiCharacter.transform.position.x != targetPosition.x && targetReached)
+            {
+                targetReached = false;
+                aiCharacter.PlayAnimation("Chase");
+            }
         }
         else
         {
@@ -96,6 +108,7 @@ public class GroundChaseState : State
         }
 
         ledgeDetected = false;
+        targetReached = false;
     }
 
     private IEnumerator LoseTargetCoroutine()
