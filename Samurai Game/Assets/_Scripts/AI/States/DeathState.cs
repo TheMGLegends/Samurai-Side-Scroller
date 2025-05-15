@@ -1,0 +1,28 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class DeathState : State
+{
+    private bool hasDied = true;
+
+    public override void Enter()
+    {
+        aiCharacter.PlayAnimation("Death");
+    }
+
+    public override void Run()
+    {
+        // INFO: Prevent checking animation state first time
+        if (hasDied)
+        {
+            hasDied = false;
+            return;
+        }
+
+        if (!aiCharacter.AnimatorIsPlaying("Death"))
+        {
+            aiCharacter.Deactivate();
+        }
+    }
+}

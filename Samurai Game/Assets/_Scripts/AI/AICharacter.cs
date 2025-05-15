@@ -1,5 +1,6 @@
 using Pathfinding;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -47,11 +48,18 @@ public class AICharacter : MonoBehaviour
     private GameObject target;
 
 
+    [Header("Decay Settings")]
+
+    [Tooltip("The time it takes for the character to decay after being deactivated")]
+    [SerializeField] private float decayTime = 2.0f;
+
+
     public AIPath AIPath { get; private set; }
     public Seeker Seeker { get; private set; }
     public AIDestinationSetter AIDestinationSetter { get; private set; }
     public Animator Animator { get; private set; }
     public Collider2D Collider2D { get; private set; }
+    public SpriteRenderer SpriteRenderer { get; private set; }
     public bool TargetIsDead { get; private set; }
 
 
@@ -154,6 +162,7 @@ public class AICharacter : MonoBehaviour
         AIDestinationSetter = GetComponent<AIDestinationSetter>();
         Animator = GetComponent<Animator>();
         Collider2D = GetComponent<Collider2D>();
+        SpriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Start()
@@ -290,6 +299,12 @@ public class AICharacter : MonoBehaviour
         return null;
     }
 
+    public Type GetCurrentState()
+    {
+        if (currentState == null) { return null; }
+        return currentState.GetType();
+    }
+
     /// <summary>
     /// Wrapper function for calling audio manager to play sfx used mostly in animation events
     /// </summary>
@@ -341,10 +356,10 @@ public class AICharacter : MonoBehaviour
         return false;
     }
 
-    public void PlayAnimation(string animationName)
+    public void PlayAnimation(string animationName, int layer = 0, float normalizedTime = float.NegativeInfinity)
     {
         if (Animator == null) { return; }
-        Animator.Play(animationName);
+        Animator.Play(animationName, layer, normalizedTime);
     }
 
     public bool AnimatorIsPlaying()
@@ -379,5 +394,38 @@ public class AICharacter : MonoBehaviour
         }
 
         return Vector2.zero;
+    }
+
+    /// <summary>
+    /// Deactivates the AI character and disables all components
+    /// </summary>
+    public void Deactivate()
+    {
+        currentState = null;
+        CurrentState = null;
+
+        Destroy(transform.Find("States").gameObject);
+        Destroy(transform.Find("Attacks").gameObject);
+
+        Animator.enabled = false;
+        Collider2D.enabled = false;
+
+        StartCoroutine(DecayCoroutine());
+    }
+
+    private IEnumerator DecayCoroutine()
+    {
+        yield return new WaitForSeconds(decayTime);
+
+        Color color = SpriteRenderer.color;
+
+        while (SpriteRenderer.color.a > 0.0f)
+        {
+            color.a -= Time.deltaTime / decayTime;
+            SpriteRenderer.color = color;
+            yield return null;
+        }
+
+        Destroy(gameObject);
     }
 }

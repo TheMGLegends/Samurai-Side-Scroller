@@ -21,8 +21,11 @@ public class AttackAction : MonoBehaviour
         }
         else if (collision.gameObject.TryGetComponent(out AICharacter aiCharacter))
         {
-            TakeHitState hitState = aiCharacter.SwitchState<TakeHitState>();
-            hitState.SetDamageAmount(damageAmount);
+            if (aiCharacter.GetCurrentState() != typeof(DeathState))
+            {
+                TakeHitState hitState = aiCharacter.SwitchState<TakeHitState>();
+                hitState.SetDamageAmount(damageAmount);
+            }
         }
     }
 }

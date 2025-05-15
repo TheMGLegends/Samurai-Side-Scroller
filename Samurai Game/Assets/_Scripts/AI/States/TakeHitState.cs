@@ -26,7 +26,8 @@ public class TakeHitState : State
 
     public override void Enter()
     {
-        aiCharacter.PlayAnimation("TakeHit");
+        // INFO: Have the hit animation restart if it is interrupted i.e (If the AI is hit again)
+        aiCharacter.PlayAnimation("TakeHit", 0, 0.0f);
         isTakingDamage = true;
     }
 
@@ -44,8 +45,7 @@ public class TakeHitState : State
         {
             if (currentHealth <= 0)
             {
-                // TODO: Switch to Death State
-                aiCharacter.PlayAnimation("Death");
+                aiCharacter.SwitchState<DeathState>();
             }
             else
             {
