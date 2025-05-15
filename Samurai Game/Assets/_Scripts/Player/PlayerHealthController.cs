@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -23,6 +24,9 @@ public class PlayerHealthController : MonoBehaviour
     private PlayerCharacter playerCharacter;
 
     private InputAction takeDamageTEMPORARYAction;
+
+    public event Action OnPlayerDeathEvent;
+    public event Action OnPlayerRespawnEvent;
 
     public bool IsDead { get; private set;}
 
@@ -80,15 +84,21 @@ public class PlayerHealthController : MonoBehaviour
     {
         currentHealth -= damage;
 
+        if (currentHealth <= 0)
+        {
+            if (!IsDead)
+            {
+                IsDead = true;
+                playerCharacter.PlayerAnimationController.SetBool("isDead", true);
+                OnPlayerDeathEvent?.Invoke();
+            }
+
+            return;
+        }
+
         healthBarController.SetHealth(currentHealth);
         playerCharacter.PlayerAnimationController.SetTrigger("isTakingHit");
         playerCharacter.PlayerMovementController.SetKnockbackDirection(instigatorPosition);
-
-        if (currentHealth <= 0)
-        {
-            IsDead = true;
-            playerCharacter.PlayerAnimationController.SetBool("isDead", true);
-        }
     }
 
     public IEnumerator RespawnCoroutine()
@@ -104,6 +114,7 @@ public class PlayerHealthController : MonoBehaviour
         playerCharacter.PlayerAnimationController.ResetTrigger("isAttacking");
         playerCharacter.PlayerAnimationController.SetBool("isDead", false);
         playerCharacter.PlayerAnimationController.SetBool("canMove", true);
+        OnPlayerRespawnEvent?.Invoke();
     }
     #endregion HealthMethods
 }

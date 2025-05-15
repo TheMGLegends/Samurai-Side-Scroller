@@ -9,9 +9,15 @@ public class TakeHitState : State
     [Min(0)]
     [SerializeField] private int maxHealth = 1;
 
-    private int currentHealth = 0;
-    private int damageAmount = 0;
+    [ReadOnlyInspector]
+    [SerializeField] private int currentHealth = 0;
+
+    [ReadOnlyInspector]
+    [SerializeField] private int damageAmount = 0;
+
+
     private bool isTakingDamage = false;
+
 
     private void Awake()
     {

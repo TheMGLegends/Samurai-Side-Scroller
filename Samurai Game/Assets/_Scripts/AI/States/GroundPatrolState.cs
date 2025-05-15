@@ -184,13 +184,7 @@ public class GroundPatrolState : State
 
     private void DetectTarget()
     {
-        if (aiCharacter.Target == null) { return; }
-
-        // INFO: Player Death Check
-        if (aiCharacter.Target.TryGetComponent(out PlayerCharacter playerCharacter))
-        {
-            if (playerCharacter.PlayerHealthController.IsDead) { return; }
-        }
+        if (aiCharacter.Target == null || aiCharacter.TargetIsDead) { return; }
 
         // INFO: Target Detection Logic
         if (Physics2D.OverlapBox(aiCharacter.transform.position, targetDetectionBox, 0.0f, aiCharacter.TargetMask) != null)

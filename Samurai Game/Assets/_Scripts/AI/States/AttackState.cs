@@ -160,6 +160,7 @@ public class AttackState : State
 
         aiCharacter.FaceDirection(Mathf.Sign(aiCharacter.Target.transform.position.x - aiCharacter.transform.position.x));
         DetectTargetLost();
+        ChooseAttack();
         isOnCooldown = false;
     }
 

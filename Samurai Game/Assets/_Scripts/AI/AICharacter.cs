@@ -52,10 +52,13 @@ public class AICharacter : MonoBehaviour
     public AIDestinationSetter AIDestinationSetter { get; private set; }
     public Animator Animator { get; private set; }
     public Collider2D Collider2D { get; private set; }
+    public bool TargetIsDead { get; private set; }
+
 
     public LayerMask BoundaryMask => boundaryMask;
     public LayerMask TargetMask => targetMask;
     public GameObject Target => target;
+
 
     private void OnValidate()
     {
@@ -155,7 +158,7 @@ public class AICharacter : MonoBehaviour
 
     private void Start()
     {
-        target = FindFirstObjectByType<PlayerCharacter>().gameObject;
+        SetupTarget();
         InitialiseStates();
 
         if (currentState != null) { currentState.Enter(); }
@@ -258,6 +261,17 @@ public class AICharacter : MonoBehaviour
         }
     }
 
+    private void SetupTarget()
+    {
+        target = FindFirstObjectByType<PlayerCharacter>().gameObject;
+
+        if (target != null && target.TryGetComponent(out PlayerHealthController healthController))
+        {
+            healthController.OnPlayerDeathEvent += () => { TargetIsDead = true; SwitchState<GroundPatrolState>(); };
+            healthController.OnPlayerRespawnEvent += () => TargetIsDead = false;
+        }
+    }
+
     public T SwitchState<T>() where T : State
     {
         Type type = typeof(T);
@@ -272,11 +286,8 @@ public class AICharacter : MonoBehaviour
 
             return currentState as T;
         }
-        else
-        {
-            Debug.LogError($"State {type} not found in states list");
-            return null;
-        }
+
+        return null;
     }
 
     /// <summary>
