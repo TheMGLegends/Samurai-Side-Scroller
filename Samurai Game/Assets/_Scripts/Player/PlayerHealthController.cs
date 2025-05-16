@@ -82,23 +82,20 @@ public class PlayerHealthController : MonoBehaviour
 
     public void TakeDamage(int damage, Vector2 instigatorPosition)
     {
+        if (IsDead) { return; }
+
         currentHealth -= damage;
-
-        if (currentHealth <= 0)
-        {
-            if (!IsDead)
-            {
-                IsDead = true;
-                playerCharacter.PlayerAnimationController.SetBool("isDead", true);
-                OnPlayerDeathEvent?.Invoke();
-            }
-
-            return;
-        }
-
         healthBarController.SetHealth(currentHealth);
         playerCharacter.PlayerAnimationController.SetTrigger("isTakingHit");
         playerCharacter.PlayerMovementController.SetKnockbackDirection(instigatorPosition);
+
+        if (currentHealth <= 0)
+        {
+            IsDead = true;
+            playerCharacter.PlayerAnimationController.SetBool("isDead", true);
+            OnPlayerDeathEvent?.Invoke();
+        }
+
     }
 
     public IEnumerator RespawnCoroutine()

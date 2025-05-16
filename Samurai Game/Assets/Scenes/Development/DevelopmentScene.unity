@@ -8787,26 +8787,6 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: -12, y: 1, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 7
-      m_TileSpriteIndex: 10
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
-  - first: {x: -5, y: 1, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 7
-      m_TileSpriteIndex: 10
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
   - first: {x: -2, y: 3, z: 0}
     second:
       serializedVersion: 2
@@ -8863,7 +8843,7 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 44a1c8fde5b7fe6478463ee5b9e40fbb, type: 2}
   - m_RefCount: 3
     m_Data: {fileID: 11400000, guid: d6573f5efa2fa8048b202304dac39c9e, type: 2}
-  - m_RefCount: 8
+  - m_RefCount: 6
     m_Data: {fileID: 11400000, guid: 9c5983ebc89f8aa4a9de8dbb31c0e7c1, type: 2}
   - m_RefCount: 504
     m_Data: {fileID: 11400000, guid: f2072758f4ae02f478158bab4474a282, type: 2}
@@ -8892,10 +8872,10 @@ Tilemap:
     m_Data: {fileID: -8333202958171376367, guid: 157cbc340d2b7e64ab85168e80e95550, type: 3}
   - m_RefCount: 3
     m_Data: {fileID: 21300030, guid: 157cbc340d2b7e64ab85168e80e95550, type: 3}
-  - m_RefCount: 8
+  - m_RefCount: 6
     m_Data: {fileID: 8652677587666043219, guid: 157cbc340d2b7e64ab85168e80e95550, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 860
+  - m_RefCount: 858
     m_Data:
       e00: 1
       e01: 0
@@ -8914,7 +8894,7 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 860
+  - m_RefCount: 858
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
@@ -9000,21 +8980,21 @@ CompositeCollider2D:
       - X: -38333332
         Y: -8333333
       - X: -38333332
-        Y: 21666668
+        Y: 11666667
       - X: -50000000
-        Y: 21666668
+        Y: 11666667
       - X: -51666664
-        Y: 20416668
+        Y: 10416667
       - X: -51666664
         Y: -8333333
       - X: -108333328
         Y: -8333333
       - X: -108333328
-        Y: 21666668
+        Y: 11666667
       - X: -120000000
-        Y: 21666668
+        Y: 11666667
       - X: -121666672
-        Y: 20416668
+        Y: 10416667
       - X: -121666672
         Y: -8333333
       - X: -200000000
@@ -9039,14 +9019,14 @@ CompositeCollider2D:
       - {x: 150.16666, y: -0.9583255}
       - {x: 149.99998, y: -0.8333333}
       - {x: -3.8333333, y: -0.8333039}
-      - {x: -3.8333623, y: 2.1666667}
-      - {x: -5.0000067, y: 2.1666617}
-      - {x: -5.1666665, y: 2.0416536}
+      - {x: -3.8333623, y: 1.1666667}
+      - {x: -5.0000067, y: 1.1666616}
+      - {x: -5.1666665, y: 1.0416535}
       - {x: -5.166696, y: -0.8333333}
       - {x: -10.833333, y: -0.8333039}
-      - {x: -10.833363, y: 2.1666667}
-      - {x: -12.000008, y: 2.1666617}
-      - {x: -12.166667, y: 2.0416536}
+      - {x: -10.833363, y: 1.1666667}
+      - {x: -12.000008, y: 1.1666616}
+      - {x: -12.166667, y: 1.0416534}
       - {x: -12.166697, y: -0.8333333}
       - {x: -20.000006, y: -0.83333844}
       - {x: -20.166666, y: -0.9583465}
@@ -11169,6 +11149,7 @@ MonoBehaviour:
   targetMask:
     serializedVersion: 2
     m_Bits: 64
+  decayTime: 2
 --- !u!212 &455087617
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -12158,7 +12139,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1
   data:
-    dataString: UEsDBBQAAAgIAAAAIey0y3hnbQIAACcFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFlVF1zojAU/StOntcOILa6b7vU2n1o69Tu9IWXGC6SMSRMEqq243/fmwBCWV8M59yPc24ufBEuTQXMKr3WPHtSGZCfE+LO5MekJx/hRPdKbvkndDHvPLOFC6I+5pVarhAPXZpRJVjN2S+5Fy44QLCWPFe6XGV7SJSxBuGcCgNIaWVdtkToa0JO+DddupQznqI7d/rE0zKYXPDIQFrQfWh0dxMv8bcI24wufnZzu4wXUTRfTcOZT60lE7SsIHM++grLeZsZRj5MosM2wtVkSghuWnnEnitvP6GVqdEcBmScol2vycUXwPeFdcqGyS95bsC28jQ933ONU2uqkt+qGWVJzaHR9UFF7fosvKKm5NN/7DT0dK5V+dh1DQPXwRacHV7pmVFjB5MewvffZdfySMWB7gS8FyCf1VqrWmZIWl271NpAdN8/Xo0lBbBDjzdSR2Bd9dMORtfkPFy891MieLlz1E3cAFuh/LT9NoDGe/mDgv2umLYEok7FXwNvdD9cqpZ44NpYpFqX0snbqVq7ULLyM3NuapsoLcHDregKJBX2vMEydnyBI27QdsQ8UPf6tM1brnsrRike7uODYERt1PF6WaZQxycwxUttBZfQi3bEM84pUVI2+zWcSZe2rXVO2SBtX/Ps+2qRJYRhPKfxLA6z2S2Lp/gwjwPGFosoiHbzBfG7xyX6pGLTCG3Hg7c2nInERes+K5O1ppVf9kzT45p/lmqokMtcbZkGkC/faxjQ2AbfymyVcRzRFqzl0t84+UqJUOwAWXp1lHqvq5PVNO2rpKTiH8o6JCWJ/5CkxMHXbd5o+OBwdM27Yhdy+QdQSwMEFAAACAgAAAAh7OJzxedsAAAAeAAAAAkAJABtZXRhLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQGrVipLLSrOzM9TslIw0TPSMzTXUVBKL0osyCgGihiCOKWZKSB2tJJlqqGhiWmiibGJYYqxWbKJLpBjamKQnGxhYWRglGRqoRQLVF9SWZDql5ibCtETkFiSkZaZl5KZl67nXpSZ4g4yWim2FgBQSwECLQAUAAAICAAAACHstMt4Z20CAAAnBQAACwAkAAAAAAAAAAAAAAAAAAAAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwECLQAUAAAICAAAACHs4nPF52wAAAB4AAAACQAkAAAAAAAAAAAAAAC6AgAAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsFBgAAAAACAAIAuAAAAHEDAAAAAA==
+    dataString: UEsDBBQAAAgIAAAAIeyAcl3ZbgIAACcFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VE1z2jAQ/SuMziVjG5NAb61DSA9JmNBOLr4IeY01CMmjjwDJ8N+7km3s0CkX5Lf7dt9brf1JuDQ1MKv0UvPiSRVAvo+IP5Nvoz74CEe6VXLNP6DLeeOFrXwSDTmv1HKFeOxpRu3Bas5+yK3wyRGCTvJS6f2i2EKmjDUIl1QYwJBW1rMlQp8jcsS/8dxTTnhK7vzpA0/zaHTGIwNpQfepyd1NOsffLG4ZXf7k5naezpJkuhjHk0B1kgm6r6HwPvoK82nLjJOQJtFhm+FrMiUEN608Yk91sJ/R2jg0hwkFp2g3aPL5FfBtZb2yIfmlLA3YVp6mp3uucWpNVfJTNaPcU7NrdL1T4XyfWVDUlHz6JzqOQ7jUav/YdY0j38FWnO1e6YlRYweTHsL3X2U7eaBiRzcC3iqQz2qplZMFBq12nuoMJPf948VYVgHb9Xgj9Qp0dT/t6OqavIdz8H7MBN9vfOgmbYC1UGHaYRtA4738QsFhV0xbAlGv4o+B33Q7XKo28MC1sRhqXUovb6Oc9qlkEWbm3TibKS1BDyvUIKmwpxXWsdc3eBX7P+uB+ven7d7GutfiihLgPj+KrkIrdbjclqnU4QlM9eKs4BL6UfvAMw4qU1I2Cza01NHWTpeUDWhbx4uvu0XmEMfplKaTNC4mtywd48M0jRibzZIo2UxnJCwfl+iTilUjtB0PXpvsi0tctO6zMlpqWodlLzQ9LPnHXg0FclmqNdMA8qUpcVEOGrvgW1ksCo4TWoO1XIYbJ585EYrtoMgvPfNgdXG0muZ9lZzU/F1Zj+QkCx+SnHj4ss0rDe8cDr55V+xMzn8BUEsDBBQAAAgIAAAAIezic8XnbAAAAHgAAAAJACQAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0Bq1YqSy0qzszPU7JSMNEz0jM011FQSi9KLMgoBooYgjilmSkgdrSSZaqhoYlpoomxiWGKsVmyiS6QY2pikJxsYWFkYJRkaqEUC1RfUlmQ6peYmwrRE5BYkpGWmZeSmZeu516UmeIOMlopthYAUEsBAi0AFAAACAgAAAAh7IByXdluAgAAJwUAAAsAJAAAAAAAAAAAAAAAAAAAAGdyYXBoMC5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsBAi0AFAAACAgAAAAh7OJzxedsAAAAeAAAAAkAJAAAAAAAAAAAAAAAuwIAAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLBQYAAAAAAgACALgAAAByAwAAAAA=
     upgradeData: 
     file_cachedStartup: {fileID: 0}
     data_cachedStartup: 
@@ -12611,7 +12592,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -4795363162621231457, guid: 6d7cd4f7505dc674c891ca8946cfd98b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -13799,6 +13780,7 @@ MonoBehaviour:
   targetMask:
     serializedVersion: 2
     m_Bits: 64
+  decayTime: 2
 --- !u!212 &1377524883
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -16396,7 +16378,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2113348071}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f6eb1402c17e84a9282a7f0f62eb584f, type: 3}
   m_Name: 
@@ -16438,7 +16420,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2113348071}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
   m_Name: 
@@ -16466,7 +16448,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2113348071}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c9679e68a0f1144e79c664d9a11ca121, type: 3}
   m_Name: 
