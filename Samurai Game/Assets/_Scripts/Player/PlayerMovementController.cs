@@ -327,6 +327,13 @@ public class PlayerMovementController : MonoBehaviour
         //rb2D.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
         rb2D.velocity = knockbackDirection * knockbackForce;
     }
+
+    public void KnockbackExternal(Vector2 instigatorPosition, Vector2 force)
+    {
+        // INFO: Compare instigator and player positions to determine knockback direction
+        SetKnockbackDirection(instigatorPosition);
+        rb2D.AddForce(knockbackDirection * force, ForceMode2D.Impulse);
+    }
     #endregion KnockbackMethods
 
 }

@@ -10040,6 +10040,7 @@ GameObject:
   - component: {fileID: 212997419}
   - component: {fileID: 212997418}
   - component: {fileID: 212997422}
+  - component: {fileID: 212997423}
   m_Layer: 0
   m_Name: States
   m_TagString: Untagged
@@ -10093,6 +10094,7 @@ MonoBehaviour:
   comboChance: 25
   attackCooldown: 0.25
   targetLoseBox: {x: 3, y: 2.25}
+  defendChance: 75
 --- !u!114 &212997420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10146,6 +10148,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f754c2742c30e3d4ba544aee1dcdca50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &212997423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 212997416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8825016e512dc44599f7d4c6278b5e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockbackForce: {x: 0.75, y: 0}
 --- !u!1001 &215854951
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11140,6 +11155,8 @@ MonoBehaviour:
   - assemblyQualifiedName: TakeHitState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   - assemblyQualifiedName: DeathState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  - assemblyQualifiedName: ShieldState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   ledgeRaycastDistance: 1.1
   ledgeRaycastOffset: 0.7
@@ -12653,6 +12670,7 @@ GameObject:
   - component: {fileID: 985382708}
   - component: {fileID: 985382709}
   - component: {fileID: 985382710}
+  - component: {fileID: 985382711}
   m_Layer: 0
   m_Name: States
   m_TagString: Untagged
@@ -12732,6 +12750,7 @@ MonoBehaviour:
   comboChance: 25
   attackCooldown: 0.25
   targetLoseBox: {x: 3, y: 2.25}
+  defendChance: 10
 --- !u!114 &985382709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12759,6 +12778,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f754c2742c30e3d4ba544aee1dcdca50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &985382711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 985382704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8825016e512dc44599f7d4c6278b5e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockbackForce: {x: 0.75, y: 0}
 --- !u!1 &1000268896
 GameObject:
   m_ObjectHideFlags: 0
@@ -13736,7 +13768,7 @@ Transform:
   m_GameObject: {fileID: 1377524876}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.54, y: 5.17, z: 0}
+  m_LocalPosition: {x: 0, y: 5.17, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -13771,6 +13803,8 @@ MonoBehaviour:
   - assemblyQualifiedName: TakeHitState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   - assemblyQualifiedName: DeathState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  - assemblyQualifiedName: ShieldState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   ledgeRaycastDistance: 1.1
   ledgeRaycastOffset: 0.7
@@ -16363,7 +16397,7 @@ Transform:
   m_GameObject: {fileID: 2113348071}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.88, y: 2.95, z: 0}
+  m_LocalPosition: {x: -8, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

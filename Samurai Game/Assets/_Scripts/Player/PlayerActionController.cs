@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +20,8 @@ public class PlayerActionController : MonoBehaviour
 
     private InputAction attackAction;
     private InputAction interactAction;
+
+    public event Action OnAttackEvent;
 
     private void OnDrawGizmos()
     {
@@ -93,5 +96,13 @@ public class PlayerActionController : MonoBehaviour
             if (hit.collider.TryGetComponent<IInteractable>(out var interactable))
                 interactable.Interact();
         }
+    }
+
+    /// <summary>
+    /// Called by the animation event at the start of each attack to trigger the attack event
+    /// </summary>
+    public void BroadcastAttack()
+    {
+        OnAttackEvent?.Invoke();
     }
 }

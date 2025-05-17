@@ -29,6 +29,12 @@ public class AttackState : State
     [SerializeField] private Vector2 targetLoseBox = Vector2.zero;
 
 
+    [Header("Defend Settings")]
+
+    [Range(0, 100)]
+    [SerializeField] private float defendChance = 10.0f;
+
+
     private readonly List<GameObject> attackObjects = new();
     private int currentAttackIndex = 0;
     private string currentAttackName = string.Empty;
@@ -118,6 +124,12 @@ public class AttackState : State
 
     public override void Enter()
     {
+        // INFO: Subscribe to the player on attack event
+        if (aiCharacter.Target != null && aiCharacter.Target.TryGetComponent(out PlayerActionController playerActionController))
+        {
+            playerActionController.OnAttackEvent += BlockAttack;
+        }
+
         attackCooldownCoroutine = StartCoroutine(AttackCooldownCoroutine());
     }
 
@@ -142,6 +154,12 @@ public class AttackState : State
 
     public override void Exit()
     {
+        // INFO: Unsubscribe from the player on attack event
+        if (aiCharacter.Target != null && aiCharacter.Target.TryGetComponent(out PlayerActionController playerActionController))
+        {
+            playerActionController.OnAttackEvent -= BlockAttack;
+        }
+
         if (attackCooldownCoroutine != null)
         {
             StopCoroutine(attackCooldownCoroutine);
@@ -191,5 +209,14 @@ public class AttackState : State
         if (currentAttackIndex >= attackObjects.Count)
             currentAttackIndex = 0;
         currentAttackName = attackObjects[currentAttackIndex].name;
+    }
+
+    private void BlockAttack()
+    {
+        // INFO: Block the attack
+        if (Random.Range(0, 100) <= defendChance)
+        {
+            aiCharacter.SwitchState<ShieldState>();
+        }
     }
 }

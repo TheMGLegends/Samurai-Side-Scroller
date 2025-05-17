@@ -144,6 +144,16 @@ public class AICharacter : MonoBehaviour
 #endif
     }
 
+    private void OnDestroy()
+    {
+        // INFO: Unsubscribe from the player death and respawn events
+        if (target != null && target.TryGetComponent(out PlayerHealthController healthController))
+        {
+            healthController.OnPlayerDeathEvent -= OnPlayerDeathResponse;
+            healthController.OnPlayerRespawnEvent -= OnPlayerRespawnResponse;
+        }
+    }
+
     private void OnDrawGizmosSelected()
     {
         // INFO: Draw the Ledge Detection Maximum Distance Point
@@ -276,9 +286,23 @@ public class AICharacter : MonoBehaviour
 
         if (target != null && target.TryGetComponent(out PlayerHealthController healthController))
         {
-            healthController.OnPlayerDeathEvent += () => { TargetIsDead = true; SwitchState<GroundPatrolState>(); };
-            healthController.OnPlayerRespawnEvent += () => TargetIsDead = false;
+            //healthController.OnPlayerDeathEvent += () => { TargetIsDead = true; SwitchState<GroundPatrolState>(); };
+            //healthController.OnPlayerRespawnEvent += () => TargetIsDead = false;
+
+            healthController.OnPlayerDeathEvent += OnPlayerDeathResponse;
+            healthController.OnPlayerRespawnEvent += OnPlayerRespawnResponse;
         }
+    }
+
+    private void OnPlayerDeathResponse()
+    {
+        TargetIsDead = true; 
+        SwitchState<GroundPatrolState>();
+    }
+
+    private void OnPlayerRespawnResponse()
+    {
+        TargetIsDead = false;
     }
 
     public T SwitchState<T>() where T : State
@@ -402,7 +426,6 @@ public class AICharacter : MonoBehaviour
     public void Deactivate()
     {
         currentState = null;
-        CurrentState = null;
 
         Destroy(transform.Find("States").gameObject);
         Destroy(transform.Find("Attacks").gameObject);
