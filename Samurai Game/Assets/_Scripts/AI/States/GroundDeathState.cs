@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeathState : State
+public class GroundDeathState : State
 {
     private bool hasDied = true;
 

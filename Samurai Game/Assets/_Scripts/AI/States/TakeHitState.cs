@@ -32,6 +32,8 @@ public class TakeHitState : State
             aiCharacter.PlayAnimation("TakeHit", 0, 0.0f);
             isTakingDamage = true;
         }
+
+        if (aiCharacter.AIPath != null) { aiCharacter.AIPath.canMove = false; }
     }
 
     public override void Run()
@@ -49,11 +51,13 @@ public class TakeHitState : State
         {
             if (currentHealth <= 0)
             {
-                aiCharacter.SwitchState<DeathState>();
+                if (aiCharacter.AIPath == null) { aiCharacter.SwitchState<GroundDeathState>(); }
+                else { aiCharacter.SwitchState<AirDeathState>(); }
             }
             else
             {
-                aiCharacter.SwitchState<GroundChaseState>();
+                if (aiCharacter.AIPath == null) { aiCharacter.SwitchState<GroundChaseState>(); }
+                else { aiCharacter.SwitchState<AirChaseState>(); }
             }
         }
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,7 +22,11 @@ public class AttackAction : MonoBehaviour
         }
         else if (collision.gameObject.TryGetComponent(out AICharacter aiCharacter))
         {
-            if (aiCharacter.GetCurrentState() != typeof(DeathState) && aiCharacter.GetCurrentState() != typeof(ShieldState))
+            Type currentState = aiCharacter.GetCurrentState();
+
+            if (currentState != typeof(GroundDeathState) &&
+                currentState != typeof(AirDeathState) &&
+                currentState != typeof(ShieldState))
             {
                 TakeHitState hitState = aiCharacter.SwitchState<TakeHitState>();
                 hitState.SetDamageAmount(damageAmount);

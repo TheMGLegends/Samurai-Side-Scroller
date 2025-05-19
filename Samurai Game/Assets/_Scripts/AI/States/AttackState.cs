@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -125,10 +124,13 @@ public class AttackState : State
     public override void Enter()
     {
         // INFO: Subscribe to the player on attack event
-        if (aiCharacter.Target != null && aiCharacter.Target.TryGetComponent(out PlayerActionController playerActionController))
+        if (TryGetComponent<ShieldState>(out _) && aiCharacter.Target.TryGetComponent(out PlayerActionController playerActionController))
         {
             playerActionController.OnAttackEvent += BlockAttack;
         }
+
+        // INFO: Prevent pathfinding character from moving
+        if (aiCharacter.AIPath != null) { aiCharacter.AIPath.canMove = false; }
 
         attackCooldownCoroutine = StartCoroutine(AttackCooldownCoroutine());
     }
@@ -155,7 +157,7 @@ public class AttackState : State
     public override void Exit()
     {
         // INFO: Unsubscribe from the player on attack event
-        if (aiCharacter.Target != null && aiCharacter.Target.TryGetComponent(out PlayerActionController playerActionController))
+        if (TryGetComponent<ShieldState>(out _) && aiCharacter.Target.TryGetComponent(out PlayerActionController playerActionController))
         {
             playerActionController.OnAttackEvent -= BlockAttack;
         }
@@ -190,8 +192,10 @@ public class AttackState : State
             {
                 aiCharacter.SwitchState<GroundChaseState>();
             }
-            
-            // TODO: Otherwise if it has a flying chase state, switch to that instead
+            else
+            {
+                aiCharacter.SwitchState<AirChaseState>();
+            }
         }
     }
 

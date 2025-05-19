@@ -167,9 +167,13 @@ public class AICharacter : MonoBehaviour
 
     private void Awake()
     {
-        AIPath = GetComponent<AIPath>();
-        Seeker = GetComponent<Seeker>();
-        AIDestinationSetter = GetComponent<AIDestinationSetter>();
+        if (usePathfinding)
+        {
+            AIPath = GetComponent<AIPath>();
+            Seeker = GetComponent<Seeker>();
+            AIDestinationSetter = GetComponent<AIDestinationSetter>();
+        }
+
         Animator = GetComponent<Animator>();
         Collider2D = GetComponent<Collider2D>();
         SpriteRenderer = GetComponent<SpriteRenderer>();
@@ -286,11 +290,13 @@ public class AICharacter : MonoBehaviour
 
         if (target != null && target.TryGetComponent(out PlayerHealthController healthController))
         {
-            //healthController.OnPlayerDeathEvent += () => { TargetIsDead = true; SwitchState<GroundPatrolState>(); };
-            //healthController.OnPlayerRespawnEvent += () => TargetIsDead = false;
-
             healthController.OnPlayerDeathEvent += OnPlayerDeathResponse;
             healthController.OnPlayerRespawnEvent += OnPlayerRespawnResponse;
+
+            if (usePathfinding)
+            {
+                AIDestinationSetter.target = target.transform;
+            }
         }
     }
 
@@ -430,7 +436,6 @@ public class AICharacter : MonoBehaviour
         Destroy(transform.Find("States").gameObject);
         Destroy(transform.Find("Attacks").gameObject);
 
-        Animator.enabled = false;
         Collider2D.enabled = false;
 
         StartCoroutine(DecayCoroutine());
