@@ -17,6 +17,7 @@ public class GroundDeathState : State
         if (hasDied)
         {
             hasDied = false;
+            aiCharacter.InvokeDeathEvent();
             return;
         }
 

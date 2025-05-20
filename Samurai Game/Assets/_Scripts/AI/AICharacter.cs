@@ -68,6 +68,9 @@ public class AICharacter : MonoBehaviour
     public GameObject Target => target;
 
 
+    public event Action OnEnemyDeathEvent;
+
+
     private void OnValidate()
     {
 #if UNITY_EDITOR
@@ -439,6 +442,11 @@ public class AICharacter : MonoBehaviour
         Collider2D.enabled = false;
 
         StartCoroutine(DecayCoroutine());
+    }
+
+    public void InvokeDeathEvent()
+    {
+        OnEnemyDeathEvent?.Invoke();
     }
 
     private IEnumerator DecayCoroutine()

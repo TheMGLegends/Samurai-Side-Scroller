@@ -8757,11 +8757,11 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: -5, y: -1, z: 0}
+  - first: {x: -7, y: -1, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 7
-      m_TileSpriteIndex: 10
+      m_TileIndex: 8
+      m_TileSpriteIndex: 8
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -8777,11 +8777,11 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: -5, y: 0, z: 0}
+  - first: {x: -7, y: 0, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 7
-      m_TileSpriteIndex: 10
+      m_TileIndex: 1
+      m_TileSpriteIndex: 1
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -8831,7 +8831,7 @@ Tilemap:
   m_TileAssetArray:
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 169
+  - m_RefCount: 170
     m_Data: {fileID: 11400000, guid: 2246b6170bb9dd24bbc3c9c3c90624cc, type: 2}
   - m_RefCount: 3
     m_Data: {fileID: 11400000, guid: ed34f9f8affa2d342b1a01c7872c411a, type: 2}
@@ -8843,9 +8843,9 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 44a1c8fde5b7fe6478463ee5b9e40fbb, type: 2}
   - m_RefCount: 3
     m_Data: {fileID: 11400000, guid: d6573f5efa2fa8048b202304dac39c9e, type: 2}
-  - m_RefCount: 6
+  - m_RefCount: 4
     m_Data: {fileID: 11400000, guid: 9c5983ebc89f8aa4a9de8dbb31c0e7c1, type: 2}
-  - m_RefCount: 504
+  - m_RefCount: 505
     m_Data: {fileID: 11400000, guid: f2072758f4ae02f478158bab4474a282, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 25a0fc5f8a18715418d78e41befcb464, type: 2}
@@ -8854,7 +8854,7 @@ Tilemap:
   m_TileSpriteArray:
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 169
+  - m_RefCount: 170
     m_Data: {fileID: -7190719572971877601, guid: 157cbc340d2b7e64ab85168e80e95550, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
@@ -8868,11 +8868,11 @@ Tilemap:
     m_Data: {fileID: -5568849602974404179, guid: 157cbc340d2b7e64ab85168e80e95550, type: 3}
   - m_RefCount: 3
     m_Data: {fileID: -1729818555723472959, guid: 157cbc340d2b7e64ab85168e80e95550, type: 3}
-  - m_RefCount: 504
+  - m_RefCount: 505
     m_Data: {fileID: -8333202958171376367, guid: 157cbc340d2b7e64ab85168e80e95550, type: 3}
   - m_RefCount: 3
     m_Data: {fileID: 21300030, guid: 157cbc340d2b7e64ab85168e80e95550, type: 3}
-  - m_RefCount: 6
+  - m_RefCount: 4
     m_Data: {fileID: 8652677587666043219, guid: 157cbc340d2b7e64ab85168e80e95550, type: 3}
   m_TileMatrixArray:
   - m_RefCount: 858
@@ -8977,15 +8977,13 @@ CompositeCollider2D:
         Y: -9583333
       - X: 1500000000
         Y: -8333333
-      - X: -38333332
+      - X: -58333336
         Y: -8333333
-      - X: -38333332
+      - X: -58333336
         Y: 11666667
-      - X: -50000000
+      - X: -71666664
         Y: 11666667
-      - X: -51666664
-        Y: 10416667
-      - X: -51666664
+      - X: -71666664
         Y: -8333333
       - X: -108333328
         Y: -8333333
@@ -9018,11 +9016,10 @@ CompositeCollider2D:
     - - {x: 150.16664, y: -6.1666665}
       - {x: 150.16666, y: -0.9583255}
       - {x: 149.99998, y: -0.8333333}
-      - {x: -3.8333333, y: -0.8333039}
-      - {x: -3.8333623, y: 1.1666667}
-      - {x: -5.0000067, y: 1.1666616}
-      - {x: -5.1666665, y: 1.0416535}
-      - {x: -5.166696, y: -0.8333333}
+      - {x: -5.8333335, y: -0.8333039}
+      - {x: -5.833363, y: 1.1666667}
+      - {x: -7.1666665, y: 1.1666374}
+      - {x: -7.166696, y: -0.8333333}
       - {x: -10.833333, y: -0.8333039}
       - {x: -10.833363, y: 1.1666667}
       - {x: -12.000008, y: 1.1666616}
@@ -9699,6 +9696,63 @@ MonoBehaviour:
   m_BoundingShape2D: {fileID: 59975958}
   m_Damping: 2
   m_MaxWindowSize: 4.75
+--- !u!1 &121086959
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 121086960}
+  - component: {fileID: 121086961}
+  m_Layer: 0
+  m_Name: WaveManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &121086960
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 121086959}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 613151740}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &121086961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 121086959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb80e669dc7b0a244b38406fbf701502, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentWave: 1
+  currentEnemies: 0
+  enemiesLeftToSpawn: 0
+  maxEnemiesPerWave: 10
+  spawnDelay: 1
+  deployDelay: 1.5
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 8
+  vfxSpawnPrefab: {fileID: 7314526620251459061, guid: ccf28ea29cf499744ac31bab90073aba, type: 3}
+  vfxDeployPrefab: {fileID: 9080140021571130472, guid: 82066d902ed0dd6488ddfd32eb994801, type: 3}
+  enemiesToSpawnList:
+  - {fileID: 11400000, guid: df17eadc1c40da7468df0c269b4f1162, type: 2}
 --- !u!1 &133003578
 GameObject:
   m_ObjectHideFlags: 0
@@ -11948,6 +12002,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1697500482}
+  - {fileID: 121086960}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &658313168
@@ -12359,7 +12414,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1
   data:
-    dataString: UEsDBBQAAAgIAAAAIexnvsObXgIAABQFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VE1zmzAQ/SsenZsMOLixe2uJ4/TgxBOnkwsXWSxGYyEx+vBHMv7vXQkwxJ2eEG/frt7bXfgkXJoamFV6oXm+VDmQHyPiz+TbqA8+wZFulVzzD+g47zy3pSfRwHmllivEY59mVAVWc/ZTboUnRwg6yQulq3m+hVQZaxAuqDCAIa2sz5YIfY7IER83M59ywtP43p8+8DSLRmc8MpAWdE8d399OWm7SMhuik0zQqobcq+75s44dNzSJflqG186UENy0Yog91cFsSmvj0AoSck7RXFDg+SXwbWm9jmHyS1EYsK1zTU8PXGOPmqrkl2oaV1Gza3TtqXD+nmlQ1JRc/hO9iUO40Kp66m6NI3+DLTnbvdITo8YO+jqEH77KdvJAxY5uBLyXIJ/VQisncwxa7XyqMzB+6F8vxtIS2K7HG6lXoKv7bndj7IboPZyD92MqeLXxodukAdZChW6H2YPGufxGwWEzTFsCUa/ij4E3uh2uUBt45NpYDLUupZe3UU57KpmHnnk3zqZKS9DDCjVIKuxphXXs9QSvYv/PeqT+a2lvb2PdR3CVEuCeH0VXoZU6XKZlSnVYgilfnBVcQt9qH3jGRqVKymbBhpa6tLXTBWWDtK3j+dfdIjOI42RCk7skzu++s+QGXyZJxNh0Oo7Gm8mUhOXjEn1SsWqEtu3Bscm+uMRF634io4WmdVj2XNPDgn9UyvRMLgu1ZhpAvjQVLsJB4yX4UebznGOD1mAtl2Hg5DMjQrEd5NmlUBaczo9W06yvkpGa75X1SEbS8NfIiIcvy7zSsOdw8Jd3xc7k/BdQSwMEFAAACAgAAAAh7OJzxedsAAAAeAAAAAkAJABtZXRhLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQGrVipLLSrOzM9TslIw0TPSMzTXUVBKL0osyCgGihiCOKWZKSB2tJJlqqGhiWmiibGJYYqxWbKJLpBjamKQnGxhYWRglGRqoRQLVF9SWZDql5ibCtETkFiSkZaZl5KZl67nXpSZ4g4yWim2FgBQSwECLQAUAAAICAAAACHsZ77Dm14CAAAUBQAACwAkAAAAAAAAAAAAAAAAAAAAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwECLQAUAAAICAAAACHs4nPF52wAAAB4AAAACQAkAAAAAAAAAAAAAACrAgAAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsFBgAAAAACAAIAuAAAAGIDAAAAAA==
+    dataString: UEsDBBQAAAgIAAAAIezAV5fybQIAACgFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VE1z2jAQ/SuMziVjgwnQWwuE9JCECenk4ouQ11iDLHkkOUAy/PeuZBm7dOqL5bdf7+2u/EW4NBUwq/Ra8+xJZUC+D4g7k2+DzvgIJ7pXcss/ofV555ktnBP1Pq/UcoV47MKMKsFqzn7IvXDOEYK15LnS5Srbw0IZaxDOqTCAJq2si5YIfQ3ICV/DuQs542k0dadPPM2jwQWPDKQF3blGd3P/TENAEtwb71oyQcsKMke9C0pGwTtu3CSKCh5OAFNCcBMYEXuuvOJtVYAGJznjFAV6FvHdBIEC+L6wjm4/+iXPDdigX9PzkmvsVJOW/FRN+0pqDg2xDypqV2jmKTUpn/6xDmNvzrUqH9uqceQq2IKzwys9M2psr7t9eNkj7rtzpOJAdwLeC5DPaq1VLTM0Wl270NrAaNl9XoUtCmCHDm+o3oB11ZtR2+276WwWj+f349UwmoZBOUEX34jTQvBy52eaNMBWKN97vw6gcUq/kL1fFhPyIuoo/TbwRvf9rQqGB66NRVOQLB3Xnaq1cyUr30AnrbYLpSXofoYKJBX2vME89nacN7b/Rz1Qd4FC9WBr78VNiIc7/yi6MW3U8To6U6jjE5jipbaCS+j67gzP2KiFkrLZtr6kNmxb65yyXti+5tnfi0bmEMfJhCbjJM7G9ywZ4sckiRibzUbRaDeZEb+JXKJOKjYN0dAeHJvskkvcuva/MlhrWvnNzzQ9rvlnqfoEuczVlmkA+dKkuDIHjVXwjmarjGOHtmAtl37i5CslQrEDZOm1Zuqlrk5W07TLkpKKfyjrkJQs/J8kJQ6+rvZGwweHoyveJruQyx9QSwMEFAAACAgAAAAh7OJzxedsAAAAeAAAAAkAJABtZXRhLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQGrVipLLSrOzM9TslIw0TPSMzTXUVBKL0osyCgGihiCOKWZKSB2tJJlqqGhiWmiibGJYYqxWbKJLpBjamKQnGxhYWRglGRqoRQLVF9SWZDql5ibCtETkFiSkZaZl5KZl67nXpSZ4g4yWim2FgBQSwECLQAUAAAICAAAACHswFeX8m0CAAAoBQAACwAkAAAAAAAAAAAAAAAAAAAAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwECLQAUAAAICAAAACHs4nPF52wAAAB4AAAACQAkAAAAAAAAAAAAAAC6AgAAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsFBgAAAAACAAIAuAAAAHEDAAAAAA==
     upgradeData: 
     file_cachedStartup: {fileID: 0}
     data_cachedStartup: 
@@ -12446,7 +12501,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4106967144069191872, guid: 7fc30cd74f5aa724387df7546e0f3d5b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.9089165
+      value: -0.9
       objectReference: {fileID: 0}
     - target: {fileID: 4106967144069191872, guid: 7fc30cd74f5aa724387df7546e0f3d5b, type: 3}
       propertyPath: m_LocalPosition.z

@@ -57,6 +57,7 @@ public class AirDeathState : State
             if (hasDied)
             {
                 hasDied = false;
+                aiCharacter.InvokeDeathEvent();
                 return;
             }
 
