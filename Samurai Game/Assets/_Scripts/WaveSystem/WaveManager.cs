@@ -130,9 +130,11 @@ public class WaveManager : MonoBehaviour
 
     private IEnumerator SpawnEnemyCoroutine()
     {
-        // INFO: Supplies max enemies at start of wave, then enemy spawning is handled by each enemys death event
+        // INFO: Supplies max enemies at start of wave, then enemy spawning is handled by each enemies death event
         while (currentEnemies < maxEnemiesPerWave)
         {
+            if (enemiesLeftToSpawn <= 0) { yield break; }
+
             SpawnEnemy();
             yield return new WaitForSeconds(spawnDelay);
         }
@@ -210,8 +212,8 @@ public class WaveManager : MonoBehaviour
         if (Instantiate(enemyData.enemyPrefab, spawnPosition, Quaternion.identity).TryGetComponent(out AICharacter enemy))
         {
             // INFO: Subscribe to enemy death event
-            enemy.OnEnemyDeathEvent += SpawnEnemy;
             enemy.OnEnemyDeathEvent += () => currentEnemies--;
+            enemy.OnEnemyDeathEvent += SpawnEnemy;
         }
     }
 }

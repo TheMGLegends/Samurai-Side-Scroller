@@ -9751,7 +9751,10 @@ MonoBehaviour:
   vfxSpawnPrefab: {fileID: 7314526620251459061, guid: ccf28ea29cf499744ac31bab90073aba, type: 3}
   vfxDeployPrefab: {fileID: 9080140021571130472, guid: 82066d902ed0dd6488ddfd32eb994801, type: 3}
   enemiesToSpawnList:
-  - {fileID: 11400000, guid: df17eadc1c40da7468df0c269b4f1162, type: 2}
+  - {fileID: 11400000, guid: e7bb8359d4ebc9049ac6a895af2f4282, type: 2}
+  - {fileID: 11400000, guid: 883c99cbc34caaa4a9ce87e39225d9d1, type: 2}
+  - {fileID: 11400000, guid: 466d0cae31c78be469c8f59959bac50c, type: 2}
+  - {fileID: 11400000, guid: fb6add3195f14f9499862bf6ae725d4c, type: 2}
   waveCounter: {fileID: 23158702}
 --- !u!1 &133003578
 GameObject:
