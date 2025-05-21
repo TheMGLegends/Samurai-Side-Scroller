@@ -1,6 +1,7 @@
 using Pathfinding;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class WaveManager : MonoBehaviour
@@ -38,6 +39,11 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private List<EnemyData> enemiesToSpawnList = new();
 
 
+    [Header("References")]
+
+    [SerializeField] private TMP_Text waveCounter;
+
+
     private GridGraph gridGraph;
     private readonly List<GraphNode> spawnableNodes = new();
 
@@ -53,6 +59,18 @@ public class WaveManager : MonoBehaviour
         CacheSpawnableNodes();
 
         StartCoroutine(SpawnEnemyCoroutine());
+
+        if (waveCounter != null)
+        {
+            if (currentWave / 10.0f < 1.0f)
+            {
+                waveCounter.text = "0" + currentWave.ToString();
+            }
+            else
+            {
+                waveCounter.text = currentWave.ToString();
+            }
+        }
     }
 
     private void CacheSpawnableNodes()
@@ -91,8 +109,17 @@ public class WaveManager : MonoBehaviour
         {
             currentWave++;
 
-            // TODO: TEMPORARY
-            Debug.Log("Wave: " + currentWave);
+            if (waveCounter != null)
+            {
+                if (currentWave / 10.0f < 1.0f)
+                {
+                    waveCounter.text = "0" + currentWave.ToString();
+                }
+                else
+                {
+                    waveCounter.text = currentWave.ToString();
+                }
+            }
 
             currentEnemies = 0;
             enemiesLeftToSpawn = currentWave;
