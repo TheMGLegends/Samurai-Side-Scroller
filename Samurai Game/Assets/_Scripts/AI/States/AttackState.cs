@@ -147,7 +147,7 @@ public class AttackState : State
                 NextAttack();
                 aiCharacter.PlayAnimation(currentAttackName);
             }
-            else
+            else if (!DetectTargetLost())
             {
                 attackCooldownCoroutine = StartCoroutine(AttackCooldownCoroutine());
             }
@@ -179,12 +179,12 @@ public class AttackState : State
         yield return new WaitForSeconds(attackCooldown);
 
         aiCharacter.FaceDirection(Mathf.Sign(aiCharacter.Target.transform.position.x - aiCharacter.transform.position.x));
-        DetectTargetLost();
         ChooseAttack();
+        aiCharacter.PlayAnimation(currentAttackName);
         isOnCooldown = false;
     }
 
-    private void DetectTargetLost()
+    private bool DetectTargetLost()
     {
         if (Physics2D.OverlapBox(transform.position, targetLoseBox, 0, aiCharacter.TargetMask) == null)
         {
@@ -196,7 +196,11 @@ public class AttackState : State
             {
                 aiCharacter.SwitchState<AirChaseState>();
             }
+
+            return true;
         }
+
+        return false;
     }
 
     private void ChooseAttack()
