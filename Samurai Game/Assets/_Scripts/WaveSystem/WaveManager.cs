@@ -46,6 +46,7 @@ public class WaveManager : MonoBehaviour
 
     private GridGraph gridGraph;
     private readonly List<GraphNode> spawnableNodes = new();
+    private List<GameObject> spawnedEnemies = new();
 
 
     private void Awake()
@@ -58,19 +59,12 @@ public class WaveManager : MonoBehaviour
         gridGraph = AstarPath.active.data.gridGraph;
         CacheSpawnableNodes();
 
-        StartCoroutine(SpawnEnemyCoroutine());
+        // INFO: Subscribe to player death to reset game
+        PlayerHealthController player = FindFirstObjectByType<PlayerHealthController>();
+        if (player) { player.OnPlayerRespawnEvent += ResetGame; }
 
-        if (waveCounter != null)
-        {
-            if (currentWave / 10.0f < 1.0f)
-            {
-                waveCounter.text = "0" + currentWave.ToString();
-            }
-            else
-            {
-                waveCounter.text = currentWave.ToString();
-            }
-        }
+        SetWaveCounterText();
+        StartCoroutine(SpawnEnemyCoroutine());
     }
 
     private void CacheSpawnableNodes()
@@ -108,22 +102,10 @@ public class WaveManager : MonoBehaviour
         else if (currentEnemies <= 0 && enemiesLeftToSpawn <= 0)
         {
             currentWave++;
-
-            if (waveCounter != null)
-            {
-                if (currentWave / 10.0f < 1.0f)
-                {
-                    waveCounter.text = "0" + currentWave.ToString();
-                }
-                else
-                {
-                    waveCounter.text = currentWave.ToString();
-                }
-            }
-
             currentEnemies = 0;
             enemiesLeftToSpawn = currentWave;
 
+            SetWaveCounterText();
             StartCoroutine(SpawnEnemyCoroutine());
         }
     }
@@ -209,11 +191,47 @@ public class WaveManager : MonoBehaviour
             }
         }
 
-        if (Instantiate(enemyData.enemyPrefab, spawnPosition, Quaternion.identity).TryGetComponent(out AICharacter enemy))
+        // INFO: Keep track of the spawned enemies
+        GameObject gameObject = Instantiate(enemyData.enemyPrefab, spawnPosition, Quaternion.identity);
+        spawnedEnemies.Add(gameObject);
+
+        if (gameObject.TryGetComponent(out AICharacter enemy))
         {
             // INFO: Subscribe to enemy death event
             enemy.OnEnemyDeathEvent += () => currentEnemies--;
             enemy.OnEnemyDeathEvent += SpawnEnemy;
         }
+    }
+
+    private void SetWaveCounterText()
+    {
+        if (waveCounter != null)
+        {
+            if (currentWave / 10.0f < 1.0f)
+            {
+                waveCounter.text = "0" + currentWave.ToString();
+            }
+            else
+            {
+                waveCounter.text = currentWave.ToString();
+            }
+        }
+    }
+
+    private void ResetGame()
+    {
+        currentWave = 1;
+        enemiesLeftToSpawn = 1;
+        currentEnemies = 0;
+        
+        foreach (GameObject enemy in spawnedEnemies)
+        {
+            Destroy(enemy);
+        }
+
+        spawnedEnemies.Clear();
+
+        SetWaveCounterText();
+        StartCoroutine(SpawnEnemyCoroutine());
     }
 }
