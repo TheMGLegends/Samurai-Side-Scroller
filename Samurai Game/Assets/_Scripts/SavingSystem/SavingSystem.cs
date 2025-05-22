@@ -11,8 +11,6 @@ public static class SavingSystem
 
     public static void SaveGameData(GameData gameData)
     {
-        Debug.Log("Saving game data to: " + saveDataPath);
-
         string json = JsonUtility.ToJson(gameData, true);
         File.WriteAllText(saveDataPath, json);
     }

@@ -220,14 +220,7 @@ public class WaveManager : MonoBehaviour
 
     private void ResetGame()
     {
-        // INFO: Compare GameData Wave to current wave and save if the current wave is higher
-        GameData gameData = SavingSystem.LoadGameData();
-
-        if (gameData.highestWave < currentWave - 1)
-        {
-            gameData.highestWave = currentWave - 1;
-            SavingSystem.SaveGameData(gameData);
-        }
+        SaveHighestWave();
 
         currentWave = 1;
         enemiesLeftToSpawn = 1;
@@ -242,5 +235,17 @@ public class WaveManager : MonoBehaviour
 
         SetWaveCounterText();
         StartCoroutine(SpawnEnemyCoroutine());
+    }
+
+    public void SaveHighestWave()
+    {
+        // INFO: Compare GameData Wave to current wave and save if the current wave is higher
+        GameData gameData = SavingSystem.LoadGameData();
+
+        if (gameData.highestWave < currentWave - 1)
+        {
+            gameData.highestWave = currentWave - 1;
+            SavingSystem.SaveGameData(gameData);
+        }
     }
 }
