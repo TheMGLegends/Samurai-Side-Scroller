@@ -220,6 +220,15 @@ public class WaveManager : MonoBehaviour
 
     private void ResetGame()
     {
+        // INFO: Compare GameData Wave to current wave and save if the current wave is higher
+        GameData gameData = SavingSystem.LoadGameData();
+
+        if (gameData.highestWave < currentWave - 1)
+        {
+            gameData.highestWave = currentWave - 1;
+            SavingSystem.SaveGameData(gameData);
+        }
+
         currentWave = 1;
         enemiesLeftToSpawn = 1;
         currentEnemies = 0;
