@@ -2746,6 +2746,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 319451aea1fa38c4ab62db4f9d708662, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highestWaveText: {fileID: 1857303548}
 --- !u!1001 &1944858577
 PrefabInstance:
   m_ObjectHideFlags: 0
