@@ -11,6 +11,8 @@ public class PauseMenuController : MonoBehaviour
 
     private HUDInputActions hudInputActions;
     private InputAction pauseAction;
+    private InputAction restartAction;
+    private InputAction exitAction;
 
     private PlayerCharacter playerCharacter;
     private WaveManager waveManager;
@@ -39,12 +41,26 @@ public class PauseMenuController : MonoBehaviour
         pauseAction = hudInputActions.UI.Pause;
         pauseAction.Enable();
         pauseAction.started += OnPaused;
+
+        restartAction = hudInputActions.UI.Restart;
+        restartAction.Enable();
+        restartAction.started += OnRestartLevel;
+
+        exitAction = hudInputActions.UI.Exit;
+        exitAction.Enable();
+        exitAction.started += OnExitLevel;
     }
 
     private void OnDisable()
     {
         pauseAction.Disable();
         pauseAction.started -= OnPaused;
+
+        restartAction.Disable();
+        restartAction.started -= OnRestartLevel;
+
+        exitAction.Disable();
+        exitAction.started -= OnExitLevel;
     }
 
     private void OnPaused(InputAction.CallbackContext context)
@@ -72,6 +88,23 @@ public class PauseMenuController : MonoBehaviour
 
             playerCharacter.PlayerInputActions.Player.Disable();
             Time.timeScale = 0.0f;
+        }
+    }
+
+    private void OnRestartLevel(InputAction.CallbackContext context)
+    {
+        if (isPaused) { RestartLevel(); }
+    }
+
+    private void OnExitLevel(InputAction.CallbackContext context)
+    {
+        if (isPaused)
+        {
+            if (waveManager) { waveManager.SaveHighestWave(); }
+
+            // INFO: Index 0 is the main menu
+            SceneManager.LoadScene(0);
+            Time.timeScale = 1.0f;
         }
     }
 

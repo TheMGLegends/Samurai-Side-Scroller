@@ -6,6 +6,12 @@ using UnityEngine;
 
 public class WaveManager : MonoBehaviour
 {
+    [Header("Debugging Settings")]
+
+    [Tooltip("If true, the game will not save the highest wave reached")]
+    [SerializeField] private bool isDebugging = false;
+
+
     [Header("Wave Settings")]
 
     [ReadOnlyInspector]
@@ -239,6 +245,8 @@ public class WaveManager : MonoBehaviour
 
     public void SaveHighestWave()
     {
+        if (isDebugging) { return; }
+
         // INFO: Compare GameData Wave to current wave and save if the current wave is higher
         GameData gameData = SavingSystem.LoadGameData();
 

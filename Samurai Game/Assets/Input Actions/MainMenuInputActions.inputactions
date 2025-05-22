@@ -1,0 +1,54 @@
+{
+    "name": "MainMenuInputActions",
+    "maps": [
+        {
+            "name": "UI",
+            "id": "eb7544e3-c96d-4e3e-9b94-24b67a75780c",
+            "actions": [
+                {
+                    "name": "Play",
+                    "type": "Button",
+                    "id": "8d9529be-a46d-43a0-9394-7e6b300dd61f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Quit",
+                    "type": "Button",
+                    "id": "764096a0-aef0-426e-89ab-f96a39f434a1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "4aee76e0-a28e-4394-955d-6db6ca2695c3",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Play",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cc6c7d28-8706-4e77-9322-9ee0a7d8647a",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Quit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
