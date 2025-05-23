@@ -15,6 +15,7 @@ public class PlayerHealthController : MonoBehaviour
     [Header("Health Settings:")]
     [SerializeField] private int maxHealth;
     [ReadOnlyInspector] [SerializeField] private int currentHealth;
+    [SerializeField] private GameObject healEffectPrefab;
 
     [Space(10)]
 
@@ -22,8 +23,7 @@ public class PlayerHealthController : MonoBehaviour
     [SerializeField] private float respawnDelay;
 
     private PlayerCharacter playerCharacter;
-
-    private InputAction takeDamageTEMPORARYAction;
+    private ParticleSystem healEffect;
 
     public event Action OnPlayerDeathEvent;
     public event Action OnPlayerRespawnEvent;
@@ -41,19 +41,6 @@ public class PlayerHealthController : MonoBehaviour
         currentHealth = maxHealth;
     }
 
-    private void OnEnable()
-    {
-        takeDamageTEMPORARYAction = playerCharacter.PlayerInputActions.Player.TakeDamageTEMPORARY;
-        takeDamageTEMPORARYAction.Enable();
-        takeDamageTEMPORARYAction.started += OnTakeDamageTEMPORARYPressed;
-    }
-
-    private void OnDisable()
-    {
-        takeDamageTEMPORARYAction.Disable();
-        takeDamageTEMPORARYAction.started -= OnTakeDamageTEMPORARYPressed;
-    }
-
     private void Start()
     {
         if (!healthBarController)
@@ -62,6 +49,11 @@ public class PlayerHealthController : MonoBehaviour
         }
 
         healthBarController.SetMaxHealth(maxHealth);
+
+        // INFO: Instantiate Heal Effect and attach to player
+        GameObject healEffectObject = Instantiate(healEffectPrefab, transform.position, Quaternion.identity);
+        healEffectObject.transform.SetParent(transform);
+        healEffect = healEffectObject.GetComponent<ParticleSystem>();
     }
 
     private void Update()
@@ -74,10 +66,19 @@ public class PlayerHealthController : MonoBehaviour
     #endregion UnityMethods
 
     #region HealthMethods
-    private void OnTakeDamageTEMPORARYPressed(InputAction.CallbackContext context)
+    public void Heal(int healAmount)
     {
-        // For testing purposes, always to the right of the player (knocked back to the left)
-        TakeDamage(1, new Vector2(transform.rotation.eulerAngles.y == 180.0f ? transform.position.x - 1.0f : transform.position.x + 1.0f, transform.position.y));
+        if (IsDead) { return; }
+
+        currentHealth += healAmount;
+
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+
+        healthBarController.SetHealth(currentHealth, true);
+        healEffect.Play(true);
     }
 
     public void TakeDamage(int damage, Vector2 instigatorPosition)

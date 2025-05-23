@@ -64,15 +64,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""TakeDamageTEMPORARY"",
-                    ""type"": ""Button"",
-                    ""id"": ""3fb591a7-a983-4bbf-88a0-50c30d3f15d0"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Interact"",
                     ""type"": ""Button"",
                     ""id"": ""315cffcd-bcd7-4c5f-bbe7-2329af72f144"",
@@ -217,17 +208,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""a5b142b3-950f-4b70-a9ba-9bea79db19bb"",
-                    ""path"": ""<Keyboard>/t"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""TakeDamageTEMPORARY"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""33367d32-0835-4951-ae7e-1bee0100bd42"",
                     ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
@@ -320,7 +300,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_MovementSwitch = m_Player.FindAction("MovementSwitch", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
-        m_Player_TakeDamageTEMPORARY = m_Player.FindAction("TakeDamageTEMPORARY", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
     }
 
@@ -387,7 +366,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_MovementSwitch;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Attack;
-    private readonly InputAction m_Player_TakeDamageTEMPORARY;
     private readonly InputAction m_Player_Interact;
     public struct PlayerActions
     {
@@ -397,7 +375,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @MovementSwitch => m_Wrapper.m_Player_MovementSwitch;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
-        public InputAction @TakeDamageTEMPORARY => m_Wrapper.m_Player_TakeDamageTEMPORARY;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -420,9 +397,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
-            @TakeDamageTEMPORARY.started += instance.OnTakeDamageTEMPORARY;
-            @TakeDamageTEMPORARY.performed += instance.OnTakeDamageTEMPORARY;
-            @TakeDamageTEMPORARY.canceled += instance.OnTakeDamageTEMPORARY;
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
@@ -442,9 +416,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
-            @TakeDamageTEMPORARY.started -= instance.OnTakeDamageTEMPORARY;
-            @TakeDamageTEMPORARY.performed -= instance.OnTakeDamageTEMPORARY;
-            @TakeDamageTEMPORARY.canceled -= instance.OnTakeDamageTEMPORARY;
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
@@ -516,7 +487,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnMovementSwitch(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
-        void OnTakeDamageTEMPORARY(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
     }
 }

@@ -23,27 +23,52 @@ public class HealthBarController : MonoBehaviour
         instantSlider.value = health;
     }
 
-    public void SetHealth(int health)
+    public void SetHealth(int health, bool isPositiveChange = false)
     {
-        instantSlider.value = health;
-
-        StartCoroutine(LerpHealth(health));
-    }
-
-    private IEnumerator LerpHealth(int targetHealth)
-    {
-        float elapsedTime = 0f;
-        float startHealth = lerpSlider.value;
-
-        while (elapsedTime < lerpDuration)
+        if (!isPositiveChange)
         {
-            lerpSlider.value = Mathf.Lerp(startHealth, targetHealth, elapsedTime / lerpDuration);
-
-            elapsedTime += Time.deltaTime;
-
-            yield return null;
+            instantSlider.value = health;
+        }
+        else
+        {
+            lerpSlider.value = health;
         }
 
-        lerpSlider.value = targetHealth;
+        StartCoroutine(LerpHealth(health, isPositiveChange));
+    }
+
+    private IEnumerator LerpHealth(int targetHealth, bool isPositiveChange)
+    {
+        float elapsedTime = 0.0f;
+        float startHealth;
+
+        if (!isPositiveChange)
+        {
+            startHealth = lerpSlider.value;
+
+            while (elapsedTime < lerpDuration)
+            {
+                lerpSlider.value = Mathf.Lerp(startHealth, targetHealth, elapsedTime / lerpDuration);
+                elapsedTime += Time.deltaTime;
+
+                yield return null;
+            }
+
+            lerpSlider.value = targetHealth;
+        }
+        else
+        {
+            startHealth = instantSlider.value;
+
+            while (elapsedTime < lerpDuration)
+            {
+                instantSlider.value = Mathf.Lerp(startHealth, targetHealth, elapsedTime / lerpDuration);
+                elapsedTime += Time.deltaTime;
+
+                yield return null;
+            }
+
+            instantSlider.value = targetHealth;
+        }
     }
 }

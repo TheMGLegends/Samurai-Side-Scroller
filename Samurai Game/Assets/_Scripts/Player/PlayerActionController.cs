@@ -72,8 +72,7 @@ public class PlayerActionController : MonoBehaviour
 
     private void OnInteract(InputAction.CallbackContext context)
     {
-        if (playerCharacter.PlayerHealthController.IsDead)
-            return;
+        if (playerCharacter.PlayerHealthController.IsDead) { return; }
 
         Vector3 boxSize = new(interactionBoxDimensions.x, interactionBoxDimensions.y, 0.0f);
         Vector2 origin = new(transform.position.x + interactionBoxOffsets.x, transform.position.y + interactionBoxOffsets.y);
@@ -88,13 +87,12 @@ public class PlayerActionController : MonoBehaviour
 
         foreach (RaycastHit2D hit in hitResults)
         {
-            if (hit.collider == null)
-                continue;
-
-            Debug.Log("hit: " + hit.collider.name);
+            if (hit.collider == null) { continue; }
 
             if (hit.collider.TryGetComponent<IInteractable>(out var interactable))
+            {
                 interactable.Interact();
+            }
         }
     }
 
