@@ -15,6 +15,8 @@ public class AttackState : State
     [Range(0, 100)]
     [SerializeField] private float comboChance = 25.0f;
 
+    [SerializeField] private int maxComboCount = 2;
+
 
     [Header("Cooldown Settings")]
 
@@ -39,6 +41,7 @@ public class AttackState : State
     private string currentAttackName = string.Empty;
     private Coroutine attackCooldownCoroutine = null;
     private bool isOnCooldown = false;
+    private int currentComboCount = 0;
 
 
     private void Reset()
@@ -142,14 +145,16 @@ public class AttackState : State
         if (!aiCharacter.AnimatorIsPlaying(currentAttackName))
         {
             // INFO: Combo Chance
-            if (Random.Range(0, 100) <= comboChance)
+            if (Random.Range(0, 100) <= comboChance && currentComboCount < maxComboCount)
             {
                 NextAttack();
                 aiCharacter.PlayAnimation(currentAttackName);
+                currentComboCount++;
             }
             else if (!DetectTargetLost())
             {
                 attackCooldownCoroutine = StartCoroutine(AttackCooldownCoroutine());
+                currentComboCount = 0;
             }
         }
     }

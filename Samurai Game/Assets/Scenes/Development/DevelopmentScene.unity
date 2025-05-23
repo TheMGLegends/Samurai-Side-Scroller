@@ -13041,63 +13041,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1145377720
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1198233652468026427, guid: fc9cb2619d5ff5843a7848785e92c0ef, type: 3}
-      propertyPath: m_Name
-      value: FlyingEye
-      objectReference: {fileID: 0}
-    - target: {fileID: 2606266844923611161, guid: fc9cb2619d5ff5843a7848785e92c0ef, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 4.895107
-      objectReference: {fileID: 0}
-    - target: {fileID: 2606266844923611161, guid: fc9cb2619d5ff5843a7848785e92c0ef, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.6252517
-      objectReference: {fileID: 0}
-    - target: {fileID: 2606266844923611161, guid: fc9cb2619d5ff5843a7848785e92c0ef, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2606266844923611161, guid: fc9cb2619d5ff5843a7848785e92c0ef, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2606266844923611161, guid: fc9cb2619d5ff5843a7848785e92c0ef, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2606266844923611161, guid: fc9cb2619d5ff5843a7848785e92c0ef, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2606266844923611161, guid: fc9cb2619d5ff5843a7848785e92c0ef, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2606266844923611161, guid: fc9cb2619d5ff5843a7848785e92c0ef, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2606266844923611161, guid: fc9cb2619d5ff5843a7848785e92c0ef, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2606266844923611161, guid: fc9cb2619d5ff5843a7848785e92c0ef, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: fc9cb2619d5ff5843a7848785e92c0ef, type: 3}
 --- !u!1 &1174865470
 GameObject:
   m_ObjectHideFlags: 0
@@ -14483,6 +14426,8 @@ MonoBehaviour:
   - MushroomHit
   - FlyingEyeHit
   - Fallen
+  - SkeletonDeath
+  - MushroomDeath
   audioClips:
   - {fileID: 8300000, guid: c921ed73176fcc3439ced103fda41a47, type: 3}
   - {fileID: 8300000, guid: 5959b74874aa74d47847b7ddd490d0f2, type: 3}
@@ -14502,6 +14447,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b9dc891f14b096240aa7e54d3714f98b, type: 3}
   - {fileID: 8300000, guid: 6893b7d93263cad47946487eaef8f477, type: 3}
   - {fileID: 8300000, guid: 49cab9a014d1b6a4c99f1a6abf9b7924, type: 3}
+  - {fileID: 8300000, guid: d2afe9ffb67d2b94f91a0c8ac7473785, type: 3}
+  - {fileID: 8300000, guid: 8c231b28dd1691146940c5eff39f0bcb, type: 3}
   audioSourcePrefab: {fileID: 3218136191704548429, guid: b8030a629d082ff459ff044333b2e1e0, type: 3}
 --- !u!1 &1714412713
 GameObject:
@@ -16443,4 +16390,3 @@ SceneRoots:
   - {fileID: 731749236}
   - {fileID: 682812925}
   - {fileID: 1827868848}
-  - {fileID: 1145377720}
