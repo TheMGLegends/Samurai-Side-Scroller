@@ -65,7 +65,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void PlaySFX(string clipName, float volume = 1.0f)
+    public void PlaySFX(string clipName, float volume = 1.0f, bool isSpatial = false, Vector2? position = null)
     {
         if (audioLib.ContainsKey(clipName))
         {
@@ -73,10 +73,22 @@ public class AudioManager : MonoBehaviour
             {
                 if (!audioSource.isPlaying)
                 {
+                    if (isSpatial)
+                    {
+                        audioSource.spatialBlend = 1.0f; // INFO: 3D sound
+                        audioSource.transform.position = position ?? Vector2.zero; // INFO: Set the position of the audio source
+                    }
+                    else
+                    {
+                        audioSource.spatialBlend = 0.0f; // INFO: 2D sound
+                    }
+
                     audioSource.PlayOneShot(audioLib[clipName], volume);
                     return;
                 }
             }
+
+            Debug.LogWarning("AudioManager::PlaySFX - No available audio sources!");
         }
         else
         {

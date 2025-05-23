@@ -79,6 +79,7 @@ public class PlayerHealthController : MonoBehaviour
 
         healthBarController.SetHealth(currentHealth, true);
         healEffect.Play(true);
+        AudioManager.Instance.PlaySFX("Heal", 0.1f);
     }
 
     public void TakeDamage(int damage, Vector2 instigatorPosition)

@@ -65,6 +65,8 @@ public class PauseMenuController : MonoBehaviour
 
     private void OnPaused(InputAction.CallbackContext context)
     {
+        AudioManager.Instance.PlaySFX("Click");
+
         if (isPaused)
         {
             isPaused = false;

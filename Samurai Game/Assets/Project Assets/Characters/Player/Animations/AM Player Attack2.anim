@@ -199,7 +199,7 @@ AnimationClip:
     messageOptions: 0
   - time: 0.26666668
     functionName: PlaySFX
-    data: PlayerAttack
+    data: SwordAttack
     objectReferenceParameter: {fileID: 0}
     floatParameter: 1
     intParameter: 0

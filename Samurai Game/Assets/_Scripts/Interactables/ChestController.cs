@@ -11,6 +11,8 @@ public class ChestController : MonoBehaviour, IInteractable
     [Header("Chest Settings:")]
     [ReadOnlyInspector]
     [SerializeField] private bool isOpened = false;
+    [SerializeField] private AudioSource chestOpenSource;
+    [SerializeField] private AudioSource chestCloseSource;
     [SerializeField] private UnityEvent onChestOpened = new();
 
     private Animator animator;
@@ -27,6 +29,7 @@ public class ChestController : MonoBehaviour, IInteractable
         if (isOpened) { return; }
 
         isOpened = true;
+        chestOpenSource.Play();
         animator.SetBool("IsOpened", isOpened);
         OnInteractedEvent?.Invoke(this);
         onChestOpened?.Invoke();
@@ -35,6 +38,7 @@ public class ChestController : MonoBehaviour, IInteractable
     public void ResetInteractable()
     {
         isOpened = false;
+        chestCloseSource.Play();
         animator.SetBool("IsOpened", isOpened);
     }
 }

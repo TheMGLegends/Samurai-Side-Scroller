@@ -15,6 +15,7 @@ public class ShieldState : State
     public override void Enter()
     {
         hasShielded = true;
+        AudioManager.Instance.PlaySFX("ShieldBlock", 0.25f);
         aiCharacter.PlayAnimation("Shield");
         aiCharacter.FaceDirection(Mathf.Sign(aiCharacter.Target.transform.position.x - aiCharacter.transform.position.x));
     }

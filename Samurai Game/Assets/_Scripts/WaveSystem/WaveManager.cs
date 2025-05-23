@@ -185,6 +185,9 @@ public class WaveManager : MonoBehaviour
     {
         yield return new WaitForSeconds(deployDelay);
 
+        // INFO: Spawn SFX
+        AudioManager.Instance.PlaySFX("Spawn", 0.25f, true, spawnPosition);
+
         // INFO: Spawn the deploy VFX
         if (vfxDeployPrefab != null)
         {
