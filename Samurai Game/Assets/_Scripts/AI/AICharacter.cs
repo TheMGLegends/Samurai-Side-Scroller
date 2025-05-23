@@ -61,6 +61,7 @@ public class AICharacter : MonoBehaviour
     public Collider2D Collider2D { get; private set; }
     public SpriteRenderer SpriteRenderer { get; private set; }
     public bool TargetIsDead { get; private set; }
+    public float movingPitch = 1.0f;
 
 
     public LayerMask BoundaryMask => boundaryMask;
@@ -344,6 +345,11 @@ public class AICharacter : MonoBehaviour
     public void PlaySFX(AnimationEvent animationEvent)
     {
         AudioManager.Instance.PlaySFX(animationEvent.stringParameter, animationEvent.floatParameter);
+    }
+
+    public void PlayMovingSFX(AnimationEvent animationEvent)
+    {
+        AudioManager.Instance.PlaySFX(animationEvent.stringParameter, animationEvent.floatParameter, true, transform.position, 2.5f, 7.5f, movingPitch);
     }
 
     public void FaceDirection(float direction = 0.0f)

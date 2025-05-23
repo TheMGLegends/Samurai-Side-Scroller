@@ -65,7 +65,8 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void PlaySFX(string clipName, float volume = 1.0f, bool isSpatial = false, Vector2? position = null)
+    public void PlaySFX(string clipName, float volume = 1.0f, bool isSpatial = false, Vector2? position = null, 
+                        float minDistance = 1.0f, float maxDistance = 500.0f, float pitch = 1.0f)
     {
         if (audioLib.ContainsKey(clipName))
         {
@@ -73,10 +74,14 @@ public class AudioManager : MonoBehaviour
             {
                 if (!audioSource.isPlaying)
                 {
+                    audioSource.pitch = pitch; // INFO: Set the pitch of the audio source
+
                     if (isSpatial)
                     {
                         audioSource.spatialBlend = 1.0f; // INFO: 3D sound
                         audioSource.transform.position = position ?? Vector2.zero; // INFO: Set the position of the audio source
+                        audioSource.minDistance = minDistance; // INFO: Set the minimum distance for 3D sound
+                        audioSource.maxDistance = maxDistance; // INFO: Set the maximum distance for 3D sound
                     }
                     else
                     {

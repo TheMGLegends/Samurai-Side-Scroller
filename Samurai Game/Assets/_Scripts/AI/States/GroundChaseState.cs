@@ -55,6 +55,8 @@ public class GroundChaseState : State
 
     public override void Enter()
     {
+        aiCharacter.movingPitch = 1.1f;
+
         if (!ledgeDetected) { aiCharacter.PlayAnimation("Chase"); }
     }
 

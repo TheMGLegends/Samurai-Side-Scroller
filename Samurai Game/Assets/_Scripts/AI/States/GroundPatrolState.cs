@@ -95,6 +95,8 @@ public class GroundPatrolState : State
 
     public override void Enter()
     {
+        aiCharacter.movingPitch = 1.0f;
+
         ChooseDestination();
         aiCharacter.PlayAnimation("Patrol");
     }
