@@ -334,6 +334,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   decayTime: 2
+  movingPitch: 1
 --- !u!1 &6233258224924580395
 GameObject:
   m_ObjectHideFlags: 0
@@ -529,6 +530,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drawTargetLoseBox: 1
   comboChance: 15
+  maxComboCount: 2
   attackCooldown: 0.15
   targetLoseBox: {x: 3, y: 2.25}
   defendChance: 0
@@ -559,3 +561,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72465437f9ee3534b99017eee203d8d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathSprite: {fileID: 1400002288684528572, guid: cbd77a78256671c4c9cf1492e8ce39b1, type: 3}

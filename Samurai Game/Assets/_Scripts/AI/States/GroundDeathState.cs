@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GroundDeathState : State
 {
+    [SerializeField] private Sprite deathSprite;
+
     private bool hasDied = true;
 
     public override void Enter()
@@ -24,6 +26,7 @@ public class GroundDeathState : State
         if (!aiCharacter.AnimatorIsPlaying("Death"))
         {
             aiCharacter.Deactivate();
+            aiCharacter.SpriteRenderer.sprite = deathSprite;
         }
     }
 }

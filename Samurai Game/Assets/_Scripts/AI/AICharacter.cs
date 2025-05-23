@@ -446,6 +446,7 @@ public class AICharacter : MonoBehaviour
         Destroy(transform.Find("Attacks").gameObject);
 
         Collider2D.enabled = false;
+        Animator.enabled = false;
 
         StartCoroutine(DecayCoroutine());
     }

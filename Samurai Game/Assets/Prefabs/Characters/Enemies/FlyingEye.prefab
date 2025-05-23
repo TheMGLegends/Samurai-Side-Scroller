@@ -185,6 +185,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   decayTime: 2
+  movingPitch: 1
 --- !u!114 &1218412079856097643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -435,6 +436,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drawTargetLoseBox: 1
   comboChance: 25
+  maxComboCount: 2
   attackCooldown: 0.1
   targetLoseBox: {x: 2.5, y: 2}
   defendChance: 0
@@ -468,6 +470,7 @@ MonoBehaviour:
   drawGroundDetectionPoint: 1
   fallingSprite: {fileID: -276728812324164698, guid: b9517addf15136e47a89337d912454b0, type: 3}
   fallingSpeed: 4
+  deathSprite: {fileID: 1400002288684528572, guid: b9517addf15136e47a89337d912454b0, type: 3}
   groundDetectionPoint: {x: 0, y: -1.075}
   groundMask:
     serializedVersion: 2

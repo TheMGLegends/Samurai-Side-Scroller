@@ -17,6 +17,8 @@ public class AirDeathState : State
 
     [SerializeField] private float fallingSpeed = 1.0f;
 
+    [SerializeField] private Sprite deathSprite;
+
 
     [Header("Ground Detection Settings")]
 
@@ -64,6 +66,7 @@ public class AirDeathState : State
             if (!aiCharacter.AnimatorIsPlaying("Death"))
             {
                 aiCharacter.Deactivate();
+                aiCharacter.SpriteRenderer.sprite = deathSprite;
             }
         }
     }
