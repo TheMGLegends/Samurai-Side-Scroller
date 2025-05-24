@@ -52,7 +52,10 @@ public class WaveManager : MonoBehaviour
 
     private GridGraph gridGraph;
     private readonly List<GraphNode> spawnableNodes = new();
+
     private List<GameObject> spawnedEnemies = new();
+    private List<ParticleSystem> spawnParticles = new();
+    private List<ParticleSystem> deployParticles = new();
 
 
     private void Awake()
@@ -64,6 +67,47 @@ public class WaveManager : MonoBehaviour
     {
         gridGraph = AstarPath.active.data.gridGraph;
         CacheSpawnableNodes();
+
+        // INFO: Pool VFX to match max enemies per wave
+        if (vfxSpawnPrefab != null)
+        {
+            GameObject spawnParticlePool = new("SpawnParticlePool");
+            spawnParticlePool.transform.SetParent(transform);
+
+            for (int i = 0; i < maxEnemiesPerWave; i++)
+            {
+                GameObject spawnVFX = Instantiate(vfxSpawnPrefab);
+                spawnVFX.transform.SetParent(spawnParticlePool.transform);
+
+                // INFO: Set the spawn VFX to play for the deploy delay duration
+                ParticleSystem[] particles = spawnVFX.GetComponents<ParticleSystem>();
+
+                if (particles.Length > 0)
+                {
+                    foreach (ParticleSystem particle in particles)
+                    {
+                        ParticleSystem.MainModule main = particle.main;
+                        main.duration = deployDelay;
+                    }
+                }
+
+                spawnParticles.Add(spawnVFX.GetComponent<ParticleSystem>());
+            }
+        }
+
+        if (vfxDeployPrefab != null)
+        {
+            GameObject deployParticlePool = new("DeployParticlePool");
+            deployParticlePool.transform.SetParent(transform);
+
+            for (int i = 0; i < maxEnemiesPerWave; i++)
+            {
+                GameObject deployVFX = Instantiate(vfxDeployPrefab);
+                deployVFX.transform.SetParent(deployParticlePool.transform);
+
+                deployParticles.Add(deployVFX.GetComponent<ParticleSystem>());
+            }
+        }
 
         // INFO: Subscribe to player death to reset game
         PlayerHealthController player = FindFirstObjectByType<PlayerHealthController>();
@@ -82,6 +126,32 @@ public class WaveManager : MonoBehaviour
                 spawnableNodes.Add(node);
             }
         });
+    }
+
+    private ParticleSystem GetAvailableSpawnVFX()
+    {
+        foreach (ParticleSystem spawnVFX in spawnParticles)
+        {
+            if (spawnVFX.isPlaying) { continue; }
+
+            return spawnVFX;
+        }
+
+        Debug.LogWarning("GetAvailableSpawnVFX - No available spawn VFX found!");
+        return null;
+    }
+
+    private ParticleSystem GetAvailableDeployVFX()
+    {
+        foreach (ParticleSystem deployVFX in deployParticles)
+        {
+            if (deployVFX.isPlaying) { continue; }
+
+            return deployVFX;
+        }
+
+        Debug.LogWarning("GetAvailableDeployVFX - No available deploy VFX found!");
+        return null;
     }
 
     private Vector2 GetRandomSpawnablePosition()
@@ -152,25 +222,13 @@ public class WaveManager : MonoBehaviour
             }
         }
 
-        // INFO: Spawn the spawn VFX
-        if (vfxSpawnPrefab != null)
+        // INFO: Play Spawn VFX
+        ParticleSystem spawnVFX = GetAvailableSpawnVFX();
+
+        if (spawnVFX != null)
         {
-            GameObject particleObject = Instantiate(vfxSpawnPrefab, spawnPosition, Quaternion.identity);
-
-            // INFO: Make the particle object destroy itself after the spawn delay
-            Destroy(particleObject, deployDelay);
-
-            ParticleSystem[] particles = particleObject.GetComponents<ParticleSystem>();
-
-            if (particles.Length > 0)
-            {
-                foreach (ParticleSystem particle in particles)
-                {
-                    ParticleSystem.MainModule main = particle.main;
-                    main.duration = deployDelay;
-                    particle.Play();
-                }
-            }
+            spawnVFX.transform.position = spawnPosition;
+            spawnVFX.Play(true);
         }
 
         // INFO: Update the current enemies and enemies left to spawn
@@ -185,19 +243,15 @@ public class WaveManager : MonoBehaviour
     {
         yield return new WaitForSeconds(deployDelay);
 
-        // INFO: Spawn SFX
         AudioManager.Instance.PlaySFX("Spawn", 0.25f, true, spawnPosition);
 
-        // INFO: Spawn the deploy VFX
-        if (vfxDeployPrefab != null)
-        {
-            GameObject particleObject = Instantiate(vfxDeployPrefab, spawnPosition, Quaternion.identity);
+        // INFO: Play Deploy VFX
+        ParticleSystem deployVFX = GetAvailableDeployVFX();
 
-            // INFO: Make the particle object destroy itself after the main particle system is done
-            if (particleObject.TryGetComponent(out ParticleSystem particleSystem))
-            {
-                Destroy(particleObject, particleSystem.main.duration);
-            }
+        if (deployVFX != null)
+        {
+            deployVFX.transform.position = spawnPosition;
+            deployVFX.Play(true);
         }
 
         // INFO: Keep track of the spawned enemies
