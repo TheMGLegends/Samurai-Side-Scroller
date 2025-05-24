@@ -42,6 +42,8 @@ public class WaveManager : MonoBehaviour
     [Tooltip("The VFX that appears when the enemy is deployed, after the spawn delay")]
     [SerializeField] private GameObject vfxDeployPrefab;
 
+    [SerializeField] private int vfxPoolSize = 5;
+
     [SerializeField] private List<EnemyData> enemiesToSpawnList = new();
 
 
@@ -74,7 +76,7 @@ public class WaveManager : MonoBehaviour
             GameObject spawnParticlePool = new("SpawnParticlePool");
             spawnParticlePool.transform.SetParent(transform);
 
-            for (int i = 0; i < maxEnemiesPerWave; i++)
+            for (int i = 0; i < vfxPoolSize; i++)
             {
                 GameObject spawnVFX = Instantiate(vfxSpawnPrefab);
                 spawnVFX.transform.SetParent(spawnParticlePool.transform);
@@ -100,7 +102,7 @@ public class WaveManager : MonoBehaviour
             GameObject deployParticlePool = new("DeployParticlePool");
             deployParticlePool.transform.SetParent(transform);
 
-            for (int i = 0; i < maxEnemiesPerWave; i++)
+            for (int i = 0; i < vfxPoolSize; i++)
             {
                 GameObject deployVFX = Instantiate(vfxDeployPrefab);
                 deployVFX.transform.SetParent(deployParticlePool.transform);
@@ -137,7 +139,32 @@ public class WaveManager : MonoBehaviour
             return spawnVFX;
         }
 
-        Debug.LogWarning("GetAvailableSpawnVFX - No available spawn VFX found!");
+        // INFO: If all Spawn VFX are busy, we add a new one
+        if (vfxSpawnPrefab != null)
+        {
+            GameObject spawnParticlePool = transform.Find("SpawnParticlePool").gameObject;
+
+            GameObject spawnVFX = Instantiate(vfxSpawnPrefab);
+            spawnVFX.transform.SetParent(spawnParticlePool.transform);
+
+            // INFO: Set the spawn VFX to play for the deploy delay duration
+            ParticleSystem[] particles = spawnVFX.GetComponents<ParticleSystem>();
+
+            if (particles.Length > 0)
+            {
+                foreach (ParticleSystem particle in particles)
+                {
+                    ParticleSystem.MainModule main = particle.main;
+                    main.duration = deployDelay;
+                }
+            }
+
+            ParticleSystem spawnParticle = spawnVFX.GetComponent<ParticleSystem>();
+            spawnParticles.Add(spawnParticle);
+
+            return spawnParticle;
+        }
+
         return null;
     }
 
@@ -150,7 +177,20 @@ public class WaveManager : MonoBehaviour
             return deployVFX;
         }
 
-        Debug.LogWarning("GetAvailableDeployVFX - No available deploy VFX found!");
+        // INFO: If all Deploy VFX are busy, we add a new one
+        if (vfxDeployPrefab != null)
+        {
+            GameObject deployParticlePool = transform.Find("DeployParticlePool").gameObject;
+
+            GameObject deployVFX = Instantiate(vfxDeployPrefab);
+            deployVFX.transform.SetParent(deployParticlePool.transform);
+
+            ParticleSystem deployParticle = deployVFX.GetComponent<ParticleSystem>();
+            deployParticles.Add(deployParticle);
+
+            return deployParticle;
+        }
+
         return null;
     }
 
