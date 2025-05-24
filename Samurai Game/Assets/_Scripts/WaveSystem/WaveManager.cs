@@ -221,6 +221,7 @@ public class WaveManager : MonoBehaviour
             currentEnemies = 0;
             enemiesLeftToSpawn = currentWave;
 
+            AudioManager.Instance.PlaySFX("WaveComplete", 0.5f, true, waveCounter.transform.position, 5.0f, 25.0f);
             SetWaveCounterText();
             StartCoroutine(SpawnEnemyCoroutine());
         }

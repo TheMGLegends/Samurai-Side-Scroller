@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Menus/MainMenu.unity
     guid: c79b14da894128b4881f28419b226bb2
   - enabled: 1
-    path: Assets/Scenes/Development/DevelopmentScene.unity
-    guid: 2fd14b5a0ccc7594e8231c8bdf5ae6f7
+    path: Assets/Scenes/Levels/DarkForest.unity
+    guid: e9ad1a81f67d2ad48afc354e00a75ba2
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
