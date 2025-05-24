@@ -9829,6 +9829,7 @@ MonoBehaviour:
     m_Bits: 8
   vfxSpawnPrefab: {fileID: 7314526620251459061, guid: ccf28ea29cf499744ac31bab90073aba, type: 3}
   vfxDeployPrefab: {fileID: 9080140021571130472, guid: 82066d902ed0dd6488ddfd32eb994801, type: 3}
+  vfxPoolSize: 5
   enemiesToSpawnList:
   - {fileID: 11400000, guid: e7bb8359d4ebc9049ac6a895af2f4282, type: 2}
   - {fileID: 11400000, guid: 883c99cbc34caaa4a9ce87e39225d9d1, type: 2}
@@ -14338,7 +14339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe04aa2e790628d4dbaeeddf19a9ae5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sfxCount: 50
+  sfxCount: 30
   musicCount: 5
   clipNames:
   - SwordAttack
