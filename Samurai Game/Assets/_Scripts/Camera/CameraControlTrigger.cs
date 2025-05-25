@@ -1,8 +1,11 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public enum PanDirection
 {
@@ -14,6 +17,7 @@ public enum PanDirection
     Right
 }
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(CameraControlTrigger))]
 public class CameraControlTriggerEditor : Editor
 {
@@ -73,6 +77,7 @@ public class CameraControlTriggerEditor : Editor
         serializedObject.ApplyModifiedProperties();
     }
 }
+#endif
 
 public class CameraControlTrigger : MonoBehaviour
 {

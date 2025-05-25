@@ -546,7 +546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb80e669dc7b0a244b38406fbf701502, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDebugging: 1
+  isDebugging: 0
   currentWave: 1
   currentEnemies: 0
   enemiesLeftToSpawn: 0

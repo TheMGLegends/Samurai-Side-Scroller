@@ -24,12 +24,14 @@ public class AirChaseState : State
 
     private void OnDrawGizmosSelected()
     {
+#if UNITY_EDITOR
         // INFO: Draw the Attack Range Radius
         if (drawAttackRangeRadius)
         {
             Handles.color = Color.red;
             Handles.DrawWireDisc(transform.position, Vector3.forward, attackRangeRadius);
         }
+#endif
     }
 
     public override void Enter()

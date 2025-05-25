@@ -20,12 +20,8 @@ public class CameraManager : MonoBehaviour
 
     public float GetFallSpeedYDampingChangeThreshold => fallSpeedYDampingChangeThreshold;
 
-#pragma warning disable IDE0052 // Remove unread private members
     private Coroutine lerpYPanCoroutine;
-#pragma warning restore IDE0052 // Remove unread private members
-#pragma warning disable IDE0052 // Remove unread private members
     private Coroutine panCameraCoroutine;
-#pragma warning restore IDE0052 // Remove unread private members
 
     private CinemachineVirtualCamera currentVirtualCamera;
     private CinemachineFramingTransposer framingTransposer;

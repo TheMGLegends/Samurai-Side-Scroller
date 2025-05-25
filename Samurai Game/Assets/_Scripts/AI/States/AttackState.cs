@@ -46,6 +46,7 @@ public class AttackState : State
 
     private void Reset()
     {
+#if UNITY_EDITOR
         // INFO: Add Objects and Components to the AICharacter
         if (transform.parent.Find("Attacks") == null)
         {
@@ -81,6 +82,7 @@ public class AttackState : State
                 Undo.AddComponent<AttackAction>(attack2);
             }
         }
+#endif
     }
 
     private void OnDestroy()

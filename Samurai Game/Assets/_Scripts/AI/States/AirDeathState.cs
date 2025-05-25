@@ -33,11 +33,13 @@ public class AirDeathState : State
 
     private void OnDrawGizmosSelected()
     {
+#if UNITY_EDITOR
         if (drawGroundDetectionPoint)
         {
             Handles.color = Color.blue;
             Handles.DrawSolidDisc(transform.position + (Vector3)groundDetectionPoint, Vector3.forward, 0.1f);
         }
+#endif
     }
 
     public override void Enter()

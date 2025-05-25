@@ -198,6 +198,7 @@ public class AICharacter : MonoBehaviour
 
     private void CreateStates()
     {
+#if UNITY_EDITOR
         if (States.Count == 0) { return; }
 
         // INFO: Remove all states from the holder if chosen states is empty
@@ -255,6 +256,7 @@ public class AICharacter : MonoBehaviour
                 states.Remove(state.Key);
             }
         }
+#endif
     }
 
     private void InitialiseStates()

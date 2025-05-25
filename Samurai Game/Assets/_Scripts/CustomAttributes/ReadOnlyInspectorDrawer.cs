@@ -1,5 +1,6 @@
-using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
 
 [CustomPropertyDrawer(typeof(ReadOnlyInspectorAttribute))]
 public class ReadOnlyInspectorDrawer : PropertyDrawer
@@ -15,3 +16,4 @@ public class ReadOnlyInspectorDrawer : PropertyDrawer
         GUI.enabled = true;
     }
 }
+#endif
