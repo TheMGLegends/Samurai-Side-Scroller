@@ -83,6 +83,7 @@ public class AirDeathState : State
         if (hit)
         {
             isGrounded = true;
+            aiCharacter.transform.position = new Vector3(aiCharacter.transform.position.x, hit.point.y + distance, aiCharacter.transform.position.z);
             AudioManager.Instance.PlaySFX("Fallen", 1.0f, true, hit.point);
             aiCharacter.Animator.enabled = true;
             aiCharacter.PlayAnimation("Death");
