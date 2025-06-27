@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class MainMenuController : MonoBehaviour
 {
     [SerializeField] private TMPro.TMP_Text highestWaveText;
+    [SerializeField] private List<string> levelNames = new();
 
     private MainMenuInputActions mainMenuInputActions;
     private InputAction playAction;
@@ -46,6 +47,16 @@ public class MainMenuController : MonoBehaviour
         {
             highestWaveText.text = "Highest Wave: " + gameData.highestWave.ToString();
         }
+
+        // INFO: Save level names to the GameData
+        gameData.levelNames = levelNames;
+
+        for (int i = 0; i < levelNames.Count; i++)
+        {
+            gameData.highestWavePerLevel.Add(0);
+        }
+
+        SavingSystem.SaveGameData(gameData);
     }
 
     private void OnPlayGame(InputAction.CallbackContext context)

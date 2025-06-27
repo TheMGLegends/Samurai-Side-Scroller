@@ -547,6 +547,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDebugging: 0
+  levelName: Dark Forest
   currentWave: 1
   currentEnemies: 0
   enemiesLeftToSpawn: 0

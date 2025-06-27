@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -19,6 +17,9 @@ public static class SavingSystem
     {
         if (File.Exists(saveDataPath))
         {
+#if UNITY_EDITOR
+            Debug.Log(saveDataPath);
+#endif
             string json = File.ReadAllText(saveDataPath);
             return JsonUtility.FromJson<GameData>(json);
         }

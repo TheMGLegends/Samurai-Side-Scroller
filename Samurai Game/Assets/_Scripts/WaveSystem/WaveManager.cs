@@ -14,6 +14,8 @@ public class WaveManager : MonoBehaviour
 
     [Header("Wave Settings")]
 
+    [SerializeField] private string levelName = "";
+
     [ReadOnlyInspector]
     [SerializeField] private int currentWave = 1;
 
@@ -348,10 +350,30 @@ public class WaveManager : MonoBehaviour
         // INFO: Compare GameData Wave to current wave and save if the current wave is higher
         GameData gameData = SavingSystem.LoadGameData();
 
+        if (gameData == null)
+        {
+            Debug.LogWarning("GameData is null. Cannot save highest wave.");
+            return;
+        }
+
+        // INFO: Get the highest wave for the current level from GameData
+        if (gameData.levelNames.Contains(levelName))
+        {
+            int index = gameData.levelNames.IndexOf(levelName);
+
+            // INFO: Check if the current wave is higher than the saved highest wave for this level
+            if (gameData.highestWavePerLevel[index] < currentWave - 1)
+            {
+                gameData.highestWavePerLevel[index] = currentWave - 1;
+            }
+        }
+
+        // INFO: Check if the current wave is higher than the global highest wave
         if (gameData.highestWave < currentWave - 1)
         {
             gameData.highestWave = currentWave - 1;
-            SavingSystem.SaveGameData(gameData);
         }
+
+        SavingSystem.SaveGameData(gameData);
     }
 }

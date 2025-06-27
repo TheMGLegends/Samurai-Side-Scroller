@@ -11,5 +11,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/DarkForest.unity
     guid: e9ad1a81f67d2ad48afc354e00a75ba2
+  - enabled: 1
+    path: Assets/Scenes/Levels/DuskMountain.unity
+    guid: 29273aa295a31da41ab0a89ba8bba762
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
