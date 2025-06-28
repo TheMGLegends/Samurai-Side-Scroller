@@ -44,6 +44,24 @@ public partial class @MainMenuInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectLevel1"",
+                    ""type"": ""Button"",
+                    ""id"": ""5fa79f1b-470d-4fd0-9c13-3d6ba40a0221"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectLevel2"",
+                    ""type"": ""Button"",
+                    ""id"": ""30362932-4ea7-45fa-93f7-44c7d3157a27"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -68,6 +86,28 @@ public partial class @MainMenuInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Quit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""30d6a001-e72c-4878-9db1-638de4967131"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectLevel1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9db9ed17-5fe0-4f3e-b8b7-e942e97587d3"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectLevel2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -78,6 +118,8 @@ public partial class @MainMenuInputActions: IInputActionCollection2, IDisposable
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Play = m_UI.FindAction("Play", throwIfNotFound: true);
         m_UI_Quit = m_UI.FindAction("Quit", throwIfNotFound: true);
+        m_UI_SelectLevel1 = m_UI.FindAction("SelectLevel1", throwIfNotFound: true);
+        m_UI_SelectLevel2 = m_UI.FindAction("SelectLevel2", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -141,12 +183,16 @@ public partial class @MainMenuInputActions: IInputActionCollection2, IDisposable
     private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
     private readonly InputAction m_UI_Play;
     private readonly InputAction m_UI_Quit;
+    private readonly InputAction m_UI_SelectLevel1;
+    private readonly InputAction m_UI_SelectLevel2;
     public struct UIActions
     {
         private @MainMenuInputActions m_Wrapper;
         public UIActions(@MainMenuInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Play => m_Wrapper.m_UI_Play;
         public InputAction @Quit => m_Wrapper.m_UI_Quit;
+        public InputAction @SelectLevel1 => m_Wrapper.m_UI_SelectLevel1;
+        public InputAction @SelectLevel2 => m_Wrapper.m_UI_SelectLevel2;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -162,6 +208,12 @@ public partial class @MainMenuInputActions: IInputActionCollection2, IDisposable
             @Quit.started += instance.OnQuit;
             @Quit.performed += instance.OnQuit;
             @Quit.canceled += instance.OnQuit;
+            @SelectLevel1.started += instance.OnSelectLevel1;
+            @SelectLevel1.performed += instance.OnSelectLevel1;
+            @SelectLevel1.canceled += instance.OnSelectLevel1;
+            @SelectLevel2.started += instance.OnSelectLevel2;
+            @SelectLevel2.performed += instance.OnSelectLevel2;
+            @SelectLevel2.canceled += instance.OnSelectLevel2;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -172,6 +224,12 @@ public partial class @MainMenuInputActions: IInputActionCollection2, IDisposable
             @Quit.started -= instance.OnQuit;
             @Quit.performed -= instance.OnQuit;
             @Quit.canceled -= instance.OnQuit;
+            @SelectLevel1.started -= instance.OnSelectLevel1;
+            @SelectLevel1.performed -= instance.OnSelectLevel1;
+            @SelectLevel1.canceled -= instance.OnSelectLevel1;
+            @SelectLevel2.started -= instance.OnSelectLevel2;
+            @SelectLevel2.performed -= instance.OnSelectLevel2;
+            @SelectLevel2.canceled -= instance.OnSelectLevel2;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -193,5 +251,7 @@ public partial class @MainMenuInputActions: IInputActionCollection2, IDisposable
     {
         void OnPlay(InputAction.CallbackContext context);
         void OnQuit(InputAction.CallbackContext context);
+        void OnSelectLevel1(InputAction.CallbackContext context);
+        void OnSelectLevel2(InputAction.CallbackContext context);
     }
 }

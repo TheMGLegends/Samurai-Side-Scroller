@@ -150,7 +150,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 138652565}
   m_Father: {fileID: 2062417031}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -294,11 +295,11 @@ RectTransform:
   m_Children:
   - {fileID: 1899482939}
   - {fileID: 798401118}
-  m_Father: {fileID: 2062417031}
+  m_Father: {fileID: 80239372}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -200, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &161131668
@@ -496,7 +497,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1470848731}
-  - {fileID: 1261783564}
   - {fileID: 455380360}
   m_Father: {fileID: 2022933314}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1040,8 +1040,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1940128335}
         m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
-        m_MethodName: LoadLevel
-        m_Mode: 5
+        m_MethodName: ShowLevelSelector
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2005,11 +2005,11 @@ RectTransform:
   m_Children:
   - {fileID: 1554886777}
   - {fileID: 1845683286}
-  m_Father: {fileID: 256938890}
+  m_Father: {fileID: 1470848731}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 199.99997, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1309216593
@@ -2471,7 +2471,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1261783564}
   m_Father: {fileID: 256938890}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -2747,7 +2748,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1940128335}
         m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: HideLevelSelector
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3380,7 +3381,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1770881559
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4217,6 +4218,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 319451aea1fa38c4ab62db4f9d708662, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainMenu: {fileID: 1770881558}
+  levelSelectorMenu: {fileID: 2022933313}
+  duskMountainButton: {fileID: 1470848732}
+  duskMountainInfo: {fileID: 1261783563}
+  duskMountainLockedOverlay: {fileID: 455380359}
+  duskMountainWaveRequirement: 25
+  highestWavePerLevel:
+  - {fileID: 798401119}
+  - {fileID: 1845683287}
   highestWaveText: {fileID: 1857303548}
   levelNames:
   - Dark Forest
@@ -4517,12 +4527,12 @@ GameObject:
   m_Component:
   - component: {fileID: 2022933314}
   m_Layer: 5
-  m_Name: LevelSelector
+  m_Name: LevelSelectorMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2022933314
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4575,7 +4585,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 80239372}
-  - {fileID: 138652565}
   m_Father: {fileID: 2022933314}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
