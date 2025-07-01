@@ -42,9 +42,17 @@ public class PlayerMovementController : MonoBehaviour
     [Header("Knockback Settings:")]
     [SerializeField] private Vector2 knockbackForce;
 
+    [Space(10)]
+
+    [Header("Dash Settings:")]
+    [SerializeField] private float dashForce;
+    [SerializeField] private float dashTime;
+    [SerializeField] private float dashCooldownTime = 1.0f;
+
     private PlayerCharacter playerCharacter;
 
     private InputAction movementAction;
+    private InputAction dashAction;
     private InputAction jumpAction;
 
     private Rigidbody2D rb2D;
@@ -63,6 +71,10 @@ public class PlayerMovementController : MonoBehaviour
 
     // INFO: Knockback Variables
     private Vector2 knockbackDirection;
+
+    // INFO: Dash Variables
+    private bool canDash = true;
+    private bool isDashing;
 
     #region UnityMethods
     private void OnDrawGizmos()
@@ -88,6 +100,10 @@ public class PlayerMovementController : MonoBehaviour
         movementAction.Enable();
         movementAction.performed += OnMovement;
 
+        dashAction = playerCharacter.PlayerInputActions.Player.Dash;
+        dashAction.Enable();
+        dashAction.performed += OnDash;
+
         jumpAction = playerCharacter.PlayerInputActions.Player.Jump;
         jumpAction.Enable();
         jumpAction.started += OnJumpPressed;
@@ -98,6 +114,9 @@ public class PlayerMovementController : MonoBehaviour
     {
         movementAction.Disable();
         movementAction.performed -= OnMovement;
+
+        dashAction.Disable();
+        dashAction.performed -= OnDash;
 
         jumpAction.Disable();
         jumpAction.started -= OnJumpPressed;
@@ -138,6 +157,7 @@ public class PlayerMovementController : MonoBehaviour
     {
         Move();
         Jump();
+        Dash();
     }
     #endregion UnityMethods
 
@@ -314,6 +334,40 @@ public class PlayerMovementController : MonoBehaviour
         #endregion GravityChange
     }
     #endregion JumpMethods
+
+    #region DashMethods
+    private void OnDash(InputAction.CallbackContext context)
+    {
+        // INFO: Return if we can't dash or if we can't move or if we are currently not moving
+        if (!canDash || !canMove || movementDirection == 0.0f) { return; }
+
+        isDashing = true;
+        canDash = false;
+        AudioManager.Instance.PlaySFX("PlayerDash", 1.5f, false, null, 1.0f, 500.0f, 0.5f);
+        StartCoroutine(nameof(DashEndCoroutine));
+    }
+
+    private void Dash()
+    {
+        if (!isDashing) { return; }
+
+        float dashDirection = isFacingRight ? -1.0f : 1.0f;
+        rb2D.AddForce(dashForce * dashDirection * Vector2.right, ForceMode2D.Impulse);
+    }
+
+    private IEnumerator DashEndCoroutine()
+    {
+        yield return new WaitForSeconds(dashTime);
+        isDashing = false;
+        StartCoroutine(nameof(DashCooledDownCoroutine));
+    }
+
+    private IEnumerator DashCooledDownCoroutine()
+    {
+        yield return new WaitForSeconds(dashCooldownTime);
+        canDash = true;
+    }
+    #endregion DashMethods
 
     #region KnockbackMethods
     public void SetKnockbackDirection(Vector2 instigatorPosition)

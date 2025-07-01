@@ -2363,6 +2363,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7834661544756761243, guid: e8bae36b607017047ace9061609051d9, type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7212,6 +7216,7 @@ MonoBehaviour:
   - MushroomDeath
   - Flight
   - WaveComplete
+  - PlayerDash
   audioClips:
   - {fileID: 8300000, guid: c921ed73176fcc3439ced103fda41a47, type: 3}
   - {fileID: 8300000, guid: 5959b74874aa74d47847b7ddd490d0f2, type: 3}
@@ -7235,6 +7240,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8c231b28dd1691146940c5eff39f0bcb, type: 3}
   - {fileID: 8300000, guid: d60dc5ef11fb39348b47d9463c6f0204, type: 3}
   - {fileID: 8300000, guid: 2b557e28cdc80854f8c2e6406438e6ec, type: 3}
+  - {fileID: 8300000, guid: bc5002beeb2e8934abadfc46b0b2afc7, type: 3}
   audioSourcePrefab: {fileID: 3218136191704548429, guid: b8030a629d082ff459ff044333b2e1e0, type: 3}
 --- !u!1001 &1241301288
 PrefabInstance:
@@ -8391,6 +8397,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   knockbackForce: {x: 5, y: 0}
+  dashForce: 5
+  dashTime: 0.2
+  dashCooldownTime: 1
 --- !u!114 &1508026114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9746,7 +9755,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 4.7916665
+  orthographic size: 3.7708333
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -9873,7 +9882,7 @@ Transform:
   m_GameObject: {fileID: 1711503297}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.999999, y: 2.44433, z: -10}
+  m_LocalPosition: {x: 0.999989, y: 1.5208299, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

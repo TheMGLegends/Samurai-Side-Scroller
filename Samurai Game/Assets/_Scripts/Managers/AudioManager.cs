@@ -82,6 +82,7 @@ public class AudioManager : MonoBehaviour
                         audioSource.transform.position = position ?? Vector2.zero; // INFO: Set the position of the audio source
                         audioSource.minDistance = minDistance; // INFO: Set the minimum distance for 3D sound
                         audioSource.maxDistance = maxDistance; // INFO: Set the maximum distance for 3D sound
+                        audioSource.spread = 360.0f;
                     }
                     else
                     {
