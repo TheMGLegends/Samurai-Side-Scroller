@@ -140,7 +140,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      DuskMountain_0: 2722879914394410121
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
