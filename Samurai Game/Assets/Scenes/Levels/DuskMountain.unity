@@ -2028,6 +2028,9 @@ MonoBehaviour:
   dashForce: 5
   dashTime: 0.2
   dashCooldownTime: 1
+  dashAfterImageIntervalDuration: 0.05
+  dashAfterImagePrefab: {fileID: 3869235834338465721, guid: e77946c6a9581c54fa640eb15de9aa96, type: 3}
+  dashAfterImageCount: 3
 --- !u!114 &294067796
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4089,7 +4092,7 @@ GameObject:
   m_Component:
   - component: {fileID: 807887571}
   - component: {fileID: 807887572}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LeftBoundary
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10888,7 +10891,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2063331015}
   - component: {fileID: 2063331016}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: RightBoundary
   m_TagString: Untagged
   m_Icon: {fileID: 0}

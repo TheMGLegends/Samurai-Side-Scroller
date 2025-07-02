@@ -21,6 +21,7 @@ public class PlayerCharacter : MonoBehaviour
 
     public Rigidbody2D Rb2D { get; private set; }
     public Animator Animator { get; private set; }
+    public SpriteRenderer SpriteRenderer { get; private set; }
 
     private void Awake()
     {
@@ -40,6 +41,7 @@ public class PlayerCharacter : MonoBehaviour
 
         Rb2D = GetComponent<Rigidbody2D>();
         Animator = GetComponent<Animator>();
+        SpriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     /// <summary>

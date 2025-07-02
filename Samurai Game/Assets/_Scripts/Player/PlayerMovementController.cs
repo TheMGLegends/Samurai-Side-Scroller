@@ -48,6 +48,9 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] private float dashForce;
     [SerializeField] private float dashTime;
     [SerializeField] private float dashCooldownTime = 1.0f;
+    [SerializeField] private float dashAfterImageIntervalDuration = 0.05f;
+    [SerializeField] private GameObject dashAfterImagePrefab;
+    [SerializeField] private int dashAfterImageCount = 10;
 
     private PlayerCharacter playerCharacter;
 
@@ -75,6 +78,7 @@ public class PlayerMovementController : MonoBehaviour
     // INFO: Dash Variables
     private bool canDash = true;
     private bool isDashing;
+    private List<SpriteAfterImage> dashAfterImagePool = new();
 
     #region UnityMethods
     private void OnDrawGizmos()
@@ -126,6 +130,24 @@ public class PlayerMovementController : MonoBehaviour
     private void Start()
     {
         fallSpeedYDampingChangeThreshold = CameraManager.Instance.GetFallSpeedYDampingChangeThreshold;
+
+        // INFO: Fill the after image pool
+        if (dashAfterImagePrefab != null)
+        {
+            GameObject dashAfterImageContainer = new("DashAfterImagePool");
+
+            for (int i = 0; i < dashAfterImageCount; ++i)
+            {
+                GameObject afterImage = Instantiate(dashAfterImagePrefab);
+
+                if (afterImage && dashAfterImageContainer)
+                {
+                    afterImage.SetActive(false);
+                    afterImage.transform.SetParent(dashAfterImageContainer.transform);
+                    dashAfterImagePool.Add(afterImage.GetComponent<SpriteAfterImage>());
+                }
+            }
+        }
     }
 
     private void Update()
@@ -341,9 +363,17 @@ public class PlayerMovementController : MonoBehaviour
         // INFO: Return if we can't dash or if we can't move or if we are currently not moving
         if (!canDash || !canMove || movementDirection == 0.0f) { return; }
 
+        // INFO: Shoot out a raycast in the travelling direction of the player, if we hit
+        //       something prevent the player from dashing
+        if (Physics2D.Raycast(transform.position, transform.right, 1.0f, groundLayerMask))
+        {
+            return;
+        }
+
         isDashing = true;
         canDash = false;
         AudioManager.Instance.PlaySFX("PlayerDash", 1.5f, false, null, 1.0f, 500.0f, 0.5f);
+        StartCoroutine(nameof(SpawnDashAfterImagesCoroutine));
         StartCoroutine(nameof(DashEndCoroutine));
     }
 
@@ -353,6 +383,31 @@ public class PlayerMovementController : MonoBehaviour
 
         float dashDirection = isFacingRight ? -1.0f : 1.0f;
         rb2D.AddForce(dashForce * dashDirection * Vector2.right, ForceMode2D.Impulse);
+    }
+
+    private IEnumerator SpawnDashAfterImagesCoroutine()
+    {
+        // INFO: While we are dashing perform the following
+        while (isDashing)
+        {
+            // INFO: Find an inactive dash after image
+            foreach (SpriteAfterImage afterImage in dashAfterImagePool)
+            {
+                if (!afterImage.gameObject.activeInHierarchy)
+                {
+                    // INFO: Set position and rotation to match the game object
+                    afterImage.transform.SetPositionAndRotation(transform.position, transform.rotation);
+                    afterImage.transform.localScale = transform.localScale;
+
+                    // INFO: Initialise the after image with the game objects own sprite renderer
+                    afterImage.Initialise(playerCharacter.SpriteRenderer);
+
+                    break;
+                }
+            }
+
+            yield return new WaitForSeconds(dashAfterImageIntervalDuration);
+        }
     }
 
     private IEnumerator DashEndCoroutine()
