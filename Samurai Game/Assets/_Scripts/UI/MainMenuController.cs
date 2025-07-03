@@ -43,7 +43,6 @@ public class MainMenuController : MonoBehaviour
 
         exitAction = mainMenuInputActions.UI.Quit;
         exitAction.Enable();
-        exitAction.started += OnQuitGame;
 
         selectLevel1Action = mainMenuInputActions.UI.SelectLevel1;
         selectLevel1Action.Enable();
@@ -58,7 +57,6 @@ public class MainMenuController : MonoBehaviour
         playAction.started -= OnPlayGame;
 
         exitAction.Disable();
-        exitAction.started -= OnQuitGame;
 
         selectLevel1Action.Disable();
         selectLevel1Action.started -= OnSelectLevel1;
@@ -105,11 +103,6 @@ public class MainMenuController : MonoBehaviour
     private void OnPlayGame(InputAction.CallbackContext context)
     {
         ShowLevelSelector();
-    }
-
-    private void OnQuitGame(InputAction.CallbackContext context)
-    {
-        QuitGame();
     }
 
     private void OnHideLevelSelector(InputAction.CallbackContext context)
@@ -170,10 +163,7 @@ public class MainMenuController : MonoBehaviour
 
         // INFO: Switch action calls for gamepad
         playAction.started -= OnPlayGame;
-
-        exitAction.started -= OnQuitGame;
         exitAction.started += OnHideLevelSelector;
-
         selectLevel1Action.started += OnSelectLevel1;
     }
 
@@ -190,18 +180,11 @@ public class MainMenuController : MonoBehaviour
         selectLevel2Action.started -= OnSelectLevel2;
 
         exitAction.started -= OnHideLevelSelector;
-        exitAction.started += OnQuitGame;
-
         playAction.started += OnPlayGame;
     }
 
     public void LoadLevel(string levelName)
     {
         SceneManager.LoadScene(levelName);
-    }
-
-    public void QuitGame()
-    {
-        Application.Quit();
     }
 }
