@@ -91,7 +91,7 @@ public class PlayerActionController : MonoBehaviour
 
             if (hit.collider.TryGetComponent<IInteractable>(out var interactable))
             {
-                interactable.Interact();
+                interactable.Interact(gameObject);
             }
         }
     }

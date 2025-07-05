@@ -66,6 +66,11 @@ public class PlayerHealthController : MonoBehaviour
     #endregion UnityMethods
 
     #region HealthMethods
+    public bool IsMaxHealth()
+    {
+        return maxHealth == currentHealth;
+    }
+
     public void Heal(int healAmount)
     {
         if (IsDead) { return; }

@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+// INFO: Relates to the player characters health controller
+
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Animator))]
-public class ChestController : MonoBehaviour, IInteractable
+public class HealthChestController : MonoBehaviour, IInteractable
 {
     [Header("Chest Settings:")]
     [ReadOnlyInspector]
@@ -24,9 +26,15 @@ public class ChestController : MonoBehaviour, IInteractable
         animator = GetComponent<Animator>();
     }
 
-    public void Interact()
+    public void Interact(GameObject interactor)
     {
         if (isOpened) { return; }
+
+        // INFO: Return if the players health is the same as their max health
+        if (interactor.TryGetComponent(out PlayerHealthController healthController))
+        {
+            if (healthController.IsMaxHealth()) { return; }
+        }
 
         isOpened = true;
         chestOpenSource.Play();
