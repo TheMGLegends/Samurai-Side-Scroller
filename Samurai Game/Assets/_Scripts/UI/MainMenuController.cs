@@ -5,6 +5,30 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+public enum ActionType
+{
+    MoveLeft = 0,
+    MoveRight,
+    Jump,
+    Attack,
+    Interact,
+    Dash,
+
+    None
+}
+
+public struct KeybindingData
+{
+    public TMPro.TMP_Text textComponent;
+    public string previousText;
+
+    public KeybindingData(TMPro.TMP_Text _text)
+    {
+        textComponent = _text;
+        previousText = _text.text;
+    }
+}
+
 public class MainMenuController : MonoBehaviour
 {
     [Header("Menus:")]
@@ -25,11 +49,16 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private TMPro.TMP_Text highestWaveText;
     [SerializeField] private List<string> levelNames = new();
 
+    [Space(10)]
+
+    [SerializeField] private List<TMPro.TMP_Text> keybindTexts = new();
+
     private MainMenuInputActions mainMenuInputActions;
     private InputAction playAction;
     private InputAction exitAction;
     private InputAction selectLevel1Action;
     private InputAction selectLevel2Action;
+    private ActionType currentAction = ActionType.None;
 
     private void Awake()
     {
@@ -97,6 +126,27 @@ public class MainMenuController : MonoBehaviour
             if (overlayText != null)
             {
                 overlayText.text = duskMountainWaveRequirement.ToString();
+            }
+        }
+
+        // INFO: Associate each entry in keybindTexts with a key of type ActionTypes
+        for (int i = 0; i < keybindTexts.Count; ++i)
+        {
+            if (keybindTexts[i] != null)
+            {
+                ActionType type = (ActionType)i;
+                KeybindingData data = new(keybindTexts[i]);
+
+                // INFO: Update current/previous text if an entry is already found in player prefs
+                //       otherwise leave as default
+                if (PlayerPrefs.HasKey(type.ToString()))
+                {
+                    string storedText = PlayerPrefs.GetString(type.ToString());
+                    data.textComponent.text = storedText;
+                    data.previousText = storedText;
+                }
+
+                GameManager.Instance.SetKeybindingToAction(type, data);
             }
         }
     }
@@ -202,6 +252,25 @@ public class MainMenuController : MonoBehaviour
     public void HideSettingsMenu()
     {
 
+    }
+
+    public void OnKeybindClicked(int action)
+    {
+        // INFO: Revert the selected action text to its previous state 
+        GameManager.Instance.RevertKeybindText(currentAction);
+
+        ActionType actionType = (ActionType)action;
+
+        // INFO: Set the text of the corresponding text component to something
+        GameManager.Instance.SetCurrentKeybindText(actionType, "Rebinding");
+
+        // INFO: Set the new current action
+        currentAction = actionType;
+    }
+
+    public void Yep()
+    {
+        Debug.Log("Yep");
     }
 
     public void LoadLevel(string levelName)
