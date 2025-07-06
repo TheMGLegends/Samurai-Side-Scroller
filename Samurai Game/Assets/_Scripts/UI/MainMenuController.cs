@@ -10,6 +10,7 @@ public class MainMenuController : MonoBehaviour
     [Header("Menus:")]
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject levelSelectorMenu;
+    [SerializeField] private GameObject settingsMenu;
 
     [Space(10)]
 
@@ -39,7 +40,7 @@ public class MainMenuController : MonoBehaviour
     {
         playAction = mainMenuInputActions.UI.Play;
         playAction.Enable();
-        playAction.started += OnPlayGame;
+        playAction.started += OnShowLevelSelector;
 
         exitAction = mainMenuInputActions.UI.Quit;
         exitAction.Enable();
@@ -54,7 +55,7 @@ public class MainMenuController : MonoBehaviour
     private void OnDisable()
     {
         playAction.Disable();
-        playAction.started -= OnPlayGame;
+        playAction.started -= OnShowLevelSelector;
 
         exitAction.Disable();
 
@@ -100,7 +101,7 @@ public class MainMenuController : MonoBehaviour
         }
     }
 
-    private void OnPlayGame(InputAction.CallbackContext context)
+    private void OnShowLevelSelector(InputAction.CallbackContext context)
     {
         ShowLevelSelector();
     }
@@ -108,6 +109,16 @@ public class MainMenuController : MonoBehaviour
     private void OnHideLevelSelector(InputAction.CallbackContext context)
     {
         HideLevelSelector();
+    }
+
+    private void OnShowSettingsMenu(InputAction.CallbackContext context)
+    {
+        ShowSettingsMenu();
+    }
+
+    private void OnHideSettingsMenu(InputAction.CallbackContext context)
+    {
+        HideSettingsMenu();
     }
 
     private void OnSelectLevel1(InputAction.CallbackContext context)
@@ -162,7 +173,7 @@ public class MainMenuController : MonoBehaviour
         }
 
         // INFO: Switch action calls for gamepad
-        playAction.started -= OnPlayGame;
+        playAction.started -= OnShowLevelSelector;
         exitAction.started += OnHideLevelSelector;
         selectLevel1Action.started += OnSelectLevel1;
     }
@@ -180,7 +191,17 @@ public class MainMenuController : MonoBehaviour
         selectLevel2Action.started -= OnSelectLevel2;
 
         exitAction.started -= OnHideLevelSelector;
-        playAction.started += OnPlayGame;
+        playAction.started += OnShowLevelSelector;
+    }
+
+    public void ShowSettingsMenu()
+    {
+
+    }
+
+    public void HideSettingsMenu()
+    {
+
     }
 
     public void LoadLevel(string levelName)

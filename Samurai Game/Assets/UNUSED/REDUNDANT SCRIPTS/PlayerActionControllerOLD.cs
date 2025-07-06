@@ -68,8 +68,8 @@ public class PlayerActionControllerOLD : Subject
         movementDirectionAction = playerInputActions.Player.Movement;
         movementDirectionAction.Enable();
 
-        switchMoveSpeedAction = playerInputActions.Player.MovementSwitch;
-        switchMoveSpeedAction.Enable();
+        //switchMoveSpeedAction = playerInputActions.Player.MovementSwitch;
+        //switchMoveSpeedAction.Enable();
 
         jumpAction = playerInputActions.Player.Jump;
         jumpAction.Enable();
