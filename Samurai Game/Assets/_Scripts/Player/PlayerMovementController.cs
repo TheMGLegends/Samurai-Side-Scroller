@@ -101,14 +101,67 @@ public class PlayerMovementController : MonoBehaviour
     private void OnEnable()
     {
         movementAction = playerCharacter.PlayerInputActions.Player.Movement;
+
+        // INFO: Rebind movement action bindings
+        string moveLeftKeybind = "";
+        string moveRightKeybind = "";
+
+        if (PlayerPrefs.HasKey(ActionType.MoveLeft.ToString()))
+        {
+            moveLeftKeybind = PlayerPrefs.GetString(ActionType.MoveLeft.ToString());
+        }
+
+        if (PlayerPrefs.HasKey(ActionType.MoveRight.ToString()))
+        {
+            moveRightKeybind = PlayerPrefs.GetString(ActionType.MoveRight.ToString());
+        }
+
+        for (int i = 0; i < movementAction.bindings.Count; ++i)
+        {
+            var b = movementAction.bindings[i];
+            if (!b.isPartOfComposite)
+                continue;
+
+            switch (b.name)
+            {
+                case "left":
+                    if (moveLeftKeybind == "") return;
+
+                    movementAction.ChangeBinding(i)
+                        .WithPath(moveLeftKeybind);
+                    break;
+
+                case "right":
+                    if (moveRightKeybind == "") return;
+
+                    movementAction.ChangeBinding(i)
+                        .WithPath(moveRightKeybind);
+                    break;
+            }
+        }
+
         movementAction.Enable();
         movementAction.performed += OnMovement;
 
         dashAction = playerCharacter.PlayerInputActions.Player.Dash;
+
+        if (PlayerPrefs.HasKey(ActionType.Dash.ToString()))
+        {
+            string dashKeybind = PlayerPrefs.GetString(ActionType.Dash.ToString());
+            dashAction.ChangeBinding(0).WithPath(dashKeybind);
+        }
+
         dashAction.Enable();
         dashAction.performed += OnDash;
 
         jumpAction = playerCharacter.PlayerInputActions.Player.Jump;
+
+        if (PlayerPrefs.HasKey(ActionType.Jump.ToString()))
+        {
+            string jumpKeybind = PlayerPrefs.GetString(ActionType.Jump.ToString());
+            jumpAction.ChangeBinding(0).WithPath(jumpKeybind);
+        }
+
         jumpAction.Enable();
         jumpAction.started += OnJumpPressed;
         jumpAction.canceled += OnJumpReleased;

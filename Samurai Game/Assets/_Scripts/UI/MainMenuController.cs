@@ -1,8 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static System.Net.Mime.MediaTypeNames;
@@ -146,6 +149,19 @@ public class MainMenuController : MonoBehaviour
                 if (PlayerPrefs.HasKey(type.ToString()))
                 {
                     string storedText = PlayerPrefs.GetString(type.ToString());
+
+                    // INFO: Remove /Keyboard/ or /Mouse/
+                    if (storedText.Contains("/Keyboard/"))
+                    {
+                        storedText = storedText.Replace("/Keyboard/", "");
+                    }
+                    else if (storedText.Contains("/Mouse/"))
+                    {
+                        storedText = storedText.Replace("/Mouse/", "");
+                    }
+
+                    storedText = storedText.FirstCharacterToUpper();
+
                     data.textComponent.text = storedText;
                     data.previousText = storedText;
                 }
@@ -159,13 +175,39 @@ public class MainMenuController : MonoBehaviour
     {
         if (currentAction == ActionType.None) { return; }
 
-        foreach (KeyCode keycode in Enum.GetValues(typeof(KeyCode)))
+        foreach (KeyControl keyCtrl in Keyboard.current.allKeys)
         {
-            if (Input.GetKey(keycode))
+            if (keyCtrl.wasPressedThisFrame)
             {
-                GameManager.Instance.ModifyKeybindText(currentAction, keycode.ToString());
-                PlayerPrefs.SetString(currentAction.ToString(), keycode.ToString());
+                GameManager.Instance.ModifyKeybindText(currentAction, keyCtrl.displayName);
+
+                PlayerPrefs.SetString(currentAction.ToString(), keyCtrl.path);
                 PlayerPrefs.Save();
+
+                OnKeybindDeselected((int)currentAction);
+                break;
+            }
+        }
+
+        var mouse = Mouse.current;
+        var buttons = new[]
+        {
+            mouse.leftButton,
+            mouse.rightButton,
+            mouse.middleButton,
+            mouse.forwardButton,
+            mouse.backButton
+        };
+
+        foreach (ButtonControl buttonCtrl in buttons)
+        {
+            if (buttonCtrl.wasPressedThisFrame)
+            {
+                GameManager.Instance.ModifyKeybindText(currentAction, buttonCtrl.displayName);
+
+                PlayerPrefs.SetString(currentAction.ToString(), buttonCtrl.path);
+                PlayerPrefs.Save();
+
                 OnKeybindDeselected((int)currentAction);
             }
         }

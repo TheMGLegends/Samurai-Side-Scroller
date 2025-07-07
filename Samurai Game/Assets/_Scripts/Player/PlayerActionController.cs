@@ -39,10 +39,24 @@ public class PlayerActionController : MonoBehaviour
     private void OnEnable()
     {
         attackAction = playerCharacter.PlayerInputActions.Player.Attack;
+
+        if (PlayerPrefs.HasKey(ActionType.Attack.ToString()))
+        {
+            string attackKeybind = PlayerPrefs.GetString(ActionType.Attack.ToString());
+            attackAction.ChangeBinding(0).WithPath(attackKeybind);
+        }
+
         attackAction.Enable();
         attackAction.started += OnAttack;
 
         interactAction = playerCharacter.PlayerInputActions.Player.Interact;
+
+        if (PlayerPrefs.HasKey(ActionType.Interact.ToString()))
+        {
+            string interactKeybind = PlayerPrefs.GetString(ActionType.Interact.ToString());
+            interactAction.ChangeBinding(0).WithPath(interactKeybind);
+        }
+
         interactAction.Enable();
         interactAction.started += OnInteract;
 
