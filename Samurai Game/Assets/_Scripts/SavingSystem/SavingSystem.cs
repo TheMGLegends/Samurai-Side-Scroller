@@ -5,6 +5,8 @@ public static class SavingSystem
 {
     private static readonly string saveDataPath = Application.persistentDataPath + "/gameData.json";
 
+    public static bool debugPath = false;
+
     public static string GetSaveDataPath() => saveDataPath;
 
     public static void SaveGameData(GameData gameData)
@@ -18,7 +20,10 @@ public static class SavingSystem
         if (File.Exists(saveDataPath))
         {
 #if UNITY_EDITOR
-            Debug.Log(saveDataPath);
+            if (debugPath)
+            {
+                Debug.Log(saveDataPath);
+            }
 #endif
             string json = File.ReadAllText(saveDataPath);
             return JsonUtility.FromJson<GameData>(json);

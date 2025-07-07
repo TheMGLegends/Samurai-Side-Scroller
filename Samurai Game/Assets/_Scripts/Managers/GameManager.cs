@@ -27,19 +27,30 @@ public class GameManager : MonoBehaviour
         keybindingsToActions[actionType] = keybindingData;
     }
 
-    public void SetCurrentKeybindText(ActionType actionType, string text)
+    public void SetCurrentKeybindText(ActionType actionType, string text, Color color)
     {
         if (keybindingsToActions.ContainsKey(actionType))
         {
+            keybindingsToActions[actionType].textComponent.color = color;
             keybindingsToActions[actionType].textComponent.text = text;
         }
     }
 
-    public void RevertKeybindText(ActionType actionType)
+    public void RevertKeybindText(ActionType actionType, Color color)
     {
         if (keybindingsToActions.ContainsKey(actionType))
         {
+            keybindingsToActions[actionType].textComponent.color = color;
             keybindingsToActions[actionType].textComponent.text = keybindingsToActions[actionType].previousText;
         }    
+    }    
+
+    public void ModifyKeybindText(ActionType actionType, string text)
+    {
+        if (keybindingsToActions.ContainsKey(actionType))
+        {
+            keybindingsToActions[actionType].textComponent.text = text;
+            keybindingsToActions[actionType].previousText = text;
+        }
     }    
 }

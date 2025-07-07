@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static System.Net.Mime.MediaTypeNames;
 
 public enum ActionType
 {
@@ -17,7 +19,7 @@ public enum ActionType
     None
 }
 
-public struct KeybindingData
+public class KeybindingData
 {
     public TMPro.TMP_Text textComponent;
     public string previousText;
@@ -52,13 +54,14 @@ public class MainMenuController : MonoBehaviour
     [Space(10)]
 
     [SerializeField] private List<TMPro.TMP_Text> keybindTexts = new();
+    [SerializeField] private Color selectedColor;
+    [SerializeField] private Color standardColor;
 
     private MainMenuInputActions mainMenuInputActions;
     private InputAction playAction;
     private InputAction exitAction;
     private InputAction selectLevel1Action;
     private InputAction selectLevel2Action;
-    private InputAction rebindingAction;
     private ActionType currentAction = ActionType.None;
 
     private void Awake()
@@ -80,11 +83,6 @@ public class MainMenuController : MonoBehaviour
 
         selectLevel2Action = mainMenuInputActions.UI.SelectLevel2;
         selectLevel2Action.Enable();
-
-        rebindingAction = mainMenuInputActions.UI.Rebinding;
-        rebindingAction.Enable();
-        rebindingAction.started += OnRebinding;
-
     }
 
     private void OnDisable()
@@ -99,9 +97,6 @@ public class MainMenuController : MonoBehaviour
 
         selectLevel2Action.Disable();
         selectLevel2Action.started -= OnSelectLevel2;
-
-        rebindingAction.Disable();
-        rebindingAction.started -= OnRebinding;
     }
 
     private void Start()
@@ -160,6 +155,22 @@ public class MainMenuController : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (currentAction == ActionType.None) { return; }
+
+        foreach (KeyCode keycode in Enum.GetValues(typeof(KeyCode)))
+        {
+            if (Input.GetKey(keycode))
+            {
+                GameManager.Instance.ModifyKeybindText(currentAction, keycode.ToString());
+                PlayerPrefs.SetString(currentAction.ToString(), keycode.ToString());
+                PlayerPrefs.Save();
+                OnKeybindDeselected((int)currentAction);
+            }
+        }
+    }
+
     private void OnShowLevelSelector(InputAction.CallbackContext context)
     {
         ShowLevelSelector();
@@ -170,16 +181,6 @@ public class MainMenuController : MonoBehaviour
         HideLevelSelector();
     }
 
-    private void OnShowSettingsMenu(InputAction.CallbackContext context)
-    {
-        ShowSettingsMenu();
-    }
-
-    private void OnHideSettingsMenu(InputAction.CallbackContext context)
-    {
-        HideSettingsMenu();
-    }
-
     private void OnSelectLevel1(InputAction.CallbackContext context)
     {
         SceneManager.LoadScene(1);
@@ -188,17 +189,6 @@ public class MainMenuController : MonoBehaviour
     private void OnSelectLevel2(InputAction.CallbackContext context)
     {
         SceneManager.LoadScene(2);
-    }
-
-    private void OnRebinding(InputAction.CallbackContext context)
-    {
-        if (currentAction == ActionType.None) { return; }
-
-        int bindingIndex = rebindingAction.GetBindingIndexForControl(rebindingAction.controls[0]);
-        string text = InputControlPath.ToHumanReadableString(rebindingAction.bindings[bindingIndex].effectivePath, 
-                                                             InputControlPath.HumanReadableStringOptions.OmitDevice);
-
-        GameManager.Instance.SetCurrentKeybindText(currentAction, text);
     }
 
     public void ShowLevelSelector()
@@ -266,12 +256,27 @@ public class MainMenuController : MonoBehaviour
 
     public void ShowSettingsMenu()
     {
+        // NOTE: No support for gamepad rebinding for now
 
+        if (settingsMenu != null && mainMenu != null)
+        {
+            mainMenu.SetActive(false);
+            settingsMenu.SetActive(true);
+        }
     }
 
     public void HideSettingsMenu()
     {
+        // NOTE: No support for gamepad rebinding for now
 
+        currentAction = ActionType.None;
+        OnKeybindDeselected((int)currentAction);
+
+        if (settingsMenu != null && mainMenu != null)
+        {
+            settingsMenu.SetActive(false);
+            mainMenu.SetActive(true);
+        }
     }
 
     public void OnKeybindSelected(int action)
@@ -279,7 +284,7 @@ public class MainMenuController : MonoBehaviour
         ActionType actionType = (ActionType)action;
 
         // INFO: Set the text of the corresponding text component to something
-        GameManager.Instance.SetCurrentKeybindText(actionType, "Rebinding");
+        GameManager.Instance.SetCurrentKeybindText(actionType, "Rebinding", selectedColor);
 
         // INFO: Set the new current action
         currentAction = actionType;
@@ -290,7 +295,7 @@ public class MainMenuController : MonoBehaviour
         ActionType actionType = (ActionType)action;
 
         // INFO: Revert the selected action text to its previous state 
-        GameManager.Instance.RevertKeybindText(actionType);
+        GameManager.Instance.RevertKeybindText(actionType, standardColor);
 
         currentAction = ActionType.None;
     }    

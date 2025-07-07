@@ -661,7 +661,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -2789,7 +2789,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -3356,7 +3356,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -3903,7 +3903,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Left Shift
+  m_text: LeftShift
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e26bc5cd9824abd4dab9aea8b76519a6, type: 2}
   m_sharedMaterial: {fileID: 8698755774272641762, guid: e26bc5cd9824abd4dab9aea8b76519a6, type: 2}
@@ -3993,7 +3993,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -5832,7 +5832,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Left Button
+  m_text: Mouse0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e26bc5cd9824abd4dab9aea8b76519a6, type: 2}
   m_sharedMaterial: {fileID: 8698755774272641762, guid: e26bc5cd9824abd4dab9aea8b76519a6, type: 2}
@@ -5922,7 +5922,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -6829,6 +6829,8 @@ MonoBehaviour:
   - {fileID: 1774476492}
   - {fileID: 2144849333}
   - {fileID: 1251027618}
+  selectedColor: {r: 1, g: 0, b: 0, a: 1}
+  standardColor: {r: 0.3254902, g: 0.9529412, b: 1, a: 1}
 --- !u!82 &1940128336
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7542,7 +7544,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}

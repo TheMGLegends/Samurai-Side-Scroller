@@ -62,15 +62,6 @@ public partial class @MainMenuInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Rebinding"",
-                    ""type"": ""Button"",
-                    ""id"": ""5a8c3ea9-591c-4db1-9e04-0a81bfa41983"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -117,17 +108,6 @@ public partial class @MainMenuInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""SelectLevel2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""681f7bc1-56c3-4574-9287-bc25d8370223"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Rebinding"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -140,7 +120,6 @@ public partial class @MainMenuInputActions: IInputActionCollection2, IDisposable
         m_UI_Quit = m_UI.FindAction("Quit", throwIfNotFound: true);
         m_UI_SelectLevel1 = m_UI.FindAction("SelectLevel1", throwIfNotFound: true);
         m_UI_SelectLevel2 = m_UI.FindAction("SelectLevel2", throwIfNotFound: true);
-        m_UI_Rebinding = m_UI.FindAction("Rebinding", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -206,7 +185,6 @@ public partial class @MainMenuInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Quit;
     private readonly InputAction m_UI_SelectLevel1;
     private readonly InputAction m_UI_SelectLevel2;
-    private readonly InputAction m_UI_Rebinding;
     public struct UIActions
     {
         private @MainMenuInputActions m_Wrapper;
@@ -215,7 +193,6 @@ public partial class @MainMenuInputActions: IInputActionCollection2, IDisposable
         public InputAction @Quit => m_Wrapper.m_UI_Quit;
         public InputAction @SelectLevel1 => m_Wrapper.m_UI_SelectLevel1;
         public InputAction @SelectLevel2 => m_Wrapper.m_UI_SelectLevel2;
-        public InputAction @Rebinding => m_Wrapper.m_UI_Rebinding;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -237,9 +214,6 @@ public partial class @MainMenuInputActions: IInputActionCollection2, IDisposable
             @SelectLevel2.started += instance.OnSelectLevel2;
             @SelectLevel2.performed += instance.OnSelectLevel2;
             @SelectLevel2.canceled += instance.OnSelectLevel2;
-            @Rebinding.started += instance.OnRebinding;
-            @Rebinding.performed += instance.OnRebinding;
-            @Rebinding.canceled += instance.OnRebinding;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -256,9 +230,6 @@ public partial class @MainMenuInputActions: IInputActionCollection2, IDisposable
             @SelectLevel2.started -= instance.OnSelectLevel2;
             @SelectLevel2.performed -= instance.OnSelectLevel2;
             @SelectLevel2.canceled -= instance.OnSelectLevel2;
-            @Rebinding.started -= instance.OnRebinding;
-            @Rebinding.performed -= instance.OnRebinding;
-            @Rebinding.canceled -= instance.OnRebinding;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -282,6 +253,5 @@ public partial class @MainMenuInputActions: IInputActionCollection2, IDisposable
         void OnQuit(InputAction.CallbackContext context);
         void OnSelectLevel1(InputAction.CallbackContext context);
         void OnSelectLevel2(InputAction.CallbackContext context);
-        void OnRebinding(InputAction.CallbackContext context);
     }
 }
