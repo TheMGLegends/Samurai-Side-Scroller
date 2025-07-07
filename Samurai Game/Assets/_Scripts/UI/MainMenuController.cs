@@ -58,6 +58,7 @@ public class MainMenuController : MonoBehaviour
     private InputAction exitAction;
     private InputAction selectLevel1Action;
     private InputAction selectLevel2Action;
+    private InputAction rebindingAction;
     private ActionType currentAction = ActionType.None;
 
     private void Awake()
@@ -79,6 +80,11 @@ public class MainMenuController : MonoBehaviour
 
         selectLevel2Action = mainMenuInputActions.UI.SelectLevel2;
         selectLevel2Action.Enable();
+
+        rebindingAction = mainMenuInputActions.UI.Rebinding;
+        rebindingAction.Enable();
+        rebindingAction.started += OnRebinding;
+
     }
 
     private void OnDisable()
@@ -93,6 +99,9 @@ public class MainMenuController : MonoBehaviour
 
         selectLevel2Action.Disable();
         selectLevel2Action.started -= OnSelectLevel2;
+
+        rebindingAction.Disable();
+        rebindingAction.started -= OnRebinding;
     }
 
     private void Start()
@@ -181,6 +190,17 @@ public class MainMenuController : MonoBehaviour
         SceneManager.LoadScene(2);
     }
 
+    private void OnRebinding(InputAction.CallbackContext context)
+    {
+        if (currentAction == ActionType.None) { return; }
+
+        int bindingIndex = rebindingAction.GetBindingIndexForControl(rebindingAction.controls[0]);
+        string text = InputControlPath.ToHumanReadableString(rebindingAction.bindings[bindingIndex].effectivePath, 
+                                                             InputControlPath.HumanReadableStringOptions.OmitDevice);
+
+        GameManager.Instance.SetCurrentKeybindText(currentAction, text);
+    }
+
     public void ShowLevelSelector()
     {
         if (levelSelectorMenu != null && mainMenu != null)
@@ -254,11 +274,8 @@ public class MainMenuController : MonoBehaviour
 
     }
 
-    public void OnKeybindClicked(int action)
+    public void OnKeybindSelected(int action)
     {
-        // INFO: Revert the selected action text to its previous state 
-        GameManager.Instance.RevertKeybindText(currentAction);
-
         ActionType actionType = (ActionType)action;
 
         // INFO: Set the text of the corresponding text component to something
@@ -268,10 +285,15 @@ public class MainMenuController : MonoBehaviour
         currentAction = actionType;
     }
 
-    public void Yep()
+    public void OnKeybindDeselected(int action)
     {
-        Debug.Log("Yep");
-    }
+        ActionType actionType = (ActionType)action;
+
+        // INFO: Revert the selected action text to its previous state 
+        GameManager.Instance.RevertKeybindText(actionType);
+
+        currentAction = ActionType.None;
+    }    
 
     public void LoadLevel(string levelName)
     {
