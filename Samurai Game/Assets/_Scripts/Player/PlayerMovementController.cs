@@ -125,14 +125,14 @@ public class PlayerMovementController : MonoBehaviour
             switch (b.name)
             {
                 case "left":
-                    if (moveLeftKeybind == "") return;
+                    if (string.IsNullOrWhiteSpace(moveLeftKeybind)) return;
 
                     movementAction.ChangeBinding(i)
                         .WithPath(moveLeftKeybind);
                     break;
 
                 case "right":
-                    if (moveRightKeybind == "") return;
+                    if (string.IsNullOrWhiteSpace(moveRightKeybind)) return;
 
                     movementAction.ChangeBinding(i)
                         .WithPath(moveRightKeybind);
@@ -148,7 +148,11 @@ public class PlayerMovementController : MonoBehaviour
         if (PlayerPrefs.HasKey(ActionType.Dash.ToString()))
         {
             string dashKeybind = PlayerPrefs.GetString(ActionType.Dash.ToString());
-            dashAction.ChangeBinding(0).WithPath(dashKeybind);
+
+            if (!string.IsNullOrWhiteSpace(dashKeybind))
+            {
+                dashAction.ChangeBinding(0).WithPath(dashKeybind);
+            }
         }
 
         dashAction.Enable();
@@ -159,7 +163,11 @@ public class PlayerMovementController : MonoBehaviour
         if (PlayerPrefs.HasKey(ActionType.Jump.ToString()))
         {
             string jumpKeybind = PlayerPrefs.GetString(ActionType.Jump.ToString());
-            jumpAction.ChangeBinding(0).WithPath(jumpKeybind);
+
+            if (!string.IsNullOrWhiteSpace(jumpKeybind))
+            {
+                jumpAction.ChangeBinding(0).WithPath(jumpKeybind);
+            }
         }
 
         jumpAction.Enable();

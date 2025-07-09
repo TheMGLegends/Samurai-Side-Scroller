@@ -62,6 +62,15 @@ public partial class @MainMenuInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Cheat"",
+                    ""type"": ""Button"",
+                    ""id"": ""fdc2ad10-2fd7-495a-bedf-e8107c1268a3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -108,6 +117,17 @@ public partial class @MainMenuInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""SelectLevel2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5059f036-7ce4-427b-967a-204453670660"",
+                    ""path"": ""<Keyboard>/backquote"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cheat"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -120,6 +140,7 @@ public partial class @MainMenuInputActions: IInputActionCollection2, IDisposable
         m_UI_Quit = m_UI.FindAction("Quit", throwIfNotFound: true);
         m_UI_SelectLevel1 = m_UI.FindAction("SelectLevel1", throwIfNotFound: true);
         m_UI_SelectLevel2 = m_UI.FindAction("SelectLevel2", throwIfNotFound: true);
+        m_UI_Cheat = m_UI.FindAction("Cheat", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -185,6 +206,7 @@ public partial class @MainMenuInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Quit;
     private readonly InputAction m_UI_SelectLevel1;
     private readonly InputAction m_UI_SelectLevel2;
+    private readonly InputAction m_UI_Cheat;
     public struct UIActions
     {
         private @MainMenuInputActions m_Wrapper;
@@ -193,6 +215,7 @@ public partial class @MainMenuInputActions: IInputActionCollection2, IDisposable
         public InputAction @Quit => m_Wrapper.m_UI_Quit;
         public InputAction @SelectLevel1 => m_Wrapper.m_UI_SelectLevel1;
         public InputAction @SelectLevel2 => m_Wrapper.m_UI_SelectLevel2;
+        public InputAction @Cheat => m_Wrapper.m_UI_Cheat;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -214,6 +237,9 @@ public partial class @MainMenuInputActions: IInputActionCollection2, IDisposable
             @SelectLevel2.started += instance.OnSelectLevel2;
             @SelectLevel2.performed += instance.OnSelectLevel2;
             @SelectLevel2.canceled += instance.OnSelectLevel2;
+            @Cheat.started += instance.OnCheat;
+            @Cheat.performed += instance.OnCheat;
+            @Cheat.canceled += instance.OnCheat;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -230,6 +256,9 @@ public partial class @MainMenuInputActions: IInputActionCollection2, IDisposable
             @SelectLevel2.started -= instance.OnSelectLevel2;
             @SelectLevel2.performed -= instance.OnSelectLevel2;
             @SelectLevel2.canceled -= instance.OnSelectLevel2;
+            @Cheat.started -= instance.OnCheat;
+            @Cheat.performed -= instance.OnCheat;
+            @Cheat.canceled -= instance.OnCheat;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -253,5 +282,6 @@ public partial class @MainMenuInputActions: IInputActionCollection2, IDisposable
         void OnQuit(InputAction.CallbackContext context);
         void OnSelectLevel1(InputAction.CallbackContext context);
         void OnSelectLevel2(InputAction.CallbackContext context);
+        void OnCheat(InputAction.CallbackContext context);
     }
 }

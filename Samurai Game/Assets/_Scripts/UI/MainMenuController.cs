@@ -65,7 +65,9 @@ public class MainMenuController : MonoBehaviour
     private InputAction exitAction;
     private InputAction selectLevel1Action;
     private InputAction selectLevel2Action;
+    private InputAction cheatAction;
     private ActionType currentAction = ActionType.None;
+    private bool skipWaves;
 
     private void Awake()
     {
@@ -86,6 +88,10 @@ public class MainMenuController : MonoBehaviour
 
         selectLevel2Action = mainMenuInputActions.UI.SelectLevel2;
         selectLevel2Action.Enable();
+
+        cheatAction = mainMenuInputActions.UI.Cheat;
+        cheatAction.Enable();
+        cheatAction.started += OnCheat;
     }
 
     private void OnDisable()
@@ -100,6 +106,9 @@ public class MainMenuController : MonoBehaviour
 
         selectLevel2Action.Disable();
         selectLevel2Action.started -= OnSelectLevel2;
+
+        cheatAction.Disable();
+        cheatAction.started -= OnCheat;
     }
 
     private void Start()
@@ -233,6 +242,11 @@ public class MainMenuController : MonoBehaviour
         SceneManager.LoadScene(2);
     }
 
+    private void OnCheat(InputAction.CallbackContext context)
+    {
+        skipWaves = true;
+    }
+
     public void ShowLevelSelector()
     {
         if (levelSelectorMenu != null && mainMenu != null)
@@ -246,7 +260,7 @@ public class MainMenuController : MonoBehaviour
 
         if (duskMountainButton != null && duskMountainInfo != null && duskMountainLockedOverlay != null)
         {
-            if (gameData.highestWave >= duskMountainWaveRequirement)
+            if (gameData.highestWave >= duskMountainWaveRequirement || skipWaves)
             {
                 duskMountainButton.interactable = true;
                 duskMountainInfo.SetActive(true);

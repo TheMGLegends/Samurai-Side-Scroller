@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -43,7 +44,11 @@ public class PlayerActionController : MonoBehaviour
         if (PlayerPrefs.HasKey(ActionType.Attack.ToString()))
         {
             string attackKeybind = PlayerPrefs.GetString(ActionType.Attack.ToString());
-            attackAction.ChangeBinding(0).WithPath(attackKeybind);
+
+            if (!string.IsNullOrWhiteSpace(attackKeybind))
+            {
+                attackAction.ChangeBinding(0).WithPath(attackKeybind);
+            }
         }
 
         attackAction.Enable();
@@ -54,7 +59,11 @@ public class PlayerActionController : MonoBehaviour
         if (PlayerPrefs.HasKey(ActionType.Interact.ToString()))
         {
             string interactKeybind = PlayerPrefs.GetString(ActionType.Interact.ToString());
-            interactAction.ChangeBinding(0).WithPath(interactKeybind);
+
+            if (!string.IsNullOrWhiteSpace(interactKeybind))
+            {
+                interactAction.ChangeBinding(0).WithPath(interactKeybind);
+            }
         }
 
         interactAction.Enable();
