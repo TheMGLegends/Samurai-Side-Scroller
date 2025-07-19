@@ -125,17 +125,17 @@ public class PlayerMovementController : MonoBehaviour
             switch (b.name)
             {
                 case "left":
-                    if (string.IsNullOrWhiteSpace(moveLeftKeybind)) return;
-
-                    movementAction.ChangeBinding(i)
-                        .WithPath(moveLeftKeybind);
+                    if (!string.IsNullOrWhiteSpace(moveLeftKeybind))
+                    {
+                        movementAction.ChangeBinding(i).WithPath(moveLeftKeybind);
+                    }
                     break;
 
                 case "right":
-                    if (string.IsNullOrWhiteSpace(moveRightKeybind)) return;
-
-                    movementAction.ChangeBinding(i)
-                        .WithPath(moveRightKeybind);
+                    if (!string.IsNullOrWhiteSpace(moveRightKeybind))
+                    {
+                        movementAction.ChangeBinding(i).WithPath(moveRightKeybind);
+                    }
                     break;
             }
         }
