@@ -11,5 +11,5 @@
 
 ## Insights
 
-A personal project I've been developing in my spare time, it utilizes various assets I have found online,
-you can play the game here: https://themglegends.itch.io/samurai-sidescroller
+A personal project I've been developing in my spare time, it utilizes various assets I have found online.
+You can play the game here: https://themglegends.itch.io/samurai-sidescroller
