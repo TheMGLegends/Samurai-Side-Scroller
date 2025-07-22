@@ -1,11 +1,11 @@
 # Samurai-Side-Scroller
 2D URP Unity Side Scroller
 
-[<img src="https://img.youtube.com/vi/QQ6TE4xumbY/maxresdefault.jpg" width="1920" height="1080"/>](https://www.youtube.com/embed/QQ6TE4xumbY)
+[<p align="center"><img src="https://img.youtube.com/vi/QQ6TE4xumbY/maxresdefault.jpg" width="800" height="600"/></p>](https://www.youtube.com/embed/QQ6TE4xumbY)
 
 <p align="center">
   <a>
-    <img src="Screenshots/SamuraiSidescroller.png" width="1920" height = "1080" alt="Samurai Sidescroller Gameplay Image">
+    <img src="Screenshots/SamuraiSidescroller.png" width="960" height = "540" alt="Samurai Sidescroller Gameplay Image">
   </a>
 </p>
 
